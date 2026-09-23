@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
 <title>Global Bird List</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <style>
@@ -215,7 +217,24 @@
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     filter: url(#orderDuotone);
   }
-  .ohead-fade { position: absolute; inset: 0; background: linear-gradient(to right, var(--grn-md) 0%, var(--grn-md) 12%, transparent 33%); }
+  /* Fade curve: solid green at 0%, easing out to fully transparent by 37%
+     (percentages relative to the 290px .ohead-media box, not the full
+     382px .ohead-photo). Ten color-mix() stops approximate a quadratic
+     ease-in — alpha(x) = 1 - (x/37)^2 — so the green stays close to solid
+     through the first third (still ~89% opaque at 12%, i.e. something of
+     the photo is now faintly visible there, vs. fully hidden before) and
+     then falls away quickly in the last stretch approaching 37%. */
+  .ohead-fade { position: absolute; inset: 0; background: linear-gradient(to right,
+    color-mix(in srgb, var(--grn-md) 100%, transparent) 0%,
+    color-mix(in srgb, var(--grn-md) 99%,  transparent) 4%,
+    color-mix(in srgb, var(--grn-md) 95%,  transparent) 8%,
+    color-mix(in srgb, var(--grn-md) 89%,  transparent) 12%,
+    color-mix(in srgb, var(--grn-md) 81%,  transparent) 16%,
+    color-mix(in srgb, var(--grn-md) 71%,  transparent) 20%,
+    color-mix(in srgb, var(--grn-md) 58%,  transparent) 24%,
+    color-mix(in srgb, var(--grn-md) 43%,  transparent) 28%,
+    color-mix(in srgb, var(--grn-md) 25%,  transparent) 32%,
+    transparent 37%); }
   .ohead-text {
     position: relative; z-index: 2; height: 100%;
     display: flex; flex-direction: column; justify-content: center;
@@ -523,7 +542,13 @@
 </div>
 
 <script>
-var ORDERS = [{"order":"STRUTHIONIFORMES","total":2,"seen":0,"pct":0,"families":[{"name":"Ostriches","sci":"Struthionidae","total":2,"seen":0}]},{"order":"CASUARIIFORMES","total":4,"seen":1,"pct":25,"families":[{"name":"Cassowaries and Emu","sci":"Casuariidae","total":4,"seen":1}]},{"order":"APTERYGIFORMES","total":5,"seen":2,"pct":40,"families":[{"name":"Kiwis","sci":"Apterygidae","total":5,"seen":2}]},{"order":"RHEIFORMES","total":2,"seen":0,"pct":0,"families":[{"name":"Rheas","sci":"Rheidae","total":2,"seen":0}]},{"order":"TINAMIFORMES","total":46,"seen":4,"pct":9,"families":[{"name":"Tinamous","sci":"Tinamidae","total":46,"seen":4}]},{"order":"ANSERIFORMES","total":178,"seen":77,"pct":43,"families":[{"name":"Screamers","sci":"Anhimidae","total":3,"seen":0},{"name":"Magpie Goose","sci":"Anseranatidae","total":1,"seen":0},{"name":"Ducks, Geese, and Waterfowl","sci":"Anatidae","total":174,"seen":77}]},{"order":"GALLIFORMES","total":307,"seen":34,"pct":11,"families":[{"name":"Megapodes","sci":"Megapodiidae","total":21,"seen":0},{"name":"Guans, Chachalacas, and Curassows","sci":"Cracidae","total":57,"seen":5},{"name":"Guineafowl","sci":"Numididae","total":8,"seen":0},{"name":"New World Quail","sci":"Odontophoridae","total":34,"seen":7},{"name":"Pheasants, Grouse, and Allies","sci":"Phasianidae","total":187,"seen":22}]},{"order":"COLUMBIFORMES","total":353,"seen":34,"pct":10,"families":[{"name":"Pigeons and Doves","sci":"Columbidae","total":353,"seen":34}]},{"order":"MESITORNITHIFORMES","total":3,"seen":0,"pct":0,"families":[{"name":"Mesites","sci":"Mesitornithidae","total":3,"seen":0}]},{"order":"PTEROCLIFORMES","total":16,"seen":1,"pct":6,"families":[{"name":"Sandgrouse","sci":"Pteroclidae","total":16,"seen":1}]},{"order":"OTIDIFORMES","total":26,"seen":1,"pct":4,"families":[{"name":"Bustards","sci":"Otididae","total":26,"seen":1}]},{"order":"MUSOPHAGIFORMES","total":23,"seen":0,"pct":0,"families":[{"name":"Turacos","sci":"Musophagidae","total":23,"seen":0}]},{"order":"CUCULIFORMES","total":156,"seen":20,"pct":13,"families":[{"name":"Cuckoos","sci":"Cuculidae","total":156,"seen":20}]},{"order":"CAPRIMULGIFORMES","total":98,"seen":8,"pct":8,"families":[{"name":"Nightjars and Allies","sci":"Caprimulgidae","total":98,"seen":8}]},{"order":"NYCTIBIIFORMES","total":7,"seen":1,"pct":14,"families":[{"name":"Potoos","sci":"Nyctibiidae","total":7,"seen":1}]},{"order":"STEATORNITHIFORMES","total":1,"seen":0,"pct":0,"families":[{"name":"Oilbird","sci":"Steatornithidae","total":1,"seen":0}]},{"order":"PODARGIFORMES","total":16,"seen":1,"pct":6,"families":[{"name":"Frogmouths","sci":"Podargidae","total":16,"seen":1}]},{"order":"AEGOTHELIFORMES","total":10,"seen":0,"pct":0,"families":[{"name":"Owlet-nightjars","sci":"Aegothelidae","total":10,"seen":0}]},{"order":"APODIFORMES","total":476,"seen":62,"pct":13,"families":[{"name":"Swifts","sci":"Apodidae","total":109,"seen":17},{"name":"Treeswifts","sci":"Hemiprocnidae","total":4,"seen":1},{"name":"Hummingbirds","sci":"Trochilidae","total":363,"seen":44}]},{"order":"GRUIFORMES","total":193,"seen":29,"pct":15,"families":[{"name":"Flufftails","sci":"Sarothruridae","total":15,"seen":0},{"name":"Rails, Gallinules, and Coots","sci":"Rallidae","total":156,"seen":25},{"name":"Finfoots","sci":"Heliornithidae","total":3,"seen":0},{"name":"Limpkin","sci":"Aramidae","total":1,"seen":1},{"name":"Trumpeters","sci":"Psophiidae","total":3,"seen":0},{"name":"Cranes","sci":"Gruidae","total":15,"seen":3}]},{"order":"CHARADRIIFORMES","total":392,"seen":155,"pct":40,"families":[{"name":"Magellanic Plover","sci":"Pluvianellidae","total":1,"seen":0},{"name":"Sheathbills","sci":"Chionidae","total":2,"seen":0},{"name":"Thick-knees","sci":"Burhinidae","total":10,"seen":0},{"name":"Egyptian Plover","sci":"Pluvianidae","total":1,"seen":0},{"name":"Stilts and Avocets","sci":"Recurvirostridae","total":9,"seen":6},{"name":"Ibisbill","sci":"Ibidorhynchidae","total":1,"seen":0},{"name":"Oystercatchers","sci":"Haematopodidae","total":12,"seen":6},{"name":"Plovers and Lapwings","sci":"Charadriidae","total":69,"seen":23},{"name":"Plains-wanderer","sci":"Pedionomidae","total":1,"seen":0},{"name":"Seedsnipes","sci":"Thinocoridae","total":4,"seen":0},{"name":"Painted-Snipes","sci":"Rostratulidae","total":3,"seen":0},{"name":"Jacanas","sci":"Jacanidae","total":8,"seen":1},{"name":"Sandpipers and Allies","sci":"Scolopacidae","total":98,"seen":53},{"name":"Buttonquail","sci":"Turnicidae","total":18,"seen":0},{"name":"Crab-Plover","sci":"Dromadidae","total":1,"seen":0},{"name":"Pratincoles and Coursers","sci":"Glareolidae","total":17,"seen":1},{"name":"Skuas and Jaegers","sci":"Stercorariidae","total":7,"seen":5},{"name":"Auks, Murres, and Puffins","sci":"Alcidae","total":25,"seen":11},{"name":"Gulls, Terns, and Skimmers","sci":"Laridae","total":105,"seen":49}]},{"order":"PHOENICOPTERIFORMES","total":6,"seen":1,"pct":17,"families":[{"name":"Flamingos","sci":"Phoenicopteridae","total":6,"seen":1}]},{"order":"PODICIPEDIFORMES","total":22,"seen":12,"pct":55,"families":[{"name":"Grebes","sci":"Podicipedidae","total":22,"seen":12}]},{"order":"OPISTHOCOMIFORMES","total":1,"seen":0,"pct":0,"families":[{"name":"Hoatzin","sci":"Opisthocomidae","total":1,"seen":0}]},{"order":"EURYPYGIFORMES","total":2,"seen":1,"pct":50,"families":[{"name":"Kagu","sci":"Rhynochetidae","total":1,"seen":0},{"name":"Sunbittern","sci":"Eurypygidae","total":1,"seen":1}]},{"order":"PHAETHONTIFORMES","total":3,"seen":2,"pct":67,"families":[{"name":"Tropicbirds","sci":"Phaethontidae","total":3,"seen":2}]},{"order":"GAVIIFORMES","total":5,"seen":5,"pct":100,"families":[{"name":"Loons","sci":"Gaviidae","total":5,"seen":5}]},{"order":"SPHENISCIFORMES","total":19,"seen":2,"pct":11,"families":[{"name":"Penguins","sci":"Spheniscidae","total":19,"seen":2}]},{"order":"PROCELLARIIFORMES","total":148,"seen":31,"pct":21,"families":[{"name":"Albatrosses","sci":"Diomedeidae","total":20,"seen":5},{"name":"Southern Storm-Petrels","sci":"Oceanitidae","total":10,"seen":1},{"name":"Northern Storm-Petrels","sci":"Hydrobatidae","total":18,"seen":6},{"name":"Shearwaters and Petrels","sci":"Procellariidae","total":100,"seen":19}]},{"order":"CICONIIFORMES","total":20,"seen":6,"pct":30,"families":[{"name":"Storks","sci":"Ciconiidae","total":20,"seen":6}]},{"order":"SULIFORMES","total":54,"seen":25,"pct":46,"families":[{"name":"Frigatebirds","sci":"Fregatidae","total":5,"seen":2},{"name":"Boobies and Gannets","sci":"Sulidae","total":11,"seen":7},{"name":"Anhingas","sci":"Anhingidae","total":4,"seen":3},{"name":"Cormorants and Shags","sci":"Phalacrocoracidae","total":34,"seen":13}]},{"order":"PELECANIFORMES","total":120,"seen":40,"pct":33,"families":[{"name":"Ibises and Spoonbills","sci":"Threskiornithidae","total":36,"seen":12},{"name":"Herons, Egrets, and Bitterns","sci":"Ardeidae","total":74,"seen":25},{"name":"Hamerkop","sci":"Scopidae","total":1,"seen":0},{"name":"Shoebill","sci":"Balaenicipitidae","total":1,"seen":0},{"name":"Pelicans","sci":"Pelecanidae","total":8,"seen":3}]},{"order":"CATHARTIFORMES","total":7,"seen":4,"pct":57,"families":[{"name":"New World Vultures","sci":"Cathartidae","total":7,"seen":4}]},{"order":"ACCIPITRIFORMES","total":252,"seen":57,"pct":23,"families":[{"name":"Secretarybird","sci":"Sagittariidae","total":1,"seen":0},{"name":"Osprey","sci":"Pandionidae","total":1,"seen":1},{"name":"Hawks, Eagles, and Kites","sci":"Accipitridae","total":250,"seen":56}]},{"order":"STRIGIFORMES","total":248,"seen":31,"pct":12,"families":[{"name":"Barn-Owls","sci":"Tytonidae","total":20,"seen":2},{"name":"Owls","sci":"Strigidae","total":228,"seen":29}]},{"order":"COLIIFORMES","total":6,"seen":0,"pct":0,"families":[{"name":"Mousebirds","sci":"Coliidae","total":6,"seen":0}]},{"order":"LEPTOSOMIFORMES","total":1,"seen":0,"pct":0,"families":[{"name":"Cuckoo-roller","sci":"Leptosomidae","total":1,"seen":0}]},{"order":"TROGONIFORMES","total":47,"seen":10,"pct":21,"families":[{"name":"Trogons","sci":"Trogonidae","total":47,"seen":10}]},{"order":"BUCEROTIFORMES","total":75,"seen":6,"pct":8,"families":[{"name":"Hoopoes","sci":"Upupidae","total":3,"seen":1},{"name":"Woodhoopoes and Scimitarbills","sci":"Phoeniculidae","total":8,"seen":0},{"name":"Hornbills","sci":"Bucerotidae","total":64,"seen":5}]},{"order":"CORACIIFORMES","total":185,"seen":27,"pct":15,"families":[{"name":"Bee-eaters","sci":"Meropidae","total":31,"seen":4},{"name":"Todies","sci":"Todidae","total":5,"seen":0},{"name":"Motmots","sci":"Momotidae","total":14,"seen":4},{"name":"Kingfishers","sci":"Alcedinidae","total":117,"seen":18},{"name":"Rollers","sci":"Coraciidae","total":13,"seen":1},{"name":"Ground-Rollers","sci":"Brachypteraciidae","total":5,"seen":0}]},{"order":"PICIFORMES","total":439,"seen":70,"pct":16,"families":[{"name":"Puffbirds","sci":"Bucconidae","total":37,"seen":2},{"name":"Jacamars","sci":"Galbulidae","total":18,"seen":1},{"name":"African Barbets","sci":"Lybiidae","total":43,"seen":0},{"name":"Asian Barbets","sci":"Megalaimidae","total":35,"seen":9},{"name":"New World Barbets","sci":"Capitonidae","total":15,"seen":1},{"name":"Toucan-Barbets","sci":"Semnornithidae","total":2,"seen":1},{"name":"Toucans","sci":"Ramphastidae","total":37,"seen":5},{"name":"Honeyguides","sci":"Indicatoridae","total":16,"seen":0},{"name":"Woodpeckers","sci":"Picidae","total":236,"seen":51}]},{"order":"CARIAMIFORMES","total":2,"seen":0,"pct":0,"families":[{"name":"Seriemas","sci":"Cariamidae","total":2,"seen":0}]},{"order":"FALCONIFORMES","total":65,"seen":15,"pct":23,"families":[{"name":"Falcons and Caracaras","sci":"Falconidae","total":65,"seen":15}]},{"order":"PSITTACIFORMES","total":410,"seen":46,"pct":11,"families":[{"name":"New Zealand Parrots","sci":"Strigopidae","total":4,"seen":2},{"name":"Cockatoos","sci":"Cacatuidae","total":22,"seen":7},{"name":"Old World Parrots","sci":"Psittaculidae","total":201,"seen":14},{"name":"New World and African Parrots","sci":"Psittacidae","total":183,"seen":23}]},{"order":"PASSERIFORMES","total":6716,"seen":822,"pct":12,"families":[{"name":"New Zealand Wrens","sci":"Acanthisittidae","total":4,"seen":1},{"name":"African and Green Broadbills","sci":"Calyptomenidae","total":6,"seen":1},{"name":"Asian and Grauer's Broadbills","sci":"Eurylaimidae","total":10,"seen":3},{"name":"Sapayoa","sci":"Sapayoidae","total":1,"seen":0},{"name":"Asities","sci":"Philepittidae","total":4,"seen":0},{"name":"Pittas","sci":"Pittidae","total":46,"seen":2},{"name":"Typical Antbirds","sci":"Thamnophilidae","total":238,"seen":14},{"name":"Crescentchests","sci":"Melanopareiidae","total":4,"seen":0},{"name":"Gnateaters","sci":"Conopophagidae","total":12,"seen":0},{"name":"Antpittas","sci":"Grallariidae","total":70,"seen":1},{"name":"Tapaculos","sci":"Rhinocryptidae","total":65,"seen":0},{"name":"Antthrushes","sci":"Formicariidae","total":13,"seen":1},{"name":"Ovenbirds and Woodcreepers","sci":"Furnariidae","total":321,"seen":12},{"name":"Manakins","sci":"Pipridae","total":55,"seen":6},{"name":"Cotingas","sci":"Cotingidae","total":65,"seen":5},{"name":"Tityras and Allies","sci":"Tityridae","total":36,"seen":6},{"name":"Sharpbill","sci":"Oxyruncidae","total":1,"seen":0},{"name":"Royal Flycatchers and Allies","sci":"Onychorhynchidae","total":7,"seen":1},{"name":"Tyrant Flycatchers","sci":"Tyrannidae","total":442,"seen":58},{"name":"Lyrebirds","sci":"Menuridae","total":2,"seen":1},{"name":"Scrub-birds","sci":"Atrichornithidae","total":2,"seen":0},{"name":"Bowerbirds","sci":"Ptilonorhynchidae","total":23,"seen":1},{"name":"Australasian Treecreepers","sci":"Climacteridae","total":7,"seen":2},{"name":"Fairywrens","sci":"Maluridae","total":33,"seen":1},{"name":"Honeyeaters","sci":"Meliphagidae","total":195,"seen":24},{"name":"Bristlebirds","sci":"Dasyornithidae","total":3,"seen":1},{"name":"Pardalotes","sci":"Pardalotidae","total":4,"seen":2},{"name":"Thornbills and Allies","sci":"Acanthizidae","total":66,"seen":10},{"name":"Pseudo-Babblers","sci":"Pomatostomidae","total":5,"seen":1},{"name":"Logrunners","sci":"Orthonychidae","total":3,"seen":0},{"name":"Quail-thrushes and Jewel-babblers","sci":"Cinclosomatidae","total":12,"seen":1},{"name":"Cuckooshrikes","sci":"Campephagidae","total":108,"seen":5},{"name":"Whiteheads","sci":"Mohouidae","total":3,"seen":3},{"name":"Sittellas","sci":"Neosittidae","total":3,"seen":1},{"name":"Whipbirds and Wedgebills","sci":"Psophodidae","total":5,"seen":1},{"name":"Ploughbill","sci":"Eulacestomatidae","total":1,"seen":0},{"name":"Australo-Papuan Bellbirds","sci":"Oreoicidae","total":3,"seen":1},{"name":"Shrike-tits","sci":"Falcunculidae","total":3,"seen":1},{"name":"Tit Berrypecker and Crested Berrypecker","sci":"Paramythiidae","total":3,"seen":0},{"name":"Vireos, Shrike-Babblers, and Erpornis","sci":"Vireonidae","total":65,"seen":17},{"name":"Whistlers and Allies","sci":"Pachycephalidae","total":61,"seen":4},{"name":"Old World Orioles","sci":"Oriolidae","total":41,"seen":3},{"name":"Boatbills","sci":"Machaerirhynchidae","total":2,"seen":0},{"name":"Woodswallows, Bellmagpies, and Allies","sci":"Artamidae","total":24,"seen":6},{"name":"Mottled Berryhunter","sci":"Rhagologidae","total":1,"seen":0},{"name":"Wattle-eyes and Batises","sci":"Platysteiridae","total":32,"seen":0},{"name":"Vangas, Helmetshrikes, and Allies","sci":"Vangidae","total":40,"seen":2},{"name":"Bristlehead","sci":"Pityriasidae","total":1,"seen":0},{"name":"Ioras","sci":"Aegithinidae","total":4,"seen":3},{"name":"Bushshrikes and Allies","sci":"Malaconotidae","total":50,"seen":0},{"name":"Fantails","sci":"Rhipiduridae","total":64,"seen":4},{"name":"Drongos","sci":"Dicruridae","total":28,"seen":2},{"name":"Birds-of-Paradise","sci":"Paradisaeidae","total":44,"seen":0},{"name":"Ifrita","sci":"Ifritidae","total":1,"seen":0},{"name":"Monarch Flycatchers","sci":"Monarchidae","total":105,"seen":5},{"name":"White-winged Chough and Apostlebird","sci":"Corcoracidae","total":2,"seen":1},{"name":"Melampittas","sci":"Melampittidae","total":2,"seen":0},{"name":"Crested Jayshrike","sci":"Platylophidae","total":1,"seen":1},{"name":"Shrikes","sci":"Laniidae","total":34,"seen":8},{"name":"Crows, Jays, and Magpies","sci":"Corvidae","total":136,"seen":35},{"name":"Satinbirds","sci":"Cnemophilidae","total":3,"seen":0},{"name":"Berrypeckers and Longbills","sci":"Melanocharitidae","total":12,"seen":0},{"name":"Wattlebirds","sci":"Callaeidae","total":5,"seen":3},{"name":"Stitchbird","sci":"Notiomystidae","total":1,"seen":1},{"name":"Australasian Robins","sci":"Petroicidae","total":51,"seen":8},{"name":"Rockfowl","sci":"Picathartidae","total":2,"seen":0},{"name":"Rockjumpers","sci":"Chaetopidae","total":2,"seen":0},{"name":"Rail-babbler","sci":"Eupetidae","total":1,"seen":0},{"name":"Hyliotas","sci":"Hyliotidae","total":4,"seen":0},{"name":"Fairy Flycatchers","sci":"Stenostiridae","total":9,"seen":0},{"name":"Tits, Chickadees, and Titmice","sci":"Paridae","total":62,"seen":18},{"name":"Penduline-Tits","sci":"Remizidae","total":11,"seen":1},{"name":"Larks","sci":"Alaudidae","total":98,"seen":6},{"name":"Bearded Reedling","sci":"Panuridae","total":1,"seen":0},{"name":"Nicators","sci":"Nicatoridae","total":3,"seen":0},{"name":"African Warblers","sci":"Macrosphenidae","total":18,"seen":0},{"name":"Cisticolas and Allies","sci":"Cisticolidae","total":164,"seen":8},{"name":"Reed Warblers and Allies","sci":"Acrocephalidae","total":60,"seen":5},{"name":"Grassbirds and Allies","sci":"Locustellidae","total":67,"seen":3},{"name":"Donacobius","sci":"Donacobiidae","total":1,"seen":0},{"name":"Malagasy Warblers","sci":"Bernieridae","total":11,"seen":0},{"name":"Cupwings","sci":"Pnoepygidae","total":4,"seen":0},{"name":"Swallows","sci":"Hirundinidae","total":92,"seen":22},{"name":"Bulbuls","sci":"Pycnonotidae","total":161,"seen":23},{"name":"Leaf Warblers","sci":"Phylloscopidae","total":80,"seen":4},{"name":"Hylias","sci":"Hyliidae","total":2,"seen":0},{"name":"Yellow Flycatchers","sci":"Erythrocercidae","total":3,"seen":0},{"name":"Bush Warblers and Allies","sci":"Cettiidae","total":32,"seen":3},{"name":"Long-tailed Tits","sci":"Aegithalidae","total":11,"seen":2},{"name":"Sylviid Warblers and Allies","sci":"Sylviidae","total":32,"seen":8},{"name":"Parrotbills","sci":"Paradoxornithidae","total":38,"seen":2},{"name":"White-eyes, Yuhinas, and Allies","sci":"Zosteropidae","total":150,"seen":3},{"name":"Tree-Babblers, Scimitar-Babblers, and Allies","sci":"Timaliidae","total":58,"seen":7},{"name":"Ground Babblers and Allies","sci":"Pellorneidae","total":65,"seen":9},{"name":"Laughingthrushes and Allies","sci":"Leiothrichidae","total":143,"seen":2},{"name":"Kinglets","sci":"Regulidae","total":6,"seen":4},{"name":"Wallcreeper","sci":"Tichodromidae","total":1,"seen":0},{"name":"Nuthatches","sci":"Sittidae","total":29,"seen":8},{"name":"Spotted Creepers","sci":"Salpornithidae","total":2,"seen":0},{"name":"Treecreepers","sci":"Certhiidae","total":9,"seen":3},{"name":"Gnatcatchers","sci":"Polioptilidae","total":22,"seen":5},{"name":"Wrens","sci":"Troglodytidae","total":96,"seen":26},{"name":"Spotted Elachura","sci":"Elachuridae","total":1,"seen":0},{"name":"Dippers","sci":"Cinclidae","total":5,"seen":2},{"name":"Oxpeckers","sci":"Buphagidae","total":2,"seen":0},{"name":"Starlings","sci":"Sturnidae","total":125,"seen":11},{"name":"Mockingbirds and Thrashers","sci":"Mimidae","total":35,"seen":11},{"name":"Thrushes and Allies","sci":"Turdidae","total":194,"seen":30},{"name":"Old World Flycatchers","sci":"Muscicapidae","total":353,"seen":25},{"name":"Waxwings","sci":"Bombycillidae","total":3,"seen":2},{"name":"Hawaiian Honeyeaters","sci":"Mohoidae","total":5,"seen":0},{"name":"Silky-flycatchers","sci":"Ptiliogonatidae","total":4,"seen":2},{"name":"Palmchat","sci":"Dulidae","total":1,"seen":0},{"name":"Hylocitrea","sci":"Hylocitreidae","total":1,"seen":0},{"name":"Hypocolius","sci":"Hypocoliidae","total":1,"seen":0},{"name":"Sugarbirds","sci":"Promeropidae","total":2,"seen":0},{"name":"Dapple-throat and Allies","sci":"Modulatricidae","total":3,"seen":0},{"name":"Flowerpeckers","sci":"Dicaeidae","total":56,"seen":6},{"name":"Sunbirds and Spiderhunters","sci":"Nectariniidae","total":151,"seen":11},{"name":"Fairy-bluebirds","sci":"Irenidae","total":3,"seen":1},{"name":"Leafbirds","sci":"Chloropseidae","total":12,"seen":3},{"name":"Olive Warbler","sci":"Peucedramidae","total":1,"seen":0},{"name":"Przevalski's Pinktail","sci":"Urocynchramidae","total":1,"seen":0},{"name":"Weavers and Allies","sci":"Ploceidae","total":123,"seen":2},{"name":"Waxbills and Allies","sci":"Estrildidae","total":138,"seen":11},{"name":"Whydahs and Indigobirds","sci":"Viduidae","total":20,"seen":1},{"name":"Accentors","sci":"Prunellidae","total":12,"seen":1},{"name":"Old World Sparrows","sci":"Passeridae","total":43,"seen":4},{"name":"Wagtails and Pipits","sci":"Motacillidae","total":70,"seen":13},{"name":"Finches, Euphonias, and Allies","sci":"Fringillidae","total":236,"seen":38},{"name":"Longspurs and Snow Buntings","sci":"Calcariidae","total":6,"seen":2},{"name":"Thrush-Tanager","sci":"Rhodinocichlidae","total":1,"seen":1},{"name":"Old World Buntings","sci":"Emberizidae","total":44,"seen":11},{"name":"New World Sparrows","sci":"Passerellidae","total":138,"seen":50},{"name":"Chat-Tanagers","sci":"Calyptophilidae","total":2,"seen":0},{"name":"Greater Antillean Tanagers","sci":"Phaenicophilidae","total":9,"seen":0},{"name":"Wrenthrush","sci":"Zeledoniidae","total":1,"seen":1},{"name":"Cuban Warblers","sci":"Teretistridae","total":2,"seen":0},{"name":"Yellow-breasted Chat","sci":"Icteriidae","total":1,"seen":1},{"name":"Troupials and Allies","sci":"Icteridae","total":106,"seen":28},{"name":"New World Warblers","sci":"Parulidae","total":116,"seen":55},{"name":"Mitrospingid Tanagers","sci":"Mitrospingidae","total":4,"seen":1},{"name":"Cardinals and Allies","sci":"Cardinalidae","total":52,"seen":23},{"name":"Tanagers and Allies","sci":"Thraupidae","total":389,"seen":33}]}];
+/* ORDERS is now built client-side from birddata.csv at page load (see
+   loadData() near the bottom of this script) rather than baked in here at
+   generation time — starts empty and loadData() fills it in before the
+   first render(). Editing/pushing birddata.csv is now the whole update
+   loop for life-list stats, family checkmarks, and Targets: no HTML
+   regeneration step needed for data changes anymore. */
+var ORDERS = [];
 var COMPACT_GRID = { PASSERIFORMES: 1 };   /* 144 families — compact 3-col scroll grid instead of the full list */
 var SCROLL_FAM = {
   CHARADRIIFORMES: 5,   /* 19 families — capped to 5 visible rows before scroll (scrollable for the rest), for a shorter tile. The Targets step list for FULL_TARGETS+SCROLL_FAM orders is floored to 9/12 (see computeSpan()), so this still settles on a full 3-row (9-slot) Targets grid despite the smaller cap — at the cost of a bit of extra bottom padding versus the tightest fit at this cap. */
@@ -534,6 +559,7 @@ var FULL_TARGETS = {                       /* Targets spans the full tile width 
   CHARADRIIFORMES: 1, PROCELLARIIFORMES: 1, SULIFORMES: 1, PELECANIFORMES: 1,
   ACCIPITRIFORMES: 1, CORACIIFORMES: 1, PICIFORMES: 1, PSITTACIFORMES: 1
 };
+var FLOOR_4_TGT = { GALLIFORMES: 1 };      /* Same idea as SCROLL_FAM's 9/12 floor above, one notch higher: Eric wants Galliformes specifically to always show a full 4 rows (12 slots) of Targets rather than wherever the tightest-fit search would otherwise land (it has 273 unseen species, comfortably above the 12-slot cap either way, so this floor is safe to leave on permanently). */
 /* Optional per-order object-position override for the header banner photo —
    NOT something you need to use. Since you're cropping each photo yourself
    to frame it the way you want, the default "50% 50%" (dead-center) crop
@@ -659,8 +685,168 @@ function speciesPhotoHTML(commonName, cls, sz) {
    in an order's Targets grid — including the remaining slots in an order
    that has *some* curated targets but not enough to fill every slot — still
    renders as a generic placeholder (see tgtSlotHTML()) until more are added
-   to the CSV. Regenerate this block from the CSV whenever it's updated. */
-var ORDER_TARGETS = {"STRUTHIONIFORMES": [{"name": "Common Ostrich", "loc": "South/Central Africa"}, {"name": "Somali Ostrich", "loc": "East Africa"}], "CASUARIIFORMES": [{"name": "Southern Cassowary", "loc": "Cairns/New Guinea"}, {"name": "Dwarf Cassowary", "loc": "New Guinea"}, {"name": "Northern Cassowary", "loc": "New Guinea"}], "APTERYGIFORMES": [{"name": "North Island Brown Kiwi", "loc": "New Zealand"}, {"name": "Little Spotted Kiwi", "loc": "New Zealand"}, {"name": "Great Spotted Kiwi", "loc": "New Zealand"}], "RHEIFORMES": [{"name": "Greater Rhea", "loc": "Brazil/Argentina"}, {"name": "Lesser Rhea", "loc": "Argentina"}]};
+   to the CSV. Built client-side by loadData() below, same as ORDERS above —
+   starts empty, filled in before the first render(). */
+var ORDER_TARGETS = {};
+
+/* ---- birddata.csv loading — the whole data pipeline lives here ----
+   Everything below reads birddata.csv (fetched relative to index.html, so
+   it works wherever the repo is served from) and turns its rows straight
+   into the ORDERS / ORDER_TARGETS shapes above, entirely in the browser.
+   Editing and pushing birddata.csv is now the complete update loop for
+   life-list stats, family checkmarks, and Targets — no HTML regeneration
+   step, no round-trip needed for a data-only change. */
+
+/* General-purpose CSV parser (not a naive split(',')) — needed because
+   several real columns embed commas inside quotes: World/US/CA Obs counts
+   ("57,599"), and free-text Range notes ("desert to savanna plains of
+   northeastern Africa, from northern Ethiopia, Djibouti..."). Handles
+   quoted fields, "" as an escaped quote inside a quoted field, and both
+   \r\n and \n line endings. Returns an array of rows, each row an array of
+   raw string cells (header row included, at index 0). */
+function parseCSV(text) {
+  var rows = [], row = [], field = '', inQuotes = false;
+  var i = 0, len = text.length;
+  while (i < len) {
+    var c = text.charAt(i);
+    if (inQuotes) {
+      if (c === '"') {
+        if (text.charAt(i + 1) === '"') { field += '"'; i += 2; continue; }
+        inQuotes = false; i++; continue;
+      }
+      field += c; i++; continue;
+    }
+    if (c === '"') { inQuotes = true; i++; continue; }
+    if (c === ',') { row.push(field); field = ''; i++; continue; }
+    if (c === '\r') { i++; continue; }
+    if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+    field += c; i++;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+/* Raw rows (arrays) -> one plain object per data row, keyed by the header
+   row's column names — so the rest of the pipeline reads rec['Order'] etc.
+   rather than tracking column indices by hand (robust to a column being
+   reordered in a future export, as long as the header names stay put). */
+function csvRowsToRecords(rows) {
+  if (!rows.length) return [];
+  var header = rows[0], out = [];
+  for (var r = 1; r < rows.length; r++) {
+    var cells = rows[r];
+    if (cells.length === 1 && cells[0] === '') continue;   /* trailing blank line */
+    var rec = {};
+    for (var c = 0; c < header.length; c++) rec[header[c]] = cells[c] !== undefined ? cells[c] : '';
+    out.push(rec);
+  }
+  return out;
+}
+
+/* A species counts as "seen" when Life list date holds an actual date —
+   blank, or Google Sheets' "#N/A" formula-error text for a not-yet-seen
+   row, both mean not seen. Matches the same rule this data used to be
+   hand-regenerated with. */
+function isSeenDate(v) {
+  v = (v || '').trim();
+  if (!v) return false;
+  if (/^#?n\/?a$/i.test(v)) return false;
+  return true;
+}
+
+/* Turns the flat per-species CSV records into the {order,total,seen,pct,
+   families:[{name,sci,total,seen}]} array ORDERS needs, plus the
+   {ORDER: [{name,loc},...]} object ORDER_TARGETS needs — both grouped by
+   first-appearance order, which is already taxonomic order since the CSV
+   is sorted by ID (species-level order isn't kept beyond that; nothing on
+   this page needs the individual species list itself, just these two
+   aggregates). */
+function buildDataFromRecords(records) {
+  /* Order/family sequencing (and target-species order within a Targets
+     grid) follows first-appearance order in `records` below — which needs
+     to actually BE taxonomic order, not just "whatever row order the CSV
+     happens to be in" (a sort, a manual row edit, or a spreadsheet paste
+     upstream can all reshuffle rows without anyone intending to). The ID
+     column is the documented taxonomic sort key (see data-columns.md), so
+     sorting a copy of the records by it first — before any grouping below
+     — makes the page's ordering robust to CSV row order rather than
+     silently drifting if it ever changes. Falls back to the incoming
+     order for any row with a missing/non-numeric ID (kept in place via
+     the stable sort rather than dropped). */
+  records = records.slice().sort(function(a, b) {
+    var ai = parseInt(a['ID'], 10), bi = parseInt(b['ID'], 10);
+    if (isNaN(ai) && isNaN(bi)) return 0;
+    if (isNaN(ai)) return 1;
+    if (isNaN(bi)) return -1;
+    return ai - bi;
+  });
+
+  var orderMap = {}, orderList = [], targets = {};
+  records.forEach(function(rec) {
+    var ord = (rec['Order'] || '').trim();
+    if (!ord) return;
+    var famSci = (rec['Family'] || '').trim();
+    var famName = (rec['Family name'] || '').trim();
+    var seen = isSeenDate(rec['Life list date']);
+
+    var o = orderMap[ord];
+    if (!o) { o = { order: ord, total: 0, seen: 0, famMap: {}, famList: [] }; orderMap[ord] = o; orderList.push(o); }
+    o.total++;
+    if (seen) o.seen++;
+
+    var f = o.famMap[famSci];
+    if (!f) { f = { name: famName, sci: famSci, total: 0, seen: 0 }; o.famMap[famSci] = f; o.famList.push(f); }
+    f.total++;
+    if (seen) f.seen++;
+
+    if ((rec['Order Target'] || '').trim().toLowerCase() === 'yes') {
+      if (!targets[ord]) targets[ord] = [];
+      targets[ord].push({ name: (rec['Common name'] || '').trim(), loc: (rec['Location'] || '').trim() });
+    }
+  });
+
+  var orders = orderList.map(function(o) {
+    return {
+      order: o.order,
+      total: o.total,
+      seen: o.seen,
+      pct: o.total ? Math.round(o.seen / o.total * 100) : 0,
+      families: o.famList.map(function(f) { return { name: f.name, sci: f.sci, total: f.total, seen: f.seen }; })
+    };
+  });
+
+  return { orders: orders, targets: targets };
+}
+
+function showDataMessage(msg) {
+  document.getElementById('grid').innerHTML = '<div class="empty-state">' + esc(msg) + '</div>';
+}
+
+/* Entry point — fetches birddata.csv, builds ORDERS/ORDER_TARGETS from it,
+   then renders. Called once at startup instead of render() directly (see
+   init() at the bottom of this script). A failed fetch (wrong path, CSV
+   missing, or opening index.html straight from disk rather than through a
+   server — browsers block fetch() of local files that way) shows a plain
+   message in the grid instead of silently leaving the page blank. */
+function loadData() {
+  showDataMessage('Loading bird data…');
+  fetch('birddata.csv')
+    .then(function(resp) {
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      return resp.text();
+    })
+    .then(function(text) {
+      var built = buildDataFromRecords(csvRowsToRecords(parseCSV(text)));
+      ORDERS = built.orders;
+      ORDER_TARGETS = built.targets;
+      var sn = ORDERS.reduce(function(a, o) { return a + o.seen; }, 0);
+      document.getElementById('nav-lifelist').textContent = 'Life List: ' + sn.toLocaleString();
+      render();
+    })
+    .catch(function(err) {
+      showDataMessage('Could not load birddata.csv (' + err.message + '). Make sure it sits in the same folder as index.html.');
+    });
+}
 
 /* species is {name, loc} for a real target, or undefined for a plain
    placeholder slot (see .tgt-ph in <style>). */
@@ -1241,11 +1427,14 @@ function computeSpan(o, cols) {
      FULL_TARGETS order that's also SCROLL_FAM: it already hides families
      behind a scroll, so its Targets step list is likewise floored to 9/12
      (never 3 or 6) to guarantee 3 target rows regardless of how few
-     families are left visible above the fold. */
+     families are left visible above the fold. Galliformes goes one floor
+     higher still (see FLOOR_4_TGT above) — its step list is pinned to
+     [12] only, guaranteeing a full 4 target rows every time. */
+  var floor4 = !!FLOOR_4_TGT[o.order];
   var capMax = isCompact ? 16 : (isFullTgt ? 12 : 8);
   var lowThresh = isCompact ? 12 : (isFullTgt ? 3 : 4);
-  var steps = isCompact ? [12, 16] : (isFullTgt ? (scrollRows ? [9, 12] : [3, 6, 9, 12]) : [4, 6, 8]);
-  var tieTarget = isCompact ? 12 : (isFullTgt ? 9 : 6);
+  var steps = isCompact ? [12, 16] : (isFullTgt ? (floor4 ? [12] : (scrollRows ? [9, 12] : [3, 6, 9, 12])) : [4, 6, 8]);
+  var tieTarget = isCompact ? 12 : (isFullTgt ? (floor4 ? 12 : 9) : 6);
   var capped = Math.min(unseen, capMax);
   var candidates = (capped < lowThresh) ? [capped] : steps.filter(function(s){ return s <= capped; });
   if (!candidates.length) candidates = [capped];
@@ -1255,6 +1444,22 @@ function computeSpan(o, cols) {
     var tgtH = tgtHeightForSlots(S, tgtPerRow);
     var total = OPEN_HEAD_H + overhead + famsH + tgtH;
     var R = Math.max(1, Math.ceil((total + GRID_GAP) / unit));
+    /* floor4 pins S to a single forced value (no other candidate to hunt a
+       tighter fit with, unlike the regular tightest-fit search above), so a
+       shortfall of just a couple of px against the next row down still gets
+       rounded all the way up to a full extra ROW_H+GRID_GAP of empty space —
+       that's the whole-tile-height gap under Galliformes' Targets Eric
+       flagged. Safe fix: if rounding down instead would only clip a handful
+       of px of the panel's own trailing bottom padding (never actual card
+       content — .tgt-slot/.fam-row heights are always several times this),
+       take the tighter row count. 8px is comfortably inside that padding for
+       every FULL_TARGETS order measured so far; a bigger shortfall than that
+       falls through to the normal (safe, zero-overflow) rounding above. */
+    if (floor4 && R > 1) {
+      var Rdown = R - 1;
+      var idealDown = Rdown * ROW_H + (Rdown - 1) * GRID_GAP;
+      if (idealDown - total > -8) R = Rdown;
+    }
     var ideal = R * ROW_H + (R - 1) * GRID_GAP;
     var margin = ideal - total;
     var better = margin < bestMargin - 0.5
@@ -1266,9 +1471,10 @@ function computeSpan(o, cols) {
 }
 
 (function init() {
-  var sn  = ORDERS.reduce(function(a,o){ return a + o.seen;  }, 0);
-  document.getElementById('nav-lifelist').textContent = 'Life List: ' + sn.toLocaleString();
-
+  /* Life List nav count used to be set here directly from the baked-in
+     ORDERS array; now ORDERS starts empty and loadData() sets both it and
+     the nav count once birddata.csv has actually loaded (see loadData()
+     above, right after the '#N/A' sentinel note). */
   var chips = document.querySelectorAll('.chip[data-status]');
   chips.forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -1287,6 +1493,6 @@ function computeSpan(o, cols) {
     resizeTimer = setTimeout(render, 120);
   });
 
-  render();
+  loadData();
 })();
 </script>
