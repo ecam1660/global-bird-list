@@ -222,30 +222,35 @@
      these percentages read directly against the FULL .ohead-photo banner
      — the 0-100% scale Eric points at when tuning this. Solid green
      through 33.33% (where the photo box starts; still fully covering its
-     own left edge), then holds NEAR-solid for a good while longer before
-     easing away: still ~91% green at 38%, ~79% at 44%, exactly ~65% green
-     at the 50% mark (Eric's checkpoint), then accelerating down to fully
-     transparent by 65%. That "hold high, then drop away fast at the end"
-     shape is a power curve with an EXPONENT BELOW 1 this time —
-     alpha(x) = (1 - t)^0.577, where t is how far x is through the
-     33.33%-65% fade zone (0 at 33.33%, 1 at 65%) — the opposite kind of
-     curve from the two earlier versions of this fade (both used exponents
-     above 1, which drop away early and level out near the end; Eric
-     wanted the reverse: nearly solid for longer, then a quick finish).
-     Thirteen color-mix() stops approximate it. */
+     own left edge), then holds mostly solid for a while — ~96% green at
+     38%, ~81% at 44%, ~58% at the 50% mark — before easing smoothly down
+     to fully transparent by 65%. The previous version of this curve
+     (a power curve with an exponent below 1, alpha=(1-t)^0.577) hit its
+     checkpoints too but had a mathematically vertical tangent right at
+     the 65% end — Eric could see it as a visible hard edge where the
+     photo just "clicked into" full visibility. Switched to
+     alpha(x) = cos(t * pi/2)^1.4, where t is how far x is through the
+     33.33%-65% zone (0 at 33.33%, 1 at 65%) — this shape has a genuinely
+     SMOOTH landing (its slope actually reaches zero right at t=1, not
+     just a small number), so the last stretch of stops taper off gently
+     (2.6% green at 63.5%, ~1.5% at 64%, ~0.6% at 64.5%) instead of
+     jumping straight from a visible tint to nothing. Trades a little
+     more transparency at the 50% mark (~58% vs. the previous ~65%) for
+     that smoother finish, per Eric's OK to move that checkpoint "not
+     much." Thirteen color-mix() stops approximate it. */
   .ohead-fade { position: absolute; inset: 0; background: linear-gradient(to right,
     color-mix(in srgb, var(--grn-md) 100%, transparent) 33.33%,
-    color-mix(in srgb, var(--grn-md) 91%,  transparent) 38%,
-    color-mix(in srgb, var(--grn-md) 85%,  transparent) 41%,
-    color-mix(in srgb, var(--grn-md) 79%,  transparent) 44%,
-    color-mix(in srgb, var(--grn-md) 72%,  transparent) 47%,
-    color-mix(in srgb, var(--grn-md) 65%,  transparent) 50%,
-    color-mix(in srgb, var(--grn-md) 57%,  transparent) 53%,
-    color-mix(in srgb, var(--grn-md) 48%,  transparent) 56%,
-    color-mix(in srgb, var(--grn-md) 42%,  transparent) 58%,
-    color-mix(in srgb, var(--grn-md) 35%,  transparent) 60%,
-    color-mix(in srgb, var(--grn-md) 26%,  transparent) 62%,
-    color-mix(in srgb, var(--grn-md) 17%,  transparent) 63.5%,
+    color-mix(in srgb, var(--grn-md) 96%,  transparent) 38%,
+    color-mix(in srgb, var(--grn-md) 90%,  transparent) 41%,
+    color-mix(in srgb, var(--grn-md) 81%,  transparent) 44%,
+    color-mix(in srgb, var(--grn-md) 71%,  transparent) 47%,
+    color-mix(in srgb, var(--grn-md) 58%,  transparent) 50%,
+    color-mix(in srgb, var(--grn-md) 45%,  transparent) 53%,
+    color-mix(in srgb, var(--grn-md) 31%,  transparent) 56%,
+    color-mix(in srgb, var(--grn-md) 22%,  transparent) 58%,
+    color-mix(in srgb, var(--grn-md) 14%,  transparent) 60%,
+    color-mix(in srgb, var(--grn-md) 7%,   transparent) 62%,
+    color-mix(in srgb, var(--grn-md) 2.6%, transparent) 63.5%,
     transparent 65%); }
   .ohead-text {
     position: relative; z-index: 2; height: 100%;
