@@ -589,14 +589,26 @@ var FLOOR_4_TGT = { GALLIFORMES: 1 };      /* Same idea as SCROLL_FAM's 9/12 flo
    bracket and won the tightest-fit search) — they're excluded here and
    keep their original spacing/behavior untouched. Every order below was
    confirmed to gain (never lose) targets from the trim; add a new order
-   here only after re-running that same before/after sweep against it. */
+   here only after re-running that same before/after sweep against it.
+   Galliformes is deliberately NOT here either, even though it's the other
+   order with special-cased Targets handling (FLOOR_4_TGT above): its step
+   list is pinned to exactly 12 regardless, so it can never gain anything
+   from this trim, and including it caused a real bug — the panel's real
+   rendered height shrank by the trimmed 11px (from the .snug class) but
+   computeSpan's floor4 path never learned about that shrink (only the
+   "grow bestS" step, which floor4 skips, was wired to it), so the
+   padding-bottom buildTile() applies came out 11px short of the tile's
+   actual grid-row box, leaving a visible gap at the bottom that didn't
+   line up with neighboring tiles — the opposite of what FLOOR_4_TGT was
+   for. Leaving it out entirely sidesteps that rather than patching the
+   floor4 math to also know about it, since there's no upside to chase. */
 var TIGHT_SEAM = {
   TINAMIFORMES: 1, COLUMBIFORMES: 1, PTEROCLIFORMES: 1, OTIDIFORMES: 1,
   MUSOPHAGIFORMES: 1, CUCULIFORMES: 1, CAPRIMULGIFORMES: 1, NYCTIBIIFORMES: 1,
   PODARGIFORMES: 1, AEGOTHELIFORMES: 1, GRUIFORMES: 1, PHOENICOPTERIFORMES: 1,
   PODICIPEDIFORMES: 1, SPHENISCIFORMES: 1, CICONIIFORMES: 1, PELECANIFORMES: 1,
   COLIIFORMES: 1, TROGONIFORMES: 1, CORACIIFORMES: 1, FALCONIFORMES: 1,
-  PASSERIFORMES: 1, GALLIFORMES: 1
+  PASSERIFORMES: 1
 };
 /* Optional per-order object-position override for the header banner photo —
    NOT something you need to use. Since you're cropping each photo yourself
