@@ -343,6 +343,16 @@
     display: flex; align-items: center; gap: 8px; margin-bottom: 11px;
     padding-bottom: 7px; border-bottom: 1px solid rgba(47,58,39,.28);
   }
+  /* A second, independent pocket of decorative space recovered for .snug
+     orders, on top of the seam trim above — each section heading's own
+     margin-bottom, trimmed by 4px. Deliberately not folded into a single
+     bigger seam-only trim: the reason is explained at length in
+     computeSpan() (search SAFETY_PX) — the row-fit math that spends this
+     recovered space needs real headroom to stay correct across different
+     browsers' font-metric differences (verified live via
+     measureLayoutConstants(), which is exactly where that headroom
+     matters), and one trim alone wasn't enough to leave a safe margin. */
+  .opanel.snug .sect-hd { margin-bottom: 7px; }
   .sect-hd h3 {
     margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .12em;
     text-transform: uppercase; color: var(--grn-ink);
@@ -608,7 +618,17 @@ var TIGHT_SEAM = {
   PODARGIFORMES: 1, AEGOTHELIFORMES: 1, GRUIFORMES: 1, PHOENICOPTERIFORMES: 1,
   PODICIPEDIFORMES: 1, SPHENISCIFORMES: 1, CICONIIFORMES: 1, PELECANIFORMES: 1,
   COLIIFORMES: 1, TROGONIFORMES: 1, CORACIIFORMES: 1, FALCONIFORMES: 1,
-  PASSERIFORMES: 1
+  PASSERIFORMES: 1,
+  /* Galliformes is back in this list (it was pulled out once already — see
+     the SAFETY_PX comment in computeSpan() for the full story). It never
+     gains or loses Targets from being here: FLOOR_4_TGT pins its slot
+     count to exactly 12 regardless, so the "grow bestS" step below is
+     always a no-op for it (capped is already 12, so grownS can never
+     exceed bestS). It's here purely so its real rendered panel gets the
+     same .snug trim FLOOR_4_TGT's own row-count check now measures
+     against directly, instead of the two mechanisms disagreeing on how
+     tall the panel actually is. */
+  GALLIFORMES: 1
 };
 /* Optional per-order object-position override for the header banner photo —
    NOT something you need to use. Since you're cropping each photo yourself
@@ -1184,6 +1204,38 @@ function render() {
    real markup in a hidden probe, so it always matches what's actually on
    screen — including responsive changes like the mobile breakpoint. */
 var GRID_GAP = 14;
+/* .opanel.snug's two CSS trims (see the .sect-hd/.sect-inner comments in
+   <style>), as exact px deltas the JS math below needs to stay consistent
+   with the real DOM: SEAM_TRIM_PX from the Families/Targets seam
+   (padding-top 14px → 3px), HEADER_TRIM_PX from both section headings'
+   own margin-bottom (11px → 7px, twice — Families' and Targets'). These
+   are real, exact CSS box-model deltas, not estimates — safe to trust
+   regardless of what browser is rendering, unlike anything measured from
+   live text (see SAFETY_PX just below for why that distinction matters).
+   SNUG_TRIM_PX is the combined total a .snug tile's real panel is shorter
+   by, used everywhere computeSpan() needs to reason about a .snug order's
+   actual rendered height rather than the plain (non-snug) measured
+   overhead constants below, which all come from the PROBEIFORMES probe —
+   never itself .snug (see panelHTML()). */
+var SEAM_TRIM_PX = 11, HEADER_TRIM_PX = 8, SNUG_TRIM_PX = SEAM_TRIM_PX + HEADER_TRIM_PX;
+/* How much real, measured margin a .snug order's row-fit decision must
+   have left over before computeSpan() will act on it (grow its Targets,
+   or — for Galliformes — round its row count down). Landing exactly on
+   the boundary (margin ~0) tested fine in this codebase's own dev/test
+   browser, but broke for real on Eric's machine: the page uses
+   `-apple-system` throughout, which a real Mac renders as San Francisco
+   but a browser without that font (this environment's headless Linux
+   Chromium, for instance) silently substitutes a fallback with different
+   line-height metrics — enough, across several rows of family/target
+   text, to flip which candidate wins a razor-thin margin comparison, in
+   either direction depending on the specific browser. SNUG_TRIM_PX (19px,
+   above) was sized specifically so that requiring a real SAFETY_PX
+   cushion here still clears the same orders that used to just barely
+   clear a margin of ~0 — recover more, then only spend it if there's
+   genuine headroom, rather than trusting an exact-fit calculation to
+   reproduce identically on hardware and fonts this code never got to
+   test against. */
+var SAFETY_PX = 8;
 var ROW_H = 0, OPEN_HEAD_H = 0, FAM_BASE = 0, FR_PER_ROW = 0, TGT_BASE = 0, TR_PER_ROW = 0,
     TGT_BASE_COMPACT = 0, TR_PER_ROW_COMPACT = 0,
     OVERHEAD_REG = 0, OVERHEAD_COMPACT = 0, OVERHEAD_REG_NOTGT = 0, OVERHEAD_COMPACT_NOTGT = 0,
@@ -1287,7 +1339,23 @@ function measureLayoutConstants() {
     /* Compact orders (Passerines) use a 4-col Targets grid, not 2 — so its
        base/per-row height needs its own S=4/S=8 (one row vs. two) probe,
        same as TGT_BASE/TR_PER_ROW above but at the compact grid's own
-       column count. */
+       column count.
+       Unlike every other probe above, this one has to use the REAL order
+       object (not a PROBEIFORMES-style dummy) since it needs COMPACT_GRID
+       to actually recognize it and render the 4-col layout — but
+       Passerines also happens to be in TIGHT_SEAM, which would make
+       panelHTML() add the .snug class to this probe too, baking the seam/
+       header trim into OVERHEAD_COMPACT itself. Every OTHER overhead
+       constant here is measured from a name that's never in TIGHT_SEAM,
+       so computeSpan() can safely add its own SNUG_TRIM_PX on top for a
+       TIGHT_SEAM order — doing that AGAIN on top of an already-trimmed
+       OVERHEAD_COMPACT double-counts the trim, which is exactly what
+       caused Passerines to overflow its grid row by ~19px. Temporarily
+       pulling it out of TIGHT_SEAM for just this measurement keeps
+       OVERHEAD_COMPACT on the same plain, untrimmed footing as every
+       other constant here. */
+    var compactWasSnug = TIGHT_SEAM[compactOrder.order];
+    delete TIGHT_SEAM[compactOrder.order];
     var compactR1 = measurePanel(compactOrder, 4);
     var compactR2 = measurePanel(compactOrder, 8);
     TGT_BASE_COMPACT   = compactR1.tgtH;
@@ -1295,6 +1363,7 @@ function measureLayoutConstants() {
     OVERHEAD_COMPACT = compactR1.panelH - compactR1.tgtH;
     var compact0 = measurePanel(compactOrder, 0);
     OVERHEAD_COMPACT_NOTGT = compact0.panelH;
+    if (compactWasSnug) TIGHT_SEAM[compactOrder.order] = compactWasSnug;
   } else {
     OVERHEAD_COMPACT = OVERHEAD_REG;
     OVERHEAD_COMPACT_NOTGT = OVERHEAD_REG_NOTGT;
@@ -1528,19 +1597,29 @@ function computeSpan(o, cols) {
        shortfall of just a couple of px against the next row down still gets
        rounded all the way up to a full extra ROW_H+GRID_GAP of empty space —
        that's the whole-tile-height gap under Galliformes' Targets Eric
-       flagged. Safe fix: if rounding down instead would only clip into the
-       Targets .sect's own trailing bottom padding — real, measured inert
-       whitespace below the last row of cards (`.sect { padding: ... 16px
-       }`), never the cards themselves — take the tighter row count. The
-       tolerance is capped at that padding's own value (with a small buffer
-       for cross-browser font-metric rounding), so this can only ever eat
-       into blank space that was already there, whatever the real deficit
-       turns out to measure as on a given browser; anything short of that
-       falls through to the normal (safe, zero-overflow) rounding above. */
-    if (floor4 && R > 1) {
-      var Rdown = R - 1;
-      var idealDown = Rdown * ROW_H + (Rdown - 1) * GRID_GAP;
-      if (idealDown - total > -15) R = Rdown;
+       flagged. Fix: Galliformes is a .snug order (TIGHT_SEAM, above), so
+       its real rendered panel is genuinely SNUG_TRIM_PX shorter than
+       `total` here (which comes from the plain, non-snug measured
+       constants) — compare against that real, trimmed height rather than
+       gambling on unused padding the way an earlier version of this did.
+       Requiring a genuine SAFETY_PX cushion (not just >=0) is what makes
+       this safe across different browsers' font-metric differences — see
+       SAFETY_PX's own comment above for why that matters. */
+    if (floor4) {
+      /* Galliformes' real rendered content is genuinely totalSnug (the
+         .snug CSS class is really applied — see TIGHT_SEAM above —
+         independent of whatever R ends up being), so `total` needs to
+         become that real value for the rest of this branch, not just for
+         the round-down decision: the `margin` computed below feeds
+         straight into buildTile()'s padding-bottom, and padding sized
+         against the wrong (untrimmed) total is exactly the bug that first
+         showed up here (a real, visible gap under Galliformes' Targets). */
+      if (TIGHT_SEAM[o.order]) total -= SNUG_TRIM_PX;
+      if (R > 1) {
+        var Rdown = R - 1;
+        var idealDown = Rdown * ROW_H + (Rdown - 1) * GRID_GAP;
+        if (idealDown - total >= SAFETY_PX) R = Rdown;
+      }
     }
     var ideal = R * ROW_H + (R - 1) * GRID_GAP;
     var margin = ideal - total;
@@ -1565,20 +1644,36 @@ function computeSpan(o, cols) {
      unseen species, but few enough families that a small Targets count
      already fills the tightest row count) show as many of those extra
      unseen species as the row it's already showing has room for. */
-  /* TIGHT_SEAM's 11px of recovered seam padding (see the .opanel.snug CSS
-     rule, and the comment above the candidates.forEach() search) is applied
-     right here, and only here: fixedH is the real per-tile fixed cost this
-     order's actual rendered DOM has (photo header + chrome + families),
-     and growing bestS can only ever consume slack within idealBest — the
-     row budget bestR already locked in above using the UNADJUSTED overhead
-     — so this can recover extra targets but can never push the search into
-     a taller row count than a non-TIGHT_SEAM order would have picked. */
-  var growthOverhead = TIGHT_SEAM[o.order] ? overhead - 11 : overhead;
+  /* TIGHT_SEAM's SNUG_TRIM_PX of recovered space (seam + header trims —
+     see the .opanel.snug CSS rules, and SNUG_TRIM_PX's own comment above)
+     is applied right here, and only here: fixedH is the real per-tile
+     fixed cost this order's actual rendered DOM has (photo header +
+     chrome + families), and growing bestS can only ever consume slack
+     within idealBest — the row budget bestR already locked in above using
+     the UNADJUSTED overhead — so this can recover extra targets but can
+     never push the search into a taller row count than a non-TIGHT_SEAM
+     order would have picked.
+     The SAFETY_PX floor below is what makes this robust rather than
+     exact-fit-and-hope: growing bestS is only worth it if the result
+     leaves genuine margin, not just >=0 — see SAFETY_PX's own comment for
+     why a razor-thin margin here isn't trustworthy across browsers. */
+  var growthOverhead = TIGHT_SEAM[o.order] ? overhead - SNUG_TRIM_PX : overhead;
   var fixedH = OPEN_HEAD_H + growthOverhead + famsH;
   var idealBest = bestR * ROW_H + (bestR - 1) * GRID_GAP;
-  var grownS = Math.min(capped, maxSlotsForHeight(idealBest - fixedH, tgtPerRow));
-  if (grownS > bestS) {
-    bestS = grownS;
+  var grownS = Math.min(capped, maxSlotsForHeight(idealBest - fixedH - SAFETY_PX, tgtPerRow));
+  if (grownS > bestS) bestS = grownS;
+  /* bestMargin must be recomputed here whenever this is a TIGHT_SEAM
+     order, not only inside the `grownS > bestS` case above: `.snug` is
+     applied to this order's real DOM unconditionally (see panelHTML()),
+     so its actual rendered content is fixedH-sized (the SNUG_TRIM_PX-
+     reduced one) regardless of whether growth found room to add more
+     Targets slots. bestMargin left over from the candidates.forEach()
+     loop above was computed against the UNADJUSTED total — correct for
+     every other order, but wrong here, and wrong is exactly what
+     buildTile() turns into this tile's real padding-bottom. Skipping
+     this for an order growth didn't help (bestS unchanged) was the bug
+     that left Pelecaniformes ~19px short of its own grid row. */
+  if (TIGHT_SEAM[o.order]) {
     bestMargin = idealBest - (fixedH + tgtHeightForSlots(bestS, tgtPerRow));
   }
 
