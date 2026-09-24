@@ -22,7 +22,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 7060,PASSERIFORMES,Corvidae,"Crows, Jays, and Magpies",Torresian Crow,Corvus orru,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"431,945",0,0,,,,
 2749,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Swallow-tailed Kite,Elanoides forficatus,LC,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"426,878","236,231",0,,,,
 9049,PASSERIFORMES,Turdidae,Thrushes and Allies,Pale-breasted Thrush,Turdus leucomelas,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"393,152",0,0,,,,
-3991,FALCONIFORMES,Falconidae,Falcons and Caracaras,Chimango Caracara,Daptrius chimango,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"390,061",0,0,,,,
+3991,FALCONIFORMES,Falconidae,Falcons and Caracaras,Chimango Caracara,Daptrius chimango,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"390,061",0,0,,,Yes,Argentina/Chile
 2843,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Shikra,Tachyspiza badia,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"367,302",0,0,,,,
 9456,PASSERIFORMES,Dicaeidae,Flowerpeckers,Pale-billed Flowerpecker,Dicaeum erythrorhynchos,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"364,090",0,0,,,,
 5847,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Gray Kingbird,Tyrannus dominicensis,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"363,631","70,943",0,,,,
@@ -67,7 +67,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 603,COLUMBIFORMES,Columbidae,Pigeons and Doves,European Turtle-Dove,Streptopelia turtur,VU,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"254,752",0,0,,,Yes,Europe
 67,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Black-bellied Whistling-Duck,Dendrocygna autumnalis,LC,ABA 1,,11/25/2021,US-FL,Yes,,Yes,"1,094,777","813,405",105,,,,
 10516,PASSERIFORMES,Icteridae,Troupials and Allies,Crested Oropendola,Psarocolius decumanus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"252,789",0,0,,,,
-3915,PICIFORMES,Picidae,Woodpeckers,Iberian Green Woodpecker,Picus sharpei,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"251,153",0,0,Iberian Peninsula and the Pyrenees,,,
+3915,PICIFORMES,Picidae,Woodpeckers,Iberian Green Woodpecker,Picus sharpei,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"251,153",0,0,Iberian Peninsula and the Pyrenees,,Yes,Iberia
 9037,PASSERIFORMES,Turdidae,Thrushes and Allies,Creamy-bellied Thrush,Turdus amaurochalinus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"249,490",0,0,"eastern Peru to central Argentina, Paraguay, Uruguay, and Brazil",,,
 71,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Lesser Whistling-Duck,Dendrocygna javanica,LC,,,1/13/2018,IN-WB,,,,"274,758",0,0,Indian subcontinent to southeastern Asia and Greater Sundas,,,
 9799,PASSERIFORMES,Estrildidae,Waxbills and Allies,Indian Silverbill,Euodice malabarica,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"247,904",0,0,"Arabian Peninsula to southeastern Iran, India, Sri Lanka, Nepal, and Sikkim",,,
@@ -102,7 +102,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2921,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Snail Kite,Rostrhamus sociabilis,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"220,649","53,992",0,,,,
 11096,PASSERIFORMES,Thraupidae,Tanagers and Allies,Yellow-bellied Seedeater,Sporophila nigricollis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"220,527",0,0,,,,
 7731,PASSERIFORMES,Hirundinidae,Swallows,Wire-tailed Swallow,Hirundo smithii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"219,744",0,0,,,,
-3654,PICIFORMES,Megalaimidae,Asian Barbets,Brown-headed Barbet,Psilopogon zeylanicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"218,921",0,0,,,,
+3654,PICIFORMES,Megalaimidae,Asian Barbets,Brown-headed Barbet,Psilopogon zeylanicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"218,921",0,0,,,Yes,India/Sri Lanka
 6112,PASSERIFORMES,Meliphagidae,Honeyeaters,Noisy Friarbird,Philemon corniculatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"216,998",0,0,,,,
 615,COLUMBIFORMES,Columbidae,Pigeons and Doves,Ring-necked Dove,Streptopelia capicola,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"216,080",0,0,,,,
 10843,PASSERIFORMES,Thraupidae,Tanagers and Allies,Crimson-backed Tanager,Ramphocelus dimidiatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"214,654",0,0,,,,
@@ -118,7 +118,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 117,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Common Shelduck,Tadorna tadorna,LC,ABA 4,,4/15/2022,GR-K,,,,"618,116","1,679",0,breeds western Europe to east-central Asia; winters to northern Africa through southern Asia,,,
 7963,PASSERIFORMES,Phylloscopidae,Leaf Warblers,Greenish Warbler,Phylloscopus trochiloides,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"208,602",0,0,,,,
 7067,PASSERIFORMES,Corvidae,"Crows, Jays, and Magpies",Pied Crow,Corvus albus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"206,785",0,0,"sub-Saharan Africa, Madagascar, Aldabra, and Comoros",,,
-4024,FALCONIFORMES,Falconidae,Falcons and Caracaras,Eurasian Hobby,Falco subbuteo,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"205,942",230,0,,,,
+4024,FALCONIFORMES,Falconidae,Falcons and Caracaras,Eurasian Hobby,Falco subbuteo,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"205,942",230,0,,,Yes,Eurasia/Africa
 3140,STRIGIFORMES,Strigidae,Owls,Spotted Owlet,Athene brama,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"205,538",0,0,,,,
 98,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Whooper Swan,Cygnus cygnus,LC,ABA 3,,#N/A,#N/A,#N/A,#N/A,#N/A,"204,847","2,613",222,breeds Palearctic; winters to central Asia and southeastern China,,,
 9742,PASSERIFORMES,Ploceidae,Weavers and Allies,Baya Weaver,Ploceus philippinus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"204,593",0,0,,,,
@@ -137,7 +137,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 136,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Blue Duck,Hymenolaimus malacorhynchos,EN,,,12/31/2025,NZ-WTC,,,,"3,488",0,0,,,,
 7922,PASSERIFORMES,Phylloscopidae,Leaf Warblers,Yellow-browed Warbler,Phylloscopus inornatus,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"192,687",0,0,"breeds Ural Mountains eastward to Sea of Okhotsk, Mongolia, and Manchuria (and possibly northern Korea); winters from Nepal and Bangladesh eastward to southern China, Hainan, Andaman Islands, Thailand, Malay Peninsula, and southeastern Asia",,,
 11128,PASSERIFORMES,Thraupidae,Tanagers and Allies,Black-faced Grassquit,Melanospiza bicolor,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"192,491","1,300",0,,,,
-3966,PICIFORMES,Picidae,Woodpeckers,Green-barred Woodpecker,Colaptes melanochloros,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"191,912",0,0,,,,
+3966,PICIFORMES,Picidae,Woodpeckers,Green-barred Woodpecker,Colaptes melanochloros,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"191,912",0,0,,,Yes,SE South America
 140,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Garganey,Spatula querquedula,LC,ABA 4,,4/18/2022,GR-K,,,,"273,761","4,357","1,814",breeds Palearctic (except north); winters to central Africa through Indonesia,,,
 7914,PASSERIFORMES,Pycnonotidae,Bulbuls,White-spectacled Bulbul,Pycnonotus xanthopygos,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"191,470",0,0,"coastal southern Türkiye to Near East, Sinai Peninsula, and Arabia",,,
 8661,PASSERIFORMES,Troglodytidae,Wrens,Spot-breasted Wren,Pheugopedius maculipectus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"191,174",0,0,,,,
@@ -182,7 +182,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 181,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Gray Teal,Anas gracilis,LC,,,10/1/2024,AU-VIC,,,,"412,697",0,0,,,,
 182,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Chestnut Teal,Anas castanea,LC,,,10/1/2024,AU-VIC,,,,"283,115",0,0,,,,
 2041,CHARADRIIFORMES,Jacanidae,Jacanas,Bronze-winged Jacana,Metopidius indicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"173,750",0,0,"lowlands of India to southwestern China, southeastern Asia, Sumatra, and Java",,,
-3974,PICIFORMES,Picidae,Woodpeckers,Campo Flicker,Colaptes campestris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"173,658",0,0,,,,
+3974,PICIFORMES,Picidae,Woodpeckers,Campo Flicker,Colaptes campestris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"173,658",0,0,,,Yes,SE South America
 6505,PASSERIFORMES,Artamidae,"Woodswallows, Bellmagpies, and Allies",Ashy Woodswallow,Artamus fuscus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"173,279",0,0,"India and Sri Lanka to Myanmar, southern China, and southeastern Asia",,,
 186,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Brown Teal,Anas chlorotis,NT,,,12/28/2025,NZ-AUK,,,,"9,285",0,0,"Great Barrier Island (off northeastern North Island) and other satellite islands and predator-free mainland sanctuaries, mainly North Island (New Zealand)",,,
 187,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Pink-eared Duck,Malacorhynchus membranaceus,LC,,,10/2/2024,AU-VIC,,,,"80,299",0,0,Australia including eastern Tasmania,,,
@@ -228,12 +228,12 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 227,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Red-breasted Merganser,Mergus serrator,LC,ABA 1,CA,12/26/2021,US-CA,Yes,Yes,Yes,"2,606,076","1,827,682","95,650","breeds southern Greenland, Iceland, northern British Isles, and Scandinavia to Sakhalin and Kamchatka peninsulas, and Kuril and Commander islands (southeastern Russia), in south through northern Kazakhstan and northeastern China; western Alaska mainland through mainland Canada from Arctic to northern Great Lakes and eastward to Nova Scotia; winters to coasts of southern Europe, Black and Caspian seas; Japan, Korean Peninsula, and eastern China; to west-central Mexico, Gulf Coast, and Florida",,,
 8766,PASSERIFORMES,Sturnidae,Starlings,Chestnut-tailed Starling,Sturnia malabarica,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"162,009",0,0,,,,
 10099,PASSERIFORMES,Fringillidae,"Finches, Euphonias, and Allies",Orange-bellied Euphonia,Euphonia xanthogaster,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"160,079",0,0,,,,
-2720,CATHARTIFORMES,Cathartidae,New World Vultures,Lesser Yellow-headed Vulture,Cathartes burrovianus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"158,841",0,0,,,,
+2720,CATHARTIFORMES,Cathartidae,New World Vultures,Lesser Yellow-headed Vulture,Cathartes burrovianus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"158,841",0,0,,,Yes,Mexico/Colombia/Brazil
 231,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Ruddy Duck,Oxyura jamaicensis,LC,ABA 1,CA,11/30/2021,US-CA,Yes,Yes,Yes,"2,913,959","2,631,552","643,417",,,,
 8297,PASSERIFORMES,Timaliidae,"Tree-Babblers, Scimitar-Babblers, and Allies",Taiwan Scimitar-Babbler,Pomatorhinus musicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"157,637",0,0,Taiwan,,,
 3257,TROGONIFORMES,Trogonidae,Trogons,Black-headed Trogon,Trogon melanocephalus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"157,333",0,0,southeastern Mexico to northern Costa Rica,,,
 238,GALLIFORMES,Megapodiidae,Megapodes,Australian Brushturkey,Alectura lathami,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"157,289",0,0,,,Yes,Australia
-7162,PASSERIFORMES,Stenostiridae,Fairy Flycatchers,Gray-headed Canary-Flycatcher,Culicicapa ceylonensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"156,891",0,0,,,,
+7162,PASSERIFORMES,Stenostiridae,Fairy Flycatchers,Gray-headed Canary-Flycatcher,Culicicapa ceylonensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"156,891",0,0,,,Yes,
 236,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Blue-billed Duck,Oxyura australis,LC,,,10/2/2024,AU-VIC,,,,"39,589",0,0,"southwestern and southeastern Australia, including Tasmania",,,
 237,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Musk Duck,Biziura lobata,LC,,,10/12/2024,AU-VIC,,,,"61,182",0,0,,,,
 4245,PSITTACIFORMES,Psittaculidae,Old World Parrots,Vernal Hanging-Parrot,Loriculus vernalis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"156,594",0,0,,,,
@@ -255,7 +255,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 5593,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,White-crested Elaenia,Elaenia albiceps,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"147,081",0,0,,,,
 5627,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Golden-faced Tyrannulet,Zimmerius chrysops,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"146,810",0,0,,,,
 2687,PELECANIFORMES,Ardeidae,"Herons, Egrets, and Bitterns",Chinese Pond-Heron,Ardeola bacchus,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"146,273",0,0,lowlands of southern Asia; winters to Greater Sundas,,,
-7055,PASSERIFORMES,Corvidae,"Crows, Jays, and Magpies",Chihuahuan Raven,Corvus cryptoleucus,LC,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"144,660","136,601",0,arid southwestern USA to central Mexico,,,
+7055,PASSERIFORMES,Corvidae,"Crows, Jays, and Magpies",Chihuahuan Raven,Corvus cryptoleucus,LC,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"144,660","136,601",0,arid southwestern USA to central Mexico,,Yes,
 3400,CORACIIFORMES,Momotidae,Motmots,Turquoise-browed Motmot,Eumomota superciliosa,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"144,443",0,0,,,,
 1681,APODIFORMES,Trochilidae,Hummingbirds,Swallow-tailed Hummingbird,Eupetomena macroura,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"144,413",0,0,,,Yes,Brazil
 260,GALLIFORMES,Cracidae,"Guans, Chachalacas, and Curassows",Black Guan,Chamaepetes unicolor,LC,,,1/25/2023,CR-SJ,,,,"34,830",0,0,montane forest of Costa Rica and western Panama,,,
@@ -287,7 +287,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2605,PELECANIFORMES,Threskiornithidae,Ibises and Spoonbills,Buff-necked Ibis,Theristicus caudatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"132,757",0,0,,,,
 6398,PASSERIFORMES,Vireonidae,"Vireos, Shrike-Babblers, and Erpornis",Yellow-green Vireo,Vireo flavoviridis,LC,ABA 3,,#N/A,#N/A,#N/A,#N/A,#N/A,"131,366","4,478","1,729",,,,
 5234,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Azara's Spinetail,Synallaxis azarae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"131,331",0,0,,,,
-3739,PICIFORMES,Picidae,Woodpeckers,Eurasian Wryneck,Jynx torquilla,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"131,012",0,0,,,,
+3739,PICIFORMES,Picidae,Woodpeckers,Eurasian Wryneck,Jynx torquilla,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"131,012",0,0,,,Yes,Eurasia
 3665,PICIFORMES,Megalaimidae,Asian Barbets,Blue-throated Barbet,Psilopogon asiaticus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"130,511",0,0,,,,
 7560,PASSERIFORMES,Acrocephalidae,Reed Warblers and Allies,Clamorous Reed Warbler,Acrocephalus stentoreus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"130,447",0,0,,,,
 2126,CHARADRIIFORMES,Scolopacidae,Sandpipers and Allies,Temminck's Stint,Calidris temminckii,LC,ABA 3,,#N/A,#N/A,#N/A,#N/A,#N/A,"129,656",432,0,"breeds tundra of Scandinavia eastward through northern Russia to Chukotskiy Peninsula (notheastern Russia), including New Siberian Islands; winters southeastern Europe southward to central Africa and eastward to southern Japan and Taiwan",,,
@@ -437,7 +437,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 3718,PICIFORMES,Ramphastidae,Toucans,White-throated Toucan,Ramphastos tucanus,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"99,209",0,0,,,,
 437,GALLIFORMES,Phasianidae,"Pheasants, Grouse, and Allies",Kalij Pheasant,Lophura leucomelanos,LC,ABA 2,,4/8/2025,US-HI,Yes,,Yes,"58,010","15,550",0,,,,
 6574,PASSERIFORMES,Vangidae,"Vangas, Helmetshrikes, and Allies",Common Woodshrike,Tephrodornis pondicerianus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"99,038",0,0,,,,
-2526,CICONIIFORMES,Ciconiidae,Storks,Asian Woolly-necked Stork,Ciconia episcopus,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"99,020",0,0,,,,
+2526,CICONIIFORMES,Ciconiidae,Storks,Asian Woolly-necked Stork,Ciconia episcopus,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"99,020",0,0,,,Yes,India/Vietnam
 8395,PASSERIFORMES,Leiothrichidae,Laughingthrushes and Allies,Morrison's Fulvetta,Alcippe morrisonia,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"98,982",0,0,Taiwan,,,
 583,COLUMBIFORMES,Columbidae,Pigeons and Doves,Scaly-naped Pigeon,Patagioenas squamosa,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"98,697",0,0,"Greater Antilles, Lesser Antilles, and Aruba, Curaçao, and Bonaire",,,
 2970,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Long-legged Buzzard,Buteo rufinus,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"98,500",0,0,,,,
@@ -466,11 +466,11 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 4165,PSITTACIFORMES,Psittaculidae,Old World Parrots,Pale-headed Rosella,Platycercus adscitus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"95,863",0,0,,,,
 5699,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Austral Negrito,Lessonia rufa,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"95,645",0,0,central Chile and Argentina to Tierra del Fuego; winters to southeastern Brazil,,,
 467,GALLIFORMES,Phasianidae,"Pheasants, Grouse, and Allies",Chinese Bamboo-Partridge,Bambusicola thoracicus,LC,,,4/18/2024,JP-13,,,,"10,953",0,0,varied habitats and elevations of central and southeastern China,,,
-4003,FALCONIFORMES,Falconidae,Falcons and Caracaras,Lesser Kestrel,Falco naumanni,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"95,560",0,0,breeds Mediterranean basin to eastern China; winters to southern Asia and southern Africa,,,
+4003,FALCONIFORMES,Falconidae,Falcons and Caracaras,Lesser Kestrel,Falco naumanni,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"95,560",0,0,breeds Mediterranean basin to eastern China; winters to southern Asia and southern Africa,,Yes,Iberia/Southern Europe
 99,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Coscoroba Swan,Coscoroba coscoroba,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"94,973",284,0,"southern Brazil to Paraguay, Uruguay, Tierra del Fuego, and Falkland Islands",,,
 470,GALLIFORMES,Phasianidae,"Pheasants, Grouse, and Allies",Red Junglefowl,Gallus gallus,LC,ABA 2,,8/13/2026,MY-14,Yes,,Yes,"229,993","72,726",409,,,,
 1704,APODIFORMES,Trochilidae,Hummingbirds,Andean Emerald,Uranomitra franciae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"94,757",0,0,,,,
-3969,PICIFORMES,Picidae,Woodpeckers,Gilded Flicker,Colaptes chrysoides,LC,ABA 2,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"94,669","83,247",351,,,,
+3969,PICIFORMES,Picidae,Woodpeckers,Gilded Flicker,Colaptes chrysoides,LC,ABA 2,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"94,669","83,247",351,,,Yes,Arizona/California/Mexico
 7962,PASSERIFORMES,Phylloscopidae,Leaf Warblers,Green Warbler,Phylloscopus nitidus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"94,030",0,0,"breeds Caucasus to northern Türkiye, northern Iran, and northwestern Afghanistan; winters southern India",,,
 61,ANSERIFORMES,Anhimidae,Screamers,Southern Screamer,Chauna torquata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"94,009",0,0,wet lowlands of southeastern Peru to northern Argentina and southern Brazil,,Yes,Brazil/Argentina
 475,GALLIFORMES,Phasianidae,"Pheasants, Grouse, and Allies",Gray Francolin,Ortygornis pondicerianus,LC,ABA 2,,4/4/2025,US-HI,Yes,,Yes,"405,048","29,392",0,,,,
@@ -526,7 +526,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 10656,PASSERIFORMES,Parulidae,New World Warblers,Mangrove Yellow Warbler,Setophaga petechia,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"86,139","2,121",0,,,,
 526,GALLIFORMES,Phasianidae,"Pheasants, Grouse, and Allies",Erckel's Spurfowl,Pternistis erckelii,LC,ABA 2,,3/19/2022,US-HI,Yes,,Yes,"23,678","22,911",0,northeastern Sudan and highlands of northern Eritrea and northwestern Ethiopia; introduced to Hawaii,,,
 4346,PSITTACIFORMES,Psittacidae,New World and African Parrots,Turquoise-fronted Amazon,Amazona aestiva,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"86,120",254,104,,,,
-2392,PROCELLARIIFORMES,Diomedeidae,Albatrosses,Black-browed Albatross,Thalassarche melanophris,UN,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"85,973",0,0,,,,
+2392,PROCELLARIIFORMES,Diomedeidae,Albatrosses,Black-browed Albatross,Thalassarche melanophris,UN,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"85,973",0,0,,,Yes,Southern oceans
 6211,PASSERIFORMES,Campephagidae,Cuckooshrikes,Gray-chinned Minivet,Pericrocotus solaris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"85,784",0,0,,,,
 1068,CUCULIFORMES,Cuculidae,Cuckoos,Channel-billed Cuckoo,Scythrops novaehollandiae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"85,703",0,0,,,,
 2931,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Great Black Hawk,Buteogallus urubitinga,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"85,251","1,053",0,,,,
@@ -561,7 +561,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2051,CHARADRIIFORMES,Scolopacidae,Sandpipers and Allies,Far Eastern Curlew,Numenius madagascariensis,EN,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,479",261,0,"breeds inland wetlands from east-central Siberia to Kamchatka and Ussuriland (southeastern Russia) and Heilongjiang (northeastern China); winters to Philippines, Indonesia, Australia, and New Zealand (scarce)",,,
 2042,CHARADRIIFORMES,Jacanidae,Jacanas,African Jacana,Actophilornis africanus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,386",0,0,"lakes, ponds, and marshes of sub-Saharan Africa",,,
 1989,CHARADRIIFORMES,Charadriidae,Plovers and Lapwings,Crowned Lapwing,Vanellus coronatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,384",0,0,,,,
-6610,PASSERIFORMES,Malaconotidae,Bushshrikes and Allies,Black-backed Puffback,Dryoscopus cubla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,380",0,0,,,,
+6610,PASSERIFORMES,Malaconotidae,Bushshrikes and Allies,Black-backed Puffback,Dryoscopus cubla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,380",0,0,,,Yes,
 6407,PASSERIFORMES,Pachycephalidae,Whistlers and Allies,Little Shrikethrush,Colluricincla megarhyncha,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,194",0,0,,,,
 10530,PASSERIFORMES,Icteridae,Troupials and Allies,Red-rumped Cacique,Cacicus haemorrhous,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"82,109",0,0,,,,
 1662,APODIFORMES,Trochilidae,Hummingbirds,Violet-capped Woodnymph,Thalurania glaucopis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"81,982",0,0,southeastern Brazil to eastern Paraguay and northeastern Argentina,,,
@@ -587,7 +587,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2803,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Greater Spotted Eagle,Clanga clanga,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"80,120",0,0,"breeds central Eurasia and southern Asia; winters to Africa, China, and Indochina",,,
 9708,PASSERIFORMES,Ploceidae,Weavers and Allies,Southern Masked-Weaver,Ploceus velatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"80,117",0,0,"southern Angola eastward to Mozambique, southward to southern South Africa; introduced São Tomé (Gulf of Guinea)",,,
 588,COLUMBIFORMES,Columbidae,Pigeons and Doves,Red-billed Pigeon,Patagioenas flavirostris,LC,ABA 2,,1/27/2023,CR-H,,,,"346,546","6,573",0,,,,
-10423,PASSERIFORMES,Passerellidae,New World Sparrows,LeConte's Sparrow,Ammospiza leconteii,LC,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,961","50,822",605,breeds prairies of central North America; winters to Gulf States,,,
+10423,PASSERIFORMES,Passerellidae,New World Sparrows,LeConte's Sparrow,Ammospiza leconteii,LC,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,961","50,822",605,breeds prairies of central North America; winters to Gulf States,,Yes,
 590,COLUMBIFORMES,Columbidae,Pigeons and Doves,Band-tailed Pigeon,Patagioenas fasciata,UN,ABA 1,CA,10/3/2021,US-CA,Yes,Yes,Yes,"965,085","719,580","468,680",,,,
 9365,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Gray Bushchat,Saxicola ferreus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,839",0,0,,,,
 2315,PHOENICOPTERIFORMES,Phoenicopteridae,Flamingos,Chilean Flamingo,Phoenicopterus chilensis,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,680",605,568,Andes of southern South America; pampas of southern Brazil to southern Argentina,,,
@@ -596,7 +596,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 9054,PASSERIFORMES,Turdidae,Thrushes and Allies,Spectacled Thrush,Turdus nudigenis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,444",0,0,,,,
 596,COLUMBIFORMES,Columbidae,Pigeons and Doves,Short-billed Pigeon,Patagioenas nigrirostris,LC,,,1/14/2023,CR-L,,,,"140,086",0,0,lowland rainforest of southeastern Mexico to northwestern Colombia (Chocó),,,
 4325,PSITTACIFORMES,Psittacidae,New World and African Parrots,Bronze-winged Parrot,Pionus chalcopterus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,201",0,0,humid forest of northeastern Colombia to western Venezuela and northwestern Peru,,,
-2717,CATHARTIFORMES,Cathartidae,New World Vultures,Andean Condor,Vultur gryphus,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,034",0,0,Andes and coasts of Colombia to Tierra del Fuego,,,
+2717,CATHARTIFORMES,Cathartidae,New World Vultures,Andean Condor,Vultur gryphus,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"79,034",0,0,Andes and coasts of Colombia to Tierra del Fuego,,Yes,Ecuador/Peru/Chile
 10369,PASSERIFORMES,Passerellidae,New World Sparrows,Grassland Sparrow,Ammodramus humeralis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"78,711",0,0,,,,
 944,MUSOPHAGIFORMES,Musophagidae,Turacos,Gray Go-away-bird,Crinifer concolor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"78,708",0,0,,,Yes,Central Africa
 10627,PASSERIFORMES,Parulidae,New World Warblers,Gray-crowned Yellowthroat,Geothlypis poliocephala,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"78,686",718,0,,,,
@@ -625,7 +625,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 689,COLUMBIFORMES,Columbidae,Pigeons and Doves,Blue Ground Dove,Claravis pretiosa,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"76,029",0,0,southeastern Mexico (San Luis Potosí) to northern Argentina and southern Brazil,,,
 1288,APODIFORMES,Apodidae,Swifts,Short-tailed Swift,Chaetura brachyura,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"76,023",0,0,,,,
 1798,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",Plumbeous Rail,Pardirallus sanguinolentus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"75,964",0,0,,,Yes,Southern South America
-2421,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Southern Giant-Petrel,Macronectes giganteus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"75,948",0,0,"breeds islands and coasts of Antarctica to Heard (Indian Ocean) and Macquarie islands (Australia), and off southern Chile and Argentina; ranges coasts and open water of all southern oceans and cold currents, often south of Antarctic Convergence",,,
+2421,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Southern Giant-Petrel,Macronectes giganteus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"75,948",0,0,"breeds islands and coasts of Antarctica to Heard (Indian Ocean) and Macquarie islands (Australia), and off southern Chile and Argentina; ranges coasts and open water of all southern oceans and cold currents, often south of Antarctic Convergence",,Yes,Southern oceans
 2761,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",White-backed Vulture,Gyps africanus,CR,,,#N/A,#N/A,#N/A,#N/A,#N/A,"75,931",0,0,open plains and savanna of sub-Saharan Africa,,,
 2316,PHOENICOPTERIFORMES,Phoenicopteridae,Flamingos,American Flamingo,Phoenicopterus ruber,LC,ABA 3,,#N/A,#N/A,#N/A,#N/A,#N/A,"75,927","17,318",443,"Caribbean region including coastal Yucatan Peninsula and coastal northern South America, and disjunctly in Galapagos",,,
 1468,APODIFORMES,Trochilidae,Hummingbirds,Long-tailed Sylph,Aglaiocercus kingii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"75,647",0,0,,,,
@@ -671,7 +671,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 5108,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Thorn-tailed Rayadito,Aphrastura spinicauda,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,293",0,0,,,,
 1725,APODIFORMES,Trochilidae,Hummingbirds,White-bellied Emerald,Chlorestes candida,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,283",0,0,,,,
 9965,PASSERIFORMES,Passeridae,Old World Sparrows,Cape Sparrow,Passer melanurus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,272",0,0,,,,
-2535,CICONIIFORMES,Ciconiidae,Storks,Marabou Stork,Leptoptilos crumenifer,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,242",0,0,west-central sub-Saharan Africa,,,
+2535,CICONIIFORMES,Ciconiidae,Storks,Marabou Stork,Leptoptilos crumenifer,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,242",0,0,west-central sub-Saharan Africa,,Yes,Central/Southern Africa
 5848,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Loggerhead Kingbird,Tyrannus caudifasciatus,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,175",129,0,,,,
 7648,PASSERIFORMES,Donacobiidae,Donacobius,Black-capped Donacobius,Donacobius atricapilla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,141",0,0,,,,
 676,COLUMBIFORMES,Columbidae,Pigeons and Doves,Zebra Dove,Geopelia striata,LC,ABA 2,,8/5/2026,SG,Yes,,Yes,"384,882","148,540",0,"southern Myanmar through the Thai-Malay Peninsula to Sumatra, Java, and Lombok; also Philippines (native or introduced?), and many feral populations, e.g. the Seychelles, Mascarenes, Indochina, Borneo, Hawaii, and Tahiti, among others",,,
@@ -684,7 +684,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 683,COLUMBIFORMES,Columbidae,Pigeons and Doves,Ruddy Ground Dove,Columbina talpacoti,LC,ABA 3,,1/18/2023,CR-P,,,,"1,113,431","7,756",543,,,,
 2222,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Andean Gull,Chroicocephalus serranus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"69,805",0,0,breeds Andean lakes of far southwestern Colombia to south-central Chile and southwestern Argentina; some non-breeders move to adjacent Pacific coast,,,
 8631,PASSERIFORMES,Troglodytidae,Wrens,Grass Wren,Cistothorus platensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"69,552",0,0,,,,
-10198,PASSERIFORMES,Fringillidae,"Finches, Euphonias, and Allies",Gray-crowned Rosy-Finch,Leucosticte tephrocotis,LC,ABA 1,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"69,485","61,898","4,956",,,,
+10198,PASSERIFORMES,Fringillidae,"Finches, Euphonias, and Allies",Gray-crowned Rosy-Finch,Leucosticte tephrocotis,LC,ABA 1,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"69,485","61,898","4,956",,,Yes,
 3130,STRIGIFORMES,Strigidae,Owls,Asian Barred Owlet,Glaucidium cuculoides,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"69,454",0,0,,,,
 5836,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Variegated Flycatcher,Empidonomus varius,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"69,392",693,0,,,,
 4086,PSITTACIFORMES,Psittaculidae,Old World Parrots,Red-winged Parrot,Aprosmictus erythropterus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"69,060",0,0,,,,
@@ -702,7 +702,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 701,COLUMBIFORMES,Columbidae,Pigeons and Doves,Ruddy Quail-Dove,Geotrygon montana,LC,ABA 4,,1/20/2023,CR-P,,,,"54,594",0,0,,,,
 8827,PASSERIFORMES,Sturnidae,Starlings,Cape Starling,Lamprotornis nitens,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,814",0,0,acacia of western Gabon and Angola to South Africa,,,
 9887,PASSERIFORMES,Estrildidae,Waxbills and Allies,Southern Cordonbleu,Uraeginthus angolensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,760",0,0,,,,
-2528,CICONIIFORMES,Ciconiidae,Storks,Maguari Stork,Ciconia maguari,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,687",0,0,plains and marshes of west-central South America east of the Andes,,,
+2528,CICONIIFORMES,Ciconiidae,Storks,Maguari Stork,Ciconia maguari,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,687",0,0,plains and marshes of west-central South America east of the Andes,,Yes,Argentina/Brazil
 1661,APODIFORMES,Trochilidae,Hummingbirds,White-vented Plumeleteer,Chalybura buffonii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,629",0,0,,,,
 1896,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",White-throated Crake,Laterallus albigularis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,565",0,0,,,,
 707,COLUMBIFORMES,Columbidae,Pigeons and Doves,Olive-backed Quail-Dove,Leptotrygon veraguensis,LC,,,1/15/2023,CR-H,,,,"2,717",0,0,Caribbean lowlands of Costa Rica to northwestern Ecuador,,,
@@ -737,7 +737,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1115,CUCULIFORMES,Cuculidae,Cuckoos,Indian Cuckoo,Cuculus micropterus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,337",0,0,,,,
 2774,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Bateleur,Terathopius ecaudatus,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,156",0,0,savanna and thornscrub of sub-Saharan Africa,,,
 1557,APODIFORMES,Trochilidae,Hummingbirds,Fawn-breasted Brilliant,Heliodoxa rubinoides,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,154",0,0,,,,
-3628,PICIFORMES,Lybiidae,African Barbets,Black-collared Barbet,Lybius torquatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,111",0,0,,,,
+3628,PICIFORMES,Lybiidae,African Barbets,Black-collared Barbet,Lybius torquatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,111",0,0,,,Yes,Southern Africa
 10861,PASSERIFORMES,Thraupidae,Tanagers and Allies,Scarlet-bellied Mountain Tanager,Anisognathus igniventris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,051",0,0,,,,
 5663,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Smoke-colored Pewee,Contopus fumigatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,041",0,0,,,,
 10550,PASSERIFORMES,Icteridae,Troupials and Allies,Venezuelan Troupial,Icterus icterus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"65,026",0,0,,,,
@@ -763,7 +763,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 11023,PASSERIFORMES,Thraupidae,Tanagers and Allies,Mourning Sierra Finch,Rhopospina fruticeti,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"63,282",0,0,,,,
 6894,PASSERIFORMES,Monarchidae,Monarch Flycatchers,Restless Flycatcher,Myiagra inquieta,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"63,270",0,0,"eastern and southern Australia (northeastern Queensland to Eyre Peninsula, and Jonndalup to Esperance, southwestern Australia)",,,
 1643,APODIFORMES,Trochilidae,Hummingbirds,Violet-headed Hummingbird,Klais guimeti,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"63,245",0,0,,,,
-2721,CATHARTIFORMES,Cathartidae,New World Vultures,Greater Yellow-headed Vulture,Cathartes melambrotus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"63,217",0,0,the Guianas and southern Venezuela to northern Bolivia and northern Brazil,,,
+2721,CATHARTIFORMES,Cathartidae,New World Vultures,Greater Yellow-headed Vulture,Cathartes melambrotus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"63,217",0,0,the Guianas and southern Venezuela to northern Bolivia and northern Brazil,,Yes,Amazonia
 766,COLUMBIFORMES,Columbidae,Pigeons and Doves,Thick-billed Green-Pigeon,Treron curvirostra,LC,,,8/5/2026,SG,,,,"25,826",0,0,,,,
 6374,PASSERIFORMES,Vireonidae,"Vireos, Shrike-Babblers, and Erpornis",Mangrove Vireo,Vireo pallens,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"63,188",0,0,,,,
 674,COLUMBIFORMES,Columbidae,Pigeons and Doves,Wonga Pigeon,Leucosarcia melanoleuca,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"62,899",0,0,eastern Australia (central eastern Queensland southward to eastern Victoria),,,
@@ -794,7 +794,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 3975,CARIAMIFORMES,Cariamidae,Seriemas,Red-legged Seriema,Cariama cristata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"61,080",0,0,"central and eastern Brazil to Bolivia, Paraguay, and central Argentina",,,
 2177,CHARADRIIFORMES,Glareolidae,Pratincoles and Coursers,Oriental Pratincole,Glareola maldivarum,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"61,022",0,0,breeds patchily in grassland near water from western India and Sri Lanka eastward to southeastern Siberia and southward to Philippines; winters grassy fields of islands of northern Indian Ocean and Indian Peninsula eastward through northern Australia and western Micronesia,,,
 8017,PASSERIFORMES,Cettiidae,Bush Warblers and Allies,Rufous-faced Warbler,Abroscopus albogularis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,938",0,0,,,,
-2533,CICONIIFORMES,Ciconiidae,Storks,Jabiru,Jabiru mycteria,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,917",124,0,west-central Mexico through South America to northeastern Argentina,,,
+2533,CICONIIFORMES,Ciconiidae,Storks,Jabiru,Jabiru mycteria,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,917",124,0,west-central Mexico through South America to northeastern Argentina,,Yes,Central/South America
 2288,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Australian Tern,Gelochelidon macrotarsa,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,812",0,0,breeds Australia (except arid areas); ranges to coastal southern New Guinea and Timor (eastern Lesser Sundas),,,
 4977,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Buff-throated Woodcreeper,Xiphorhynchus guttatus,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,727",0,0,,,,
 2063,CHARADRIIFORMES,Scolopacidae,Sandpipers and Allies,Eurasian Woodcock,Scolopax rusticola,LC,ABA 5,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,684",0,0,"breeds locally in moist woodland and bogs from British Isles and Scandinavia southward to northern Iberian Peninsula and Azores to Canary Islands, eastward to southeastern Russia, and northern and central Japan, and disjunctly in the Caucasus and Himalayas; winters southward to northern Africa and eastward to central and southern Japan and Taiwan",,,
@@ -824,7 +824,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 687,COLUMBIFORMES,Columbidae,Pigeons and Doves,Croaking Ground Dove,Columbina cruziana,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"59,298",0,0,"arid western Ecuador, Peru, and northern Chile",,,
 4027,FALCONIFORMES,Falconidae,Falcons and Caracaras,Australian Hobby,Falco longipennis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"59,170",0,0,,,,
 1567,APODIFORMES,Trochilidae,Hummingbirds,Long-billed Starthroat,Heliomaster longirostris,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,982",0,0,,,,
-10298,PASSERIFORMES,Calcariidae,Longspurs and Snow Buntings,Chestnut-collared Longspur,Calcarius ornatus,VU,ABA 1,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"58,974","46,492","2,298",breeds prairies of central North America; winters southwestern USA to northern Mexico,,,
+10298,PASSERIFORMES,Calcariidae,Longspurs and Snow Buntings,Chestnut-collared Longspur,Calcarius ornatus,VU,ABA 1,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"58,974","46,492","2,298",breeds prairies of central North America; winters southwestern USA to northern Mexico,,Yes,
 3679,PICIFORMES,Capitonidae,New World Barbets,Gilded Barbet,Capito auratus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,971",0,0,,,,
 1588,APODIFORMES,Trochilidae,Hummingbirds,White-bellied Woodstar,Chaetocercus mulsant,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,897",0,0,Andes of Colombia to western Bolivia (Cochabamba),,,
 6684,PASSERIFORMES,Rhipiduridae,Fantails,White-browed Fantail,Rhipidura aureola,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,798",0,0,,,,
@@ -840,7 +840,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1952,CHARADRIIFORMES,Haematopodidae,Oystercatchers,Sooty Oystercatcher,Haematopus fuliginosus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,362",0,0,,,,
 3691,PICIFORMES,Ramphastidae,Toucans,Crimson-rumped Toucanet,Aulacorhynchus haematopygus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,259",0,0,,,,
 1870,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",Black Crake,Zapornia flavirostra,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,202",0,0,sub-Saharan Africa,,,
-6549,PASSERIFORMES,Platysteiridae,Wattle-eyes and Batises,Chinspot Batis,Batis molitor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,160",0,0,,,,
+6549,PASSERIFORMES,Platysteiridae,Wattle-eyes and Batises,Chinspot Batis,Batis molitor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,160",0,0,,,Yes,
 7595,PASSERIFORMES,Locustellidae,Grassbirds and Allies,Common Grasshopper Warbler,Locustella naevia,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,159",0,0,,,,
 6513,PASSERIFORMES,Artamidae,"Woodswallows, Bellmagpies, and Allies",Black-faced Woodswallow,Artamus cinereus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,112",0,0,,,,
 3368,CORACIIFORMES,Meropidae,Bee-eaters,Arabian Green Bee-eater,Merops cyanophrys,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"58,057",0,0,,,,
@@ -860,7 +860,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 10009,PASSERIFORMES,Motacillidae,Wagtails and Pipits,African Pipit,Anthus cinnamomeus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,324",0,0,,,,
 10817,PASSERIFORMES,Thraupidae,Tanagers and Allies,Black-capped Warbling Finch,Microspingus melanoleucus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,276",0,0,"western Bolivia to northern Argentina, Paraguay, Uruguay, and southwestern Brazil",,,
 2539,CICONIIFORMES,Ciconiidae,Storks,Yellow-billed Stork,Mycteria ibis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,260",0,0,sub-Saharan Africa and Madagascar,,,
-2343,OPISTHOCOMIFORMES,Opisthocomidae,Hoatzin,Hoatzin,Opisthocomus hoazin,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,249",0,0,Amazon and Orinoco basin lowlands and the Guianas,,,
+2343,OPISTHOCOMIFORMES,Opisthocomidae,Hoatzin,Hoatzin,Opisthocomus hoazin,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,249",0,0,Amazon and Orinoco basin lowlands and the Guianas,,Yes,Amazonia
 10339,PASSERIFORMES,Emberizidae,Old World Buntings,Little Bunting,Emberiza pusilla,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,167",595,179,"breeds tundra and taiga of northern Eurasia from Scandinavia eastward to Chukotka, and southward to northeastern China; winters from east-central India to eastern China and Korean Peninsula and Taiwan",,,
 10919,PASSERIFORMES,Thraupidae,Tanagers and Allies,Paradise Tanager,Tangara chilensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,085",0,0,,,,
 5038,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Buff-winged Cinclodes,Cinclodes fuscus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,068",0,0,"southern Chile and southern Argentina; winters to southeastern Brazil, Uruguay, and Paraguay",,,
@@ -938,7 +938,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 6916,PASSERIFORMES,Laniidae,Shrikes,Gray-backed Shrike,Lanius tephronotus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"52,134",0,0,,,,
 5022,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Pacific Hornero,Furnarius cinnamomeus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"52,126",0,0,"far southwestern Colombia (Nariño), western Ecuador, and northwestern Peru",,,
 1990,CHARADRIIFORMES,Charadriidae,Plovers and Lapwings,Wattled Lapwing,Vanellus senegallus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"52,103",0,0,,,,
-3593,PICIFORMES,Lybiidae,African Barbets,Crested Barbet,Trachyphonus vaillantii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"51,901",0,0,,,,
+3593,PICIFORMES,Lybiidae,African Barbets,Crested Barbet,Trachyphonus vaillantii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"51,901",0,0,,,Yes,Southern Africa
 213,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Velvet Scoter,Melanitta fusca,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"51,796",0,0,"breeds northern Europe from Norway to Yenisey River (central Siberia) and northeastern Kazakhstan, also Türkiye and Georgia; winters to Baltic Sea, Denmark, and eastern coast of Britain",,,
 10696,PASSERIFORMES,Parulidae,New World Warblers,Black-crested Warbler,Myiothlypis nigrocristata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"51,561",0,0,"Andes of Colombia to northern Venezuela, Ecuador, and northern Peru",,,
 3256,TROGONIFORMES,Trogonidae,Trogons,Black-tailed Trogon,Trogon melanurus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"51,432",0,0,,,,
@@ -1270,7 +1270,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1402,APODIFORMES,Trochilidae,Hummingbirds,Reddish Hermit,Phaethornis ruber,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,291",0,0,,,,
 591,COLUMBIFORMES,Columbidae,Pigeons and Doves,Chilean Pigeon,Patagioenas araucana,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,252",0,0,Araucaria and Nothofagus forest and adjacent fields of central and southern Chile and adjacent Argentina,,,
 7112,PASSERIFORMES,Petroicidae,Australasian Robins,Flame Robin,Petroica phoenicea,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,202",0,0,"breeds southeastern Australia (northeastern New South Wales to Grampians, western Victoria, Tasmania, formerly Mount Lofty Range); winters westward to Mount Lofty Range and northward to southeastern Queensland",,,
-10496,PASSERIFORMES,Phaenicophilidae,Greater Antillean Tanagers,Puerto Rican Spindalis,Spindalis portoricensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,184",0,0,Puerto Rico,,,
+10496,PASSERIFORMES,Phaenicophilidae,Greater Antillean Tanagers,Puerto Rican Spindalis,Spindalis portoricensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,184",0,0,Puerto Rico,,Yes,
 1559,APODIFORMES,Trochilidae,Hummingbirds,Empress Brilliant,Heliodoxa imperatrix,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,058",0,0,Pacific slope of southwestern Colombia to northwestern Ecuador,,,
 1274,APODIFORMES,Apodidae,Swifts,Silver-rumped Spinetail,Rhaphidura leucopygialis,LC,,,8/10/2026,MY-06,,,,"11,687",0,0,southern Myanmar to Malay Peninsula and Greater Sundas and satellite islands,,,
 5861,PASSERIFORMES,Ptilonorhynchidae,Bowerbirds,Green Catbird,Ailuroedus crassirostris,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"37,021",0,0,"eastern Australia (Kroombit Tops, southeastern Queensland to southern New South Wales)",,,
@@ -1479,7 +1479,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2644,PELECANIFORMES,Ardeidae,"Herons, Egrets, and Bitterns",Black Bittern,Botaurus flavicollis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,901",0,0,,,,
 3810,PICIFORMES,Picidae,Woodpeckers,Yellow-crowned Woodpecker,Leiopicus mahrattensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,882",0,0,,,,
 10356,PASSERIFORMES,Passerellidae,New World Sparrows,Dusky Chlorospingus,Chlorospingus semifuscus,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,873",0,0,,,,
-2490,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Flesh-footed Shearwater,Ardenna carneipes,NT,ABA 3,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"30,865","6,133",254,"breeds islets off St. Paul (central Indian Ocean), southern Australia, Lord Howe Island (east of Australia), North Island and Cook Strait (New Zealand); ranges to Arabian Sea, eastern Malagasy region, and Sea of Okhotsk to Gulf of Alaska and western USA coast (rare)",,,
+2490,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Flesh-footed Shearwater,Ardenna carneipes,NT,ABA 3,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"30,865","6,133",254,"breeds islets off St. Paul (central Indian Ocean), southern Australia, Lord Howe Island (east of Australia), North Island and Cook Strait (New Zealand); ranges to Arabian Sea, eastern Malagasy region, and Sea of Okhotsk to Gulf of Alaska and western USA coast (rare)",,Yes,Pacific (US/Oceania)
 4819,PASSERIFORMES,Grallariidae,Antpittas,Tawny Antpitta,Grallaria quitensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,865",0,0,"central Andes of Colombia, Ecuador, and far northern Peru",,,
 2566,SULIFORMES,Phalacrocoracidae,Cormorants and Shags,Red-legged Cormorant,Poikilocarbo gaimardi,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,753",0,0,coastal north-central Peru to south-central Chile; isolated population in coastal southern Argentina,,,
 5257,PASSERIFORMES,Pipridae,Manakins,Lance-tailed Manakin,Chiroxiphia lanceolata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,747",0,0,"southwestern Costa Rica to northern Colombia and northern Venezuela, including Isla Margarita",,,
@@ -1490,7 +1490,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 7210,PASSERIFORMES,Paridae,"Tits, Chickadees, and Titmice",Indian Yellow Tit,Machlolophus aplonotus,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,633",0,0,,,,
 10804,PASSERIFORMES,Thraupidae,Tanagers and Allies,Orange-headed Tanager,Thlypopsis sordida,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,580",0,0,,,,
 2227,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Hartlaub's Gull,Chroicocephalus hartlaubii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,573",0,0,coastal southwestern Namibia to southwestern South Africa,,,
-2513,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Sargasso Shearwater,Puffinus lherminieri,UN,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,548","28,141",0,,,,
+2513,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Sargasso Shearwater,Puffinus lherminieri,UN,ABA 1,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,548","28,141",0,,,Yes,Atlantic/Gulf
 1872,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",Baillon's Crake,Zapornia pusilla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,516",0,0,,,,
 9402,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Black Wheatear,Oenanthe leucura,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,498",0,0,,,,
 2724,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Pearl Kite,Gampsonyx swainsonii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,483",0,0,,,,
@@ -1499,7 +1499,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 5975,PASSERIFORMES,Meliphagidae,Honeyeaters,Yellow Wattlebird,Anthochaera paradoxa,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,430",0,0,,,,
 9096,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Southern Black-Flycatcher,Melaenornis pammelaina,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,422",0,0,,,,
 1543,APODIFORMES,Trochilidae,Hummingbirds,Chestnut-breasted Coronet,Boissonneaua matthewsii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,372",0,0,"Andes of far southeastern Colombia, Ecuador, and eastern Peru",,,
-2347,PHAETHONTIFORMES,Phaethontidae,Tropicbirds,Red-billed Tropicbird,Phaethon aethereus,LC,ABA 3,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"30,368","4,845",0,,,,
+2347,PHAETHONTIFORMES,Phaethontidae,Tropicbirds,Red-billed Tropicbird,Phaethon aethereus,LC,ABA 3,CA,#N/A,#N/A,#N/A,#N/A,#N/A,"30,368","4,845",0,,,Yes,Mexico/Southern CA
 713,COLUMBIFORMES,Columbidae,Pigeons and Doves,Gray-headed Dove,Leptotila plumbeiceps,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,336",0,0,,,,
 9656,PASSERIFORMES,Ploceidae,Weavers and Allies,Red-billed Buffalo-Weaver,Bubalornis niger,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,317",0,0,,,,
 2781,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Brown Snake-Eagle,Circaetus cinereus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"30,312",0,0,Senegambia to northern Ethiopia and southward to South Africa,,,
@@ -1733,7 +1733,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 10969,PASSERIFORMES,Thraupidae,Tanagers and Allies,Capped Conebill,Conirostrum albifrons,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,684",0,0,,,,
 7934,PASSERIFORMES,Phylloscopidae,Leaf Warblers,Tickell's Leaf Warbler,Phylloscopus affinis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,676",0,0,,,,
 9139,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Taiwan Vivid Niltava,Niltava vivida,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,638",0,0,Taiwan,,,
-7663,PASSERIFORMES,Pnoepygidae,Cupwings,Pygmy Cupwing,Pnoepyga pusilla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,624",0,0,,,,
+7663,PASSERIFORMES,Pnoepygidae,Cupwings,Pygmy Cupwing,Pnoepyga pusilla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,624",0,0,,,Yes,
 3150,STRIGIFORMES,Strigidae,Owls,Black-and-white Owl,Strix nigrolineata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,620",0,0,lowlands of southern Mexico to western Ecuador and far northwestern Peru,,,
 5604,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Straneck's Tyrannulet,Serpophaga griseicapilla,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,591",0,0,"Argentina, Paraguay, Uruguay, and southern Brazil",,,
 9298,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Snowy-browed Flycatcher,Ficedula hyperythra,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"25,575",0,0,,,,
@@ -1841,7 +1841,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 8574,PASSERIFORMES,Certhiidae,Treecreepers,Bar-tailed Treecreeper,Certhia himalayana,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,712",0,0,,,,
 1483,APODIFORMES,Trochilidae,Hummingbirds,Green-tailed Trainbearer,Lesbia nuna,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,680",0,0,,,,
 8464,PASSERIFORMES,Leiothrichidae,Laughingthrushes and Allies,Arabian Babbler,Argya squamiceps,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,659",0,0,,,,
-1154,CAPRIMULGIFORMES,Caprimulgidae,Nightjars and Allies,Band-winged Nightjar,Systellura longirostris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,616",0,0,,,,
+1154,CAPRIMULGIFORMES,Caprimulgidae,Nightjars and Allies,Band-winged Nightjar,Systellura longirostris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,616",0,0,,,Yes,Patagonia/E Brazil
 1844,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",Western Swamphen,Porphyrio porphyrio,UN,,,8/30/2023,PT-15,,,,"86,108",0,0,,,,
 7833,PASSERIFORMES,Pycnonotidae,Bulbuls,Ashy Bulbul,Hemixos flavala,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,616",0,0,,,,
 946,MUSOPHAGIFORMES,Musophagidae,Turacos,White-bellied Go-away-bird,Crinifer leucogaster,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"23,598",0,0,acacia savanna of Somalia and Ethiopia to northeastern Tanzania,,Yes,Kenya/Tanzania
@@ -1912,7 +1912,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1911,GRUIFORMES,Gruidae,Cranes,Sandhill Crane,Antigone canadensis,LC,ABA 1,CA,11/21/2021,US-FL,Yes,Yes,Yes,"2,381,595","2,109,914","79,631",,,,
 5436,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Marble-faced Bristle-Tyrant,Pogonotriccus ophthalmicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,439",0,0,,,,
 1913,GRUIFORMES,Gruidae,Cranes,Brolga,Antigone rubicunda,LC,,,10/12/2024,AU-VIC,,,,"50,493",0,0,"south-central New Guinea and northern and eastern Australia (Kimberley region, northern Northern Territory eastward to Queensland and southward to central New South Wales and western Victoria)",,,
-1138,CAPRIMULGIFORMES,Caprimulgidae,Nightjars and Allies,Short-tailed Nighthawk,Lurocalis semitorquatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,421",0,0,,,,
+1138,CAPRIMULGIFORMES,Caprimulgidae,Nightjars and Allies,Short-tailed Nighthawk,Lurocalis semitorquatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,421",0,0,,,Yes,Central/South America
 3868,PICIFORMES,Picidae,Woodpeckers,Bay Woodpecker,Blythipicus pyrrhotis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,421",0,0,,,,
 5237,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Rufous-breasted Spinetail,Synallaxis erythrothorax,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,420",0,0,,,,
 10968,PASSERIFORMES,Thraupidae,Tanagers and Allies,Blue-backed Conebill,Conirostrum sitticolor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,411",0,0,,,,
@@ -2040,7 +2040,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1059,CUCULIFORMES,Cuculidae,Cuckoos,Great Lizard-Cuckoo,Coccyzus merlini,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,750",0,0,,,,
 6373,PASSERIFORMES,Vireonidae,"Vireos, Shrike-Babblers, and Erpornis",Thick-billed Vireo,Vireo crassirostris,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,736","1,075",0,,,,
 10994,PASSERIFORMES,Thraupidae,Tanagers and Allies,Peruvian Sierra Finch,Phrygilus punensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,732",0,0,,,,
-2411,PROCELLARIIFORMES,Hydrobatidae,Northern Storm-Petrels,Band-rumped Storm-Petrel,Hydrobates castro,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,720","15,514",0,"breeds in Atlantic Ocean on Macaronesian and Berlengas islands of western Atlantic, islets near St. Helena and Ascension islands, in Pacific off central Japan, Kauai, and the Galapagos; ranges in Atlantic to Gulf Stream, Gulf of Mexico, western Africa and Gulf of Guinea, in North Pacific, seas off Japan, near main Hawaiian Islands, and coasts of southern Central America to northwestern South America and westward to Marquesas",,,
+2411,PROCELLARIIFORMES,Hydrobatidae,Northern Storm-Petrels,Band-rumped Storm-Petrel,Hydrobates castro,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,720","15,514",0,"breeds in Atlantic Ocean on Macaronesian and Berlengas islands of western Atlantic, islets near St. Helena and Ascension islands, in Pacific off central Japan, Kauai, and the Galapagos; ranges in Atlantic to Gulf Stream, Gulf of Mexico, western Africa and Gulf of Guinea, in North Pacific, seas off Japan, near main Hawaiian Islands, and coasts of southern Central America to northwestern South America and westward to Marquesas",,Yes,Atlantic/Hawaii/Galapagos
 143,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Puna Teal,Spatula puna,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,676",0,0,Andes of Peru to northwestern Argentina and northern Chile,,,
 2044,CHARADRIIFORMES,Scolopacidae,Sandpipers and Allies,Upland Sandpiper,Bartramia longicauda,LC,ABA 1,,9/3/2022,US-TX,Yes,,Yes,"204,919","155,490",139,"breeds inland grassland from southeastern Alaska eastward to southeastern Canada and New England, in south to eastern Oregon and Pennsylvania (USA); winters inland grassland from southern Paraguay, southern Brazil, Uruguay, and west-central to east-central Argentina",,,
 2045,CHARADRIIFORMES,Scolopacidae,Sandpipers and Allies,Bristle-thighed Curlew,Numenius tahitiensis,NT,ABA 2,,4/5/2025,US-HI,Yes,,Yes,"11,722","9,158",0,"breeds upland low Arctic tundra of western Alaska, in north-central Seward Peninsula and northern Yukon Delta; winters from Micronesia and Fiji eastward through Northwestern Hawaiian Islands and Kaui (rarer on other main Hawaiian Islands), and throughout Polynesia",,,
@@ -2088,7 +2088,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 3242,TROGONIFORMES,Trogonidae,Trogons,Red-headed Trogon,Harpactes erythrocephalus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,125",0,0,,,,
 9289,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Collared Bush-Robin,Tarsiger johnstoniae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,121",0,0,mountains of Taiwan,,,
 9401,PASSERIFORMES,Muscicapidae,Old World Flycatchers,Variable Wheatear,Oenanthe picata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,062",0,0,"breeds eastern Iran eastward to western Tien Shan, Pamirs, northern and western Pakistan, and Kashmir; winters to southeastern Arabian Peninsula and southwestern Asia",,,
-3732,PICIFORMES,Indicatoridae,Honeyguides,Lesser Honeyguide,Indicator minor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,020",0,0,,,,
+3732,PICIFORMES,Indicatoridae,Honeyguides,Lesser Honeyguide,Indicator minor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,020",0,0,,,Yes,Central/Southern Africa
 8016,PASSERIFORMES,Cettiidae,Bush Warblers and Allies,Yellow-bellied Warbler,Abroscopus superciliaris,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,020",0,0,,,,
 1434,APODIFORMES,Trochilidae,Hummingbirds,Puerto Rican Mango,Anthracothorax aurulentus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"20,011",0,0,"Puerto Rico including Isla de Culebra and Isla de Vieques (both just east of Puerto Rico), and Virgin Islands",,,
 2093,CHARADRIIFORMES,Scolopacidae,Sandpipers and Allies,Wilson's Phalarope,Phalaropus tricolor,LC,ABA 1,CA,4/29/2022,US-TX,Yes,Yes,Yes,"490,971","382,381","47,449","breeds inland marshes of western and central Canada to west-central USA; molt migration to hypersaline lakes of western Canada and USA; winters mainly saline montane lakes from Peru to Argentina; also western coast of South America from Ecuador southward, and Argentina to Tierra del Fuego",,,
@@ -2236,7 +2236,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2235,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Audouin's Gull,Ichthyaetus audouinii,VU,,,9/1/2023,PT-15,,,,"90,274",0,0,breeds coastal southern Portugal and Spain through Mediterranean and associated seas eastward to Cyprus and southern Türkiye; winters southward to coast of Gambia,,,
 2236,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Mediterranean Gull,Ichthyaetus melanocephalus,LC,,,8/30/2023,PT-15,,,,"253,976",0,0,"breeds inland southern Britain and eastern Spain eastward to southwestern Russia, Ukraine, and Azerbaijan; winters coasts southern Ireland to west-central Africa, Black Sea, and Mediterranean and associated seas",,,
 106,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Kelp Goose,Chloephaga hybrida,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,905",0,0,,,,
-2487,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Scopoli's Shearwater,Calonectris diomedea,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,901","6,401",0,breeds Mediterranean islands and southwestern France; ranges mainly in upwelling systems of tropical eastern Atlantic,,,
+2487,PROCELLARIIFORMES,Procellariidae,Shearwaters and Petrels,Scopoli's Shearwater,Calonectris diomedea,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,901","6,401",0,breeds Mediterranean islands and southwestern France; ranges mainly in upwelling systems of tropical eastern Atlantic,,Yes,Atlantic (Europe/Africa/Brazil)
 2239,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Pacific Gull,Larus pacificus,LC,,,10/2/2024,AU-VIC,,,,"86,942",0,0,,,,
 5495,PASSERIFORMES,Tyrannidae,Tyrant Flycatchers,Rufous-crowned Tody-Flycatcher,Poecilotriccus ruficeps,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,889",0,0,,,,
 2241,CHARADRIIFORMES,Laridae,"Gulls, Terns, and Skimmers",Black-tailed Gull,Larus crassirostris,LC,ABA 4,,4/17/2024,JP-13,,,,"51,888","1,474",135,"breeds coasts and islets of eastern Siberia to Kuril Islands (southeastern Russia), Hokkaido and Honshu (northern and central Japan), Korean Peninsula, eastern China, and Matsu Island (off Taiwan); winters to southward, some reaching southern Vietnam and Philippines",,,
@@ -2353,7 +2353,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2352,GAVIIFORMES,Gaviidae,Loons,Common Loon,Gavia immer,LC,ABA 1,CA,12/5/2021,US-CA,Yes,Yes,Yes,"2,983,720","2,115,551","135,325","breeds in southern Greenland, Iceland, and northern North America southward to northern tier of US states; winters from Iceland and Scandinavia southward to the Iberian Peninsula and from southern Alaska and the Maritime Provinces (Canada) southward to northern Mexico",,,
 2353,GAVIIFORMES,Gaviidae,Loons,Yellow-billed Loon,Gavia adamsii,NT,ABA 2,,3/9/2024,US-CA,Yes,Yes,Yes,"28,978","21,203","2,134","breeds Arctic northwestern Russia from Novaya Zemlya eastward to Chukotka Peninsula, through northern Alaska and northern Canada to Nunavut (east-central Canada); winters to northern Norway, Japan and Korean Peninsula, and coastal British Columbia (southwestern Canada); prone to extreme vagrancy",,,
 4322,PSITTACIFORMES,Psittacidae,New World and African Parrots,Speckle-faced Parrot,Pionus tumultuosus,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,188",0,0,,,,
-6771,PASSERIFORMES,Paradisaeidae,Birds-of-Paradise,Victoria's Riflebird,Ptiloris victoriae,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,162",0,0,"northeastern Australia (Wet Tropics region, northern Queensland)",,,
+6771,PASSERIFORMES,Paradisaeidae,Birds-of-Paradise,Victoria's Riflebird,Ptiloris victoriae,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,162",0,0,"northeastern Australia (Wet Tropics region, northern Queensland)",,Yes,
 121,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Flightless Steamer-Duck,Tachyeres pteneres,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,155",0,0,"southern South America, from southern Chile (north to Llanquihue) southward to Tierra del Fuego",,,
 9885,PASSERIFORMES,Estrildidae,Waxbills and Allies,Purple Grenadier,Granatina ianthinogaster,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,155",0,0,"southeastern South Sudan, southern Ethiopia, Somalia, northeastern Uganda, Kenya, and Tanzania",,,
 10907,PASSERIFORMES,Thraupidae,Tanagers and Allies,Masked Tanager,Stilpnia nigrocincta,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,150",0,0,"southeastern Colombia to southern Venezuela, Guyana, northern Bolivia, and western Brazil",,,
@@ -2364,7 +2364,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 11029,PASSERIFORMES,Thraupidae,Tanagers and Allies,Pink-billed Cnemoscopus,Cnemoscopus rubrirostris,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,107",0,0,,,,
 3697,PICIFORMES,Ramphastidae,Toucans,Black-billed Mountain-Toucan,Andigena nigrirostris,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,104",0,0,,,,
 508,GALLIFORMES,Phasianidae,"Pheasants, Grouse, and Allies",Stubble Quail,Coturnix pectoralis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,085",0,0,"Australia including Tasmania, but not far north (Kimberley region of northern Northern Territory, and Cape York Peninsula)",,,
-4038,FALCONIFORMES,Falconidae,Falcons and Caracaras,Gyrfalcon,Falco rusticolus,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,015",0,0,mountains and tundra of northern Palearctic region and northern North America,,,
+4038,FALCONIFORMES,Falconidae,Falcons and Caracaras,Gyrfalcon,Falco rusticolus,LC,ABA 2,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,015",0,0,mountains and tundra of northern Palearctic region and northern North America,,Yes,Subarctic (Alaska/Canada)
 1897,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",Gray-breasted Crake,Laterallus exilis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"18,006",0,0,"Guatemala and Belize to northern Bolivia, and Amazonian and eastern Brazil",,,
 4677,PASSERIFORMES,Thamnophilidae,Typical Antbirds,Streak-capped Antwren,Terenura maculata,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"17,985",0,0,southeastern Brazil (southeastern Bahia) to eastern Paraguay and northeastern Argentina (Misiones),,,
 141,ANSERIFORMES,Anatidae,"Ducks, Geese, and Waterfowl",Blue-billed Teal,Spatula hottentota,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"17,982",0,0,local in sub-Saharan Africa and Madagascar,,,
@@ -2917,7 +2917,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1353,APODIFORMES,Apodidae,Swifts,White-tipped Swift,Aeronautes montivagus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,704",0,0,,,,
 2917,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Mississippi Kite,Ictinia mississippiensis,LC,ABA 1,,9/1/2022,US-TX,Yes,,Yes,"493,368","465,470",376,breeds southern USA (Arizona to Florida); winters in South America,,,
 2377,PROCELLARIIFORMES,Diomedeidae,Albatrosses,Antipodean Albatross,Diomedea antipodensis,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,694",0,0,,,,
-7997,PASSERIFORMES,Hyliidae,Hylias,Green Hylia,Hylia prasina,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,676",0,0,,,,
+7997,PASSERIFORMES,Hyliidae,Hylias,Green Hylia,Hylia prasina,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,676",0,0,,,Yes,
 10691,PASSERIFORMES,Parulidae,New World Warblers,Citrine Warbler,Myiothlypis luteoviridis,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,668",0,0,,,,
 1917,GRUIFORMES,Gruidae,Cranes,Blue Crane,Grus paradiseus,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,659",0,0,"locally in northern Namibia, southern Zimbabwe and South Africa",,,
 4412,PSITTACIFORMES,Psittacidae,New World and African Parrots,Cactus Parakeet,Eupsittula cactorum,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,657",0,0,,,,
@@ -2987,7 +2987,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2986,STRIGIFORMES,Tytonidae,Barn-Owls,Western Barn Owl,Tyto alba,UN,,,4/17/2022,GR-K,,,,"93,433",0,0,,,,
 7904,PASSERIFORMES,Pycnonotidae,Bulbuls,Brown-breasted Bulbul,Pycnonotus xanthorrhous,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,147",0,0,,,,
 2988,STRIGIFORMES,Tytonidae,Barn-Owls,American Barn Owl,Tyto furcata,UN,ABA 1,CA,6/14/2020,US-CA,Yes,Yes,Yes,"274,854","211,152","93,277",,,,
-6504,PASSERIFORMES,Machaerirhynchidae,Boatbills,Yellow-breasted Boatbill,Machaerirhynchus flaviventer,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,144",0,0,,,,
+6504,PASSERIFORMES,Machaerirhynchidae,Boatbills,Yellow-breasted Boatbill,Machaerirhynchus flaviventer,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,144",0,0,,,Yes,
 4434,PSITTACIFORMES,Psittacidae,New World and African Parrots,Golden-plumed Parakeet,Leptosittaca branickii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,142",0,0,humid Andes of southern Colombia to Ecuador and central Peru,,,
 1040,CUCULIFORMES,Cuculidae,Cuckoos,Levaillant's Cuckoo,Clamator levaillantii,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,131",0,0,sub-Saharan Africa,,,
 8033,PASSERIFORMES,Cettiidae,Bush Warblers and Allies,Aberrant Bush Warbler,Horornis flavolivaceus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"13,094",0,0,,,,
@@ -3734,7 +3734,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 6604,PASSERIFORMES,Aegithinidae,Ioras,White-tailed Iora,Aegithina nigrolutea,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,398",0,0,northwestern and southern India and Sri Lanka,,,
 2905,ACCIPITRIFORMES,Accipitridae,"Hawks, Eagles, and Kites",Pallas's Fish-Eagle,Haliaeetus leucoryphus,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,395",0,0,"central Asia to India, Myanmar, and south-central China (Sichuan)",,,
 267,GALLIFORMES,Cracidae,"Guans, Chachalacas, and Curassows",Red-throated Piping-Guan,Pipile cujubi,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,393",0,0,,,,
-10498,PASSERIFORMES,Teretistridae,Cuban Warblers,Yellow-headed Warbler,Teretistris fernandinae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,392",0,0,forest undergrowth of western Cuba including Isla de la Juventud and Cayo Cantiles,,,
+10498,PASSERIFORMES,Teretistridae,Cuban Warblers,Yellow-headed Warbler,Teretistris fernandinae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,392",0,0,forest undergrowth of western Cuba including Isla de la Juventud and Cayo Cantiles,,Yes,
 8906,PASSERIFORMES,Turdidae,Thrushes and Allies,Russet-tailed Thrush,Zoothera heinei,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,386",0,0,,,,
 7727,PASSERIFORMES,Hirundinidae,Swallows,Ethiopian Swallow,Hirundo aethiopica,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,378",0,0,,,,
 1803,GRUIFORMES,Rallidae,"Rails, Gallinules, and Coots",Uniform Crake,Amaurolimnas concolor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,367",0,0,,,,
@@ -8224,7 +8224,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 1245,AEGOTHELIFORMES,Aegothelidae,Owlet-nightjars,Feline Owlet-nightjar,Aegotheles insignis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,737,0,0,mountains of New Guinea (Bird's Head Peninsula to southeastern New Guinea),,Yes,New Guinea
 1188,CAPRIMULGIFORMES,Caprimulgidae,Nightjars and Allies,Sombre Nightjar,Caprimulgus fraenatus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,736,0,0,"Ethiopia to northwestern Somalia, southwestern Kenya, and northeastern Tanzania",,,
 7317,PASSERIFORMES,Alaudidae,Larks,Blanford's Lark,Calandrella blanfordi,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,736,0,0,,,,
-2344,EURYPYGIFORMES,Rhynochetidae,Kagu,Kagu,Rhynochetos jubatus,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,735,0,0,patchily in montane forest of Grande Terre (New Caledonia),,,
+2344,EURYPYGIFORMES,Rhynochetidae,Kagu,Kagu,Rhynochetos jubatus,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,735,0,0,patchily in montane forest of Grande Terre (New Caledonia),,Yes,New Caledonia
 2419,PROCELLARIIFORMES,Hydrobatidae,Northern Storm-Petrels,Tristram's Storm-Petrel,Hydrobates tristrami,LC,ABA 3,,#N/A,#N/A,#N/A,#N/A,#N/A,734,145,0,"breeds Izu, Bonin, and formerly Volcano Islands (southern Japan), and Northwestern Hawaiian Islands; ranges eastern coastal waters of Japan and eastward to Kauai (Hawaii)",,,
 6563,PASSERIFORMES,Vangidae,"Vangas, Helmetshrikes, and Allies",Gray-crested Helmetshrike,Prionops poliolophus,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,734,0,0,dry thornscrub of southwestern Kenya and western Tanzania,,,
 5019,PASSERIFORMES,Furnariidae,Ovenbirds and Woodcreepers,Bolivian Earthcreeper,Tarphonomus harterti,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,732,0,0,"Andes of southern Bolivia (Cochabamba, western Santa Cruz, and Chuquisaca)",,,
