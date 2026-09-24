@@ -1221,21 +1221,34 @@ var SEAM_TRIM_PX = 11, HEADER_TRIM_PX = 8, SNUG_TRIM_PX = SEAM_TRIM_PX + HEADER_
 /* How much real, measured margin a .snug order's row-fit decision must
    have left over before computeSpan() will act on it (grow its Targets,
    or — for Galliformes — round its row count down). Landing exactly on
-   the boundary (margin ~0) tested fine in this codebase's own dev/test
-   browser, but broke for real on Eric's machine: the page uses
-   `-apple-system` throughout, which a real Mac renders as San Francisco
-   but a browser without that font (this environment's headless Linux
-   Chromium, for instance) silently substitutes a fallback with different
-   line-height metrics — enough, across several rows of family/target
-   text, to flip which candidate wins a razor-thin margin comparison, in
-   either direction depending on the specific browser. SNUG_TRIM_PX (19px,
-   above) was sized specifically so that requiring a real SAFETY_PX
-   cushion here still clears the same orders that used to just barely
-   clear a margin of ~0 — recover more, then only spend it if there's
-   genuine headroom, rather than trusting an exact-fit calculation to
-   reproduce identically on hardware and fonts this code never got to
-   test against. */
-var SAFETY_PX = 8;
+   the boundary (margin ~0) is genuinely unsafe — worth requiring some
+   cushion — but an earlier version of this comment blamed a much bigger
+   effect than turned out to be real: it guessed that `-apple-system`
+   rendering as San Francisco on a real Mac vs. a fallback font in this
+   codebase's headless Linux test browser could shift these measurements
+   by a wide margin. Measured directly against Eric's own machine (via a
+   live connection into his browser), that's not what's actually
+   happening — his real San-Francisco-rendered constants come out within
+   a couple of px of this headless environment's, not wildly different.
+   The real problem was simpler: SAFETY_PX was set to 8, but the genuine,
+   real slack available for growing into a 3rd (or 4th) Targets row is
+   often only ~5-6px on both a real Mac and this test browser alike — so
+   an 8px requirement was rejecting rows that were actually safe to add,
+   which is exactly the "6 real targets entered, only 4 shown, obvious
+   empty space below" bug Eric reported for Caprimulgiformes and every
+   other single-family TIGHT_SEAM order, plus Passerines being stuck at 3
+   Targets rows instead of 4. Dropped to 2px — enough to absorb ordinary
+   floating-point/rounding noise within a single render, verified via
+   that same live connection to still leave Galliformes' round-down
+   decision comfortably safe (~10px of margin there, nowhere near the
+   boundary) while letting every affected order grow to its correct row
+   count, confirmed with zero-px real-DOM alignment across all 45 orders
+   on Eric's actual browser. SNUG_TRIM_PX (19px, above) is what makes
+   even that modest cushion meaningful — recover real space first, then
+   only spend a small, honestly-necessary margin on top, rather than
+   requiring a big margin to paper over a design that's still landing
+   close to a boundary. */
+var SAFETY_PX = 2;
 var ROW_H = 0, OPEN_HEAD_H = 0, FAM_BASE = 0, FR_PER_ROW = 0, TGT_BASE = 0, TR_PER_ROW = 0,
     TGT_BASE_COMPACT = 0, TR_PER_ROW_COMPACT = 0,
     OVERHEAD_REG = 0, OVERHEAD_COMPACT = 0, OVERHEAD_REG_NOTGT = 0, OVERHEAD_COMPACT_NOTGT = 0,
