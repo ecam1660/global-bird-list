@@ -218,34 +218,34 @@
     position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
     filter: url(#orderDuotone);
   }
-  /* .ohead-fade is a sibling of .ohead-media (not nested inside it, unlike
-     an earlier version of this rule) specifically so these percentages
-     read directly against the FULL .ohead-photo banner — the same 0-100%
-     scale Eric was pointing at when he asked for "steeper, 50%/55% of the
-     full banner" — rather than needing a conversion against the narrower
-     photo box. Solid green through 33.33% (where the photo starts; still
-     fully covering it right at its own left edge, same idea as before),
-     then eases out — still a noticeable green tint (~8%) at the 50% mark
-     Eric called out, fully transparent by 55%. That's a much shorter,
-     steeper fade than before (21.67 points of the full banner, vs. the
-     old fade's 37 points of the narrower photo box alone). Eleven
-     color-mix() stops approximate alpha(x) = (1 - t)^1.72, where t is
-     how far x is through the 33.33%-55% fade zone (0 at 33.33%, 1 at
-     55%) — a steeper-than-linear ease chosen so the 50% checkpoint (t≈
-     0.77) lands at that "little bit of green left" ~8% rather than
-     fully clear or still-heavily-tinted. */
+  /* .ohead-fade is a sibling of .ohead-media (not nested inside it), so
+     these percentages read directly against the FULL .ohead-photo banner
+     — the 0-100% scale Eric points at when tuning this. Solid green
+     through 33.33% (where the photo box starts; still fully covering its
+     own left edge), then eases out more gradually than an earlier, faster
+     version of this curve: still ~66% green at the 40% mark, ~24% green
+     at 50% (Eric's two checkpoints — "only 35%/75% transparent" there,
+     i.e. ~65%/~25% still-opaque green), fully transparent by 60%.
+     Fourteen color-mix() stops approximate alpha(x) = (1 - t)^1.45, where
+     t is how far x is through the 33.33%-60% fade zone (0 at 33.33%, 1 at
+     60%) — a gentler exponent than the previous version's 1.72 (which
+     faded fully by 55% and was judged too quick), so the green stays
+     "greener for longer" per Eric's own words. */
   .ohead-fade { position: absolute; inset: 0; background: linear-gradient(to right,
     color-mix(in srgb, var(--grn-md) 100%, transparent) 33.33%,
-    color-mix(in srgb, var(--grn-md) 85%,  transparent) 35.33%,
-    color-mix(in srgb, var(--grn-md) 70%,  transparent) 37.33%,
-    color-mix(in srgb, var(--grn-md) 57%,  transparent) 39.33%,
-    color-mix(in srgb, var(--grn-md) 45%,  transparent) 41.33%,
-    color-mix(in srgb, var(--grn-md) 34%,  transparent) 43.33%,
-    color-mix(in srgb, var(--grn-md) 22%,  transparent) 46%,
-    color-mix(in srgb, var(--grn-md) 14%,  transparent) 48%,
-    color-mix(in srgb, var(--grn-md) 8%,   transparent) 50%,
-    color-mix(in srgb, var(--grn-md) 3%,   transparent) 52%,
-    transparent 55%); }
+    color-mix(in srgb, var(--grn-md) 86%,  transparent) 36%,
+    color-mix(in srgb, var(--grn-md) 76%,  transparent) 38%,
+    color-mix(in srgb, var(--grn-md) 66%,  transparent) 40%,
+    color-mix(in srgb, var(--grn-md) 57%,  transparent) 42%,
+    color-mix(in srgb, var(--grn-md) 48%,  transparent) 44%,
+    color-mix(in srgb, var(--grn-md) 39%,  transparent) 46%,
+    color-mix(in srgb, var(--grn-md) 31%,  transparent) 48%,
+    color-mix(in srgb, var(--grn-md) 24%,  transparent) 50%,
+    color-mix(in srgb, var(--grn-md) 18%,  transparent) 52%,
+    color-mix(in srgb, var(--grn-md) 12%,  transparent) 54%,
+    color-mix(in srgb, var(--grn-md) 6%,   transparent) 56%,
+    color-mix(in srgb, var(--grn-md) 2%,   transparent) 58%,
+    transparent 60%); }
   .ohead-text {
     position: relative; z-index: 2; height: 100%;
     display: flex; flex-direction: column; justify-content: center;
