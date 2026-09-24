@@ -320,6 +320,25 @@
      FULL_TARGETS orders keep the plain .sect, since for them the padding
      this replaces is the only horizontal inset that section has. */
   .sect-inner { padding: 14px 0 16px; }
+  /* The seam between Families and Targets (the only place two of these
+     sections ever sit directly stacked — .sect for FULL_TARGETS/Passerines,
+     .sect-inner for a regular order) doesn't need its own top padding PLUS
+     the section above it also contributing its own bottom padding — that's
+     30px of pure gap for what reads as one dividing line. Tightening just
+     this shared seam (not each section's outer top/bottom, which stay at
+     their normal 14/16px against the tile's own edges) recovers real,
+     genuinely-idle space toward fitting another row of Targets within the
+     same tile height, without touching the padding anywhere else.
+     Scoped to .opanel.snug rather than applied globally: trimming this seam
+     for EVERY order changes the shared/measured overhead constants
+     computeSpan() uses for every order's own row-fit search, and a handful
+     of orders (Anseriformes, Apodiformes, Accipitriformes, Strigiformes)
+     actually got WORSE from that — a smaller candidate slot count "escaped"
+     into an even-smaller row bracket and won the tightest-fit comparison
+     outright, showing fewer targets in a shorter tile. Restricting the
+     trim to orders in TIGHT_SEAM (below), where it's been verified to only
+     ever help, avoids that regression entirely for everyone else. */
+  .opanel.snug .sect + .sect, .opanel.snug .sect-inner + .sect-inner { padding-top: 3px; }
   .sect-hd {
     display: flex; align-items: center; gap: 8px; margin-bottom: 11px;
     padding-bottom: 7px; border-bottom: 1px solid rgba(47,58,39,.28);
@@ -560,6 +579,25 @@ var FULL_TARGETS = {                       /* Targets spans the full tile width 
   ACCIPITRIFORMES: 1, CORACIIFORMES: 1, PICIFORMES: 1, PSITTACIFORMES: 1
 };
 var FLOOR_4_TGT = { GALLIFORMES: 1 };      /* Same idea as SCROLL_FAM's 9/12 floor above, one notch higher: Eric wants Galliformes specifically to always show a full 4 rows (12 slots) of Targets rather than wherever the tightest-fit search would otherwise land (it has 273 unseen species, comfortably above the 12-slot cap either way, so this floor is safe to leave on permanently). */
+/* Orders where trimming the decorative Families/Targets seam padding (see
+   the .opanel.snug CSS rule above) has been verified — via a full 45-order
+   before/after sweep — to let one more row of Targets fit within the SAME
+   tile height, with zero downside. Deliberately NOT a global change:
+   Anseriformes, Apodiformes, Accipitriformes, and Strigiformes actually
+   showed FEWER targets in a SHORTER tile when this was tried everywhere
+   (a smaller candidate slot count escaped into an even-smaller row
+   bracket and won the tightest-fit search) — they're excluded here and
+   keep their original spacing/behavior untouched. Every order below was
+   confirmed to gain (never lose) targets from the trim; add a new order
+   here only after re-running that same before/after sweep against it. */
+var TIGHT_SEAM = {
+  TINAMIFORMES: 1, COLUMBIFORMES: 1, PTEROCLIFORMES: 1, OTIDIFORMES: 1,
+  MUSOPHAGIFORMES: 1, CUCULIFORMES: 1, CAPRIMULGIFORMES: 1, NYCTIBIIFORMES: 1,
+  PODARGIFORMES: 1, AEGOTHELIFORMES: 1, GRUIFORMES: 1, PHOENICOPTERIFORMES: 1,
+  PODICIPEDIFORMES: 1, SPHENISCIFORMES: 1, CICONIIFORMES: 1, PELECANIFORMES: 1,
+  COLIIFORMES: 1, TROGONIFORMES: 1, CORACIIFORMES: 1, FALCONIFORMES: 1,
+  PASSERIFORMES: 1, GALLIFORMES: 1
+};
 /* Optional per-order object-position override for the header banner photo —
    NOT something you need to use. Since you're cropping each photo yourself
    to frame it the way you want, the default "50% 50%" (dead-center) crop
@@ -922,6 +960,7 @@ function panelHTML(o, targetSlots) {
   var scrollRows = SCROLL_FAM[o.order];
   var isFullTgt = !!FULL_TARGETS[o.order];
   var S = (targetSlots === undefined) ? 6 : targetSlots;
+  var opanelClass = 'opanel' + (TIGHT_SEAM[o.order] ? ' snug' : '');
   var famsBlock;
   if (isCompact) {
     var cards = o.families.map(famCard).join('');
@@ -991,7 +1030,7 @@ function panelHTML(o, targetSlots) {
       +   '<div class="opanel-fams-2col">' + famsInner + '</div>'
       +   photoGutterHTML(o)
       + '</div></div>';
-    return '<div class="opanel">' + topRow + targetsBlock + '</div>';
+    return '<div class="' + opanelClass + '">' + topRow + targetsBlock + '</div>';
   }
 
   /* Regular orders keep the photo spanning the FULL Families+Targets height
@@ -1013,7 +1052,7 @@ function panelHTML(o, targetSlots) {
     + targetsBlock
     + '</div>';
 
-  return '<div class="opanel"><div class="opanel-body' + (isCompact ? '' : ' opanel-body-photo') + '">'
+  return '<div class="' + opanelClass + '"><div class="opanel-body' + (isCompact ? '' : ' opanel-body-photo') + '">'
     + mainBlock
     + photoGutterHTML(o)
     + '</div></div>';
@@ -1356,6 +1395,22 @@ function tgtHeightForSlots(S, perRow) {
   return base + Math.max(0, rows - 1) * inc;
 }
 
+/* Inverse of tgtHeightForSlots() — the most slots (in full-row multiples,
+   since a partial last row costs the same height as a full one anyway)
+   that fit inside a given height budget without exceeding it. Used by
+   computeSpan()'s "grow bestS to fill bestR" step: once the tightest-fit
+   search has already committed to a row count, this finds whether more
+   Targets slots would fit in the SAME rows at no extra height cost — an
+   exact comparison against real measured heights, never a guess. */
+function maxSlotsForHeight(budget, perRow) {
+  var isRegular = perRow === 2;
+  var base = isRegular ? TGT_BASE   : TGT_BASE_COMPACT;
+  var inc  = isRegular ? TR_PER_ROW : TR_PER_ROW_COMPACT;
+  if (budget < base) return 0;
+  var extraRows = inc > 0 ? Math.floor((budget - base) / inc) : 0;
+  return (1 + extraRows) * perRow;
+}
+
 /* For the open order o, the Targets section shows one slot per species Eric
    hasn't seen yet in that order (o.total - o.seen) — not a fixed count.
    Fully-seen orders (e.g. Loons) drop the Targets section entirely. Orders
@@ -1416,6 +1471,18 @@ function computeSpan(o, cols) {
   }
 
   var overhead = isCompact ? OVERHEAD_COMPACT : (isFullTgt ? overheadFT : (scrollRows ? OVERHEAD_REG_SCROLL : OVERHEAD_REG));
+  /* Deliberately NOT adjusted for TIGHT_SEAM here — the tightest-fit search
+     just below picks bestR from this same `overhead` value used everywhere
+     else, and that choice must stay identical to a non-TIGHT_SEAM order's:
+     letting a smaller overhead shift which candidate S "wins" the margin
+     comparison can flip the winner to one that needs a genuinely taller
+     tile (confirmed on Pelecaniformes during testing — trimming overhead
+     here let S=12 beat S=3 outright, growing R from 4 to 5), which is
+     exactly the tile-height increase Eric ruled out. The 11px the seam
+     trim actually recovers (see the .opanel.snug CSS rule) is instead
+     applied only in the "grow bestS to fill bestR" step below, which by
+     construction can only ever add Targets within the row count already
+     decided here — never change it. */
   /* Same tightest-row-fit search throughout, just sized to each order's own
      Targets column count. Regular orders (2-per-row) search 4/6/8, tying
      toward 6 (3 rows). FULL_TARGETS orders (3-per-row) search 3/6/9/12,
@@ -1449,16 +1516,19 @@ function computeSpan(o, cols) {
        shortfall of just a couple of px against the next row down still gets
        rounded all the way up to a full extra ROW_H+GRID_GAP of empty space —
        that's the whole-tile-height gap under Galliformes' Targets Eric
-       flagged. Safe fix: if rounding down instead would only clip a handful
-       of px of the panel's own trailing bottom padding (never actual card
-       content — .tgt-slot/.fam-row heights are always several times this),
-       take the tighter row count. 8px is comfortably inside that padding for
-       every FULL_TARGETS order measured so far; a bigger shortfall than that
+       flagged. Safe fix: if rounding down instead would only clip into the
+       Targets .sect's own trailing bottom padding — real, measured inert
+       whitespace below the last row of cards (`.sect { padding: ... 16px
+       }`), never the cards themselves — take the tighter row count. The
+       tolerance is capped at that padding's own value (with a small buffer
+       for cross-browser font-metric rounding), so this can only ever eat
+       into blank space that was already there, whatever the real deficit
+       turns out to measure as on a given browser; anything short of that
        falls through to the normal (safe, zero-overflow) rounding above. */
     if (floor4 && R > 1) {
       var Rdown = R - 1;
       var idealDown = Rdown * ROW_H + (Rdown - 1) * GRID_GAP;
-      if (idealDown - total > -8) R = Rdown;
+      if (idealDown - total > -15) R = Rdown;
     }
     var ideal = R * ROW_H + (R - 1) * GRID_GAP;
     var margin = ideal - total;
@@ -1466,6 +1536,39 @@ function computeSpan(o, cols) {
       || (Math.abs(margin - bestMargin) <= 0.5 && Math.abs(S - tieTarget) < Math.abs(bestS - tieTarget));
     if (better) { bestS = S; bestR = R; bestMargin = margin; }
   });
+
+  /* Grow bestS to fill whatever row budget bestR above already committed
+     to. The search over `candidates` only ever tests specific slot counts
+     (e.g. 4/6/8) and picks whichever needs the fewest rows — but a short
+     order (few families, small famsH) can land on a small S purely because
+     it happens to tie the tightest margin, while a bigger S from the same
+     list would have fit in that identical row count too, just with less
+     margin left over. This is an exact check against the real row budget
+     computeSpan already settled on (idealBest below, the same formula used
+     for margin everywhere else) — it can only ever fill blank space bestR
+     already reserved, never require a taller tile, and it naturally caps
+     at `capped` (the real unseen-species ceiling), so an order with only a
+     couple of species left never gets padded out with slots beyond what's
+     actually there. This is what lets a case like Columbiformes (plenty of
+     unseen species, but few enough families that a small Targets count
+     already fills the tightest row count) show as many of those extra
+     unseen species as the row it's already showing has room for. */
+  /* TIGHT_SEAM's 11px of recovered seam padding (see the .opanel.snug CSS
+     rule, and the comment above the candidates.forEach() search) is applied
+     right here, and only here: fixedH is the real per-tile fixed cost this
+     order's actual rendered DOM has (photo header + chrome + families),
+     and growing bestS can only ever consume slack within idealBest — the
+     row budget bestR already locked in above using the UNADJUSTED overhead
+     — so this can recover extra targets but can never push the search into
+     a taller row count than a non-TIGHT_SEAM order would have picked. */
+  var growthOverhead = TIGHT_SEAM[o.order] ? overhead - 11 : overhead;
+  var fixedH = OPEN_HEAD_H + growthOverhead + famsH;
+  var idealBest = bestR * ROW_H + (bestR - 1) * GRID_GAP;
+  var grownS = Math.min(capped, maxSlotsForHeight(idealBest - fixedH, tgtPerRow));
+  if (grownS > bestS) {
+    bestS = grownS;
+    bestMargin = idealBest - (fixedH + tgtHeightForSlots(bestS, tgtPerRow));
+  }
 
   return { S: bestS, R: bestR, C: C, margin: Math.max(0, bestMargin) };
 }
