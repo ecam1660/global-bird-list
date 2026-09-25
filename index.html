@@ -872,6 +872,18 @@ function buildDataFromRecords(records) {
   records.forEach(function(rec) {
     var ord = (rec['Order'] || '').trim();
     if (!ord) return;
+    /* Extinct species are excluded from every total on the site — order
+       and family counts, % complete, the Targets slot math (which derives
+       from total-seen), and target curation — since there's no way to
+       ever see one. EX = extinct, EW = extinct in the wild (IUCN Red List
+       codes); anything else (including blank, for the handful of rows
+       eBird's taxonomy doesn't carry a status for) is kept as before. This
+       has to happen before the row touches orderMap/famMap at all, not
+       just skip incrementing total/seen, so that a family or order made
+       up ENTIRELY of extinct species doesn't show up as an empty,
+       impossible-to-complete 0-total entry. */
+    var iucn = (rec['IUCN Status'] || '').trim().toUpperCase();
+    if (iucn === 'EX' || iucn === 'EW') return;
     var famSci = (rec['Family'] || '').trim();
     var famName = (rec['Family name'] || '').trim();
     var seen = isSeenDate(rec['Life list date']);
