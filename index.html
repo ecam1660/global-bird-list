@@ -288,10 +288,15 @@
   /* Photo gutter: a right-hand column next to the Families/Targets content,
      showing one featured photo per order (photoGutterHTML()). Every order
      gets it except Passerines (COMPACT_GRID), which has no room to spare.
-     Its height always matches .opanel-main's (align-items: stretch, the
+     By default its height matches its sibling's (align-items: stretch, the
      default for both flex and grid) — computeSpan()'s row-snap math doesn't
      need to know it exists, and a missing photo (still just the tinted
      background, no <img> loaded) can't make the row taller than before.
+     Regular-layout orders (not FULL_TARGETS) override this with an explicit
+     JS-computed height — see fixFeaturedPhotoBottomGap() — so the photo's
+     bottom edge can land on a consistent ~14-20px gap above the tile bottom
+     instead of wherever computeSpan()'s row-snap slack happens to leave it;
+     FULL_TARGETS orders keep the plain stretch behavior described here.
 
      Crop behavior is deliberately loose, not a pre-cropped-per-order exact
      ratio: the gutter's WIDTH is itself dynamic (it's a percentage/fr-based
@@ -324,14 +329,34 @@
      actually renders a gutter — i.e. every order but Passerines) so
      Passerines' plain flex .opanel-body, full width, is untouched. */
   .opanel-body.opanel-body-photo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 0 clamp(14px, 3vw, 20px); }
-  .opanel-body-photo .opanel-main { grid-column: span 2; min-width: 0; }
+  /* align-self: start (rather than the grid default, stretch) keeps this box
+     at its own natural content height regardless of how tall the row ends up
+     being. It's a no-op today — .opanel-main's natural height is what sizes
+     the row in the first place — but fixFeaturedPhotoBottomGap() (in the
+     <script>) can grow .opanel-photo past that natural height to close the
+     bottom gap, which would otherwise grow the row and drag this box down
+     with it (stretch), leaving visible blank space under the Families/
+     Targets content. With align-self: start, only .opanel-photo grows; this
+     box — and everything visible in it — stays exactly where it was. */
+  .opanel-body-photo .opanel-main { grid-column: span 2; min-width: 0; align-self: start; }
   /* The photo's left-hand gap otherwise reads noticeably tighter than its
      right-hand one: the grid's own 7px gap (shared with .tgt-grid's target-
      card spacing — never bump that value directly, it feeds computeSpan()'s
      row math) sits on the left, against the .opanel-body-photo padding
      (clamp(14px, 3vw, 20px)) on the right. A margin-left here closes that
-     gap to match, purely horizontal so it can't touch row-height math. */
-  .opanel-body-photo .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; margin-left: calc(clamp(14px, 3vw, 20px) - 7px); }
+     gap to match, purely horizontal so it can't touch row-height math.
+
+     Same idea, vertically: this whole grid sits inside .opanel, which only
+     contributes 4px of top padding (.opanel { padding: 4px 0 2px }) —
+     nowhere near the clamp(14px, 3vw, 20px) the photo gets on its left/
+     right. margin-top tops that 4px up to match. Since only margin-top (not
+     margin-bottom) is added, the stretched box just gets that much shorter
+     at the top — its bottom stays flush with .opanel-main's, so this can't
+     desync the two heights from the bottom edge, only add breathing room
+     above. max(0px, …) guards the rare viewport band (480–~667px) where
+     clamp() hasn't reached 20px yet but is already past what 4px needs —
+     without it the calc() would go negative there. */
+  .opanel-body-photo .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; margin-left: calc(clamp(14px, 3vw, 20px) - 7px); margin-top: max(0px, calc(clamp(14px, 3vw, 20px) - 4px)); }
 
   /* CORACIIFORMES-only layout (FULL_TARGETS): Families and the photo gutter
      share a 3-column top row instead — so the gutter only runs alongside
@@ -343,8 +368,14 @@
   .opanel-fams-2col { grid-column: span 2; min-width: 0; }
   /* Same left/right gap fix as .opanel-body-photo above, matched against
      .sect's own clamp(14px, 3vw, 20px) horizontal padding (FULL_TARGETS
-     orders keep the plain .sect around this grid). */
-  .opanel-topgrid .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; margin-left: calc(clamp(14px, 3vw, 20px) - 7px); }
+     orders keep the plain .sect around this grid). Same top-margin fix
+     too, but the baseline differs: this grid sits inside both .opanel's
+     4px top padding AND .sect's own flat 14px top padding (.sect's left/
+     right padding is the same clamp() as its top is compared against, but
+     its top itself is a flat 14px, not responsive) — 18px total before any
+     fix, already closer to the clamp(14px, 3vw, 20px) target than the
+     regular layout's 4px, but not exact. */
+  .opanel-topgrid .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; margin-left: calc(clamp(14px, 3vw, 20px) - 7px); margin-top: max(0px, calc(clamp(14px, 3vw, 20px) - 18px)); }
 
   .sect { padding: 14px clamp(14px, 3vw, 20px) 16px; }
   /* Same vertical padding as .sect, no horizontal — used for Families/
@@ -1185,6 +1216,58 @@ function buildTile(o, spec) {
   return el;
 }
 
+/* Closes the gap below the featured photo to match the ~14-20px already
+   proven correct on the left/right/top (see the .opanel-body-photo
+   .opanel-photo CSS comment). Those three sides are a fixed CSS offset
+   against a fixed baseline, so a calc()/clamp() closes them once and for
+   all. The bottom can't work that way: the space below the photo is
+   whatever's left of computeSpan()'s row-snap slack after the real,
+   per-order height of the Families/Targets content next to it — anywhere
+   from ~12px to 100px+ — so there's no fixed number to subtract. This runs
+   after the open tile is in the DOM, measures that real gap, and stretches
+   the photo down to close it, then claws the same amount back out of
+   .opanel's own padding-bottom (the row-snap slack it came from) so the
+   tile's total height — and its alignment with the row grid — is exactly
+   what computeSpan() decided, untouched.
+
+   Scoped to regular-layout orders only. FULL_TARGETS orders (Coraciiformes,
+   Pelecaniformes, Galliformes, and the rest of FULL_TARGETS) pair the photo
+   with Families alone (.opanel-topgrid); Targets moves to its own
+   full-width row below, so the space under the photo there is that whole
+   separate section — 160-300+px, not row-snap slack — and closing it to
+   ~20px isn't a margin fix, it's a different layout. Passerines
+   (COMPACT_GRID) has no photo gutter at all. */
+function fixFeaturedPhotoBottomGap(order) {
+  if (!order || COMPACT_GRID[order] || FULL_TARGETS[order]) return;
+  var tileEl = document.querySelector('.otile.open');
+  if (!tileEl) return;
+  var photoEl = tileEl.querySelector('.opanel-photo');
+  var panelEl = tileEl.querySelector('.opanel');
+  if (!photoEl || !panelEl) return;
+
+  var tileRect = tileEl.getBoundingClientRect();
+  var photoRect = photoEl.getBoundingClientRect();
+  var panelHeightBefore = panelEl.getBoundingClientRect().height;
+
+  var targetGap = tileRect.right - photoRect.right;      /* the already-correct right margin */
+  var newHeight = (tileRect.bottom - targetGap) - photoRect.top;
+  if (newHeight <= 0) return;                             /* sanity guard; shouldn't happen */
+  photoEl.style.height = newHeight + 'px';
+
+  /* If growing the photo also grew .opanel-body's grid row (because the new
+     height exceeds .opanel-main's own, align-self: start, natural height),
+     .opanel's content got taller by exactly that much — so shrink its
+     padding-bottom by the same amount. Measuring before/after rather than
+     computing the delta by hand keeps this correct however the browser
+     actually resolves the grid math, and the 2px floor matches buildTile()'s
+     own baseline (.opanel's un-padded "padding: 4px 0 2px"). */
+  var growth = panelEl.getBoundingClientRect().height - panelHeightBefore;
+  if (growth > 0.5) {
+    var curPad = parseFloat(getComputedStyle(panelEl).paddingBottom) || 0;
+    panelEl.style.paddingBottom = Math.max(2, curPad - growth) + 'px';
+  }
+}
+
 function render() {
   var q = QUERY.toLowerCase().trim();
   var list = ORDERS.filter(function(o) {
@@ -1229,6 +1312,8 @@ function render() {
   list.forEach(function(o){
     grid.appendChild(buildTile(o, (openOrder && o.order === openOrder.order) ? spec : null));
   });
+
+  fixFeaturedPhotoBottomGap(openOrder ? openOrder.order : null);
 
   window.scrollTo(0, savedScrollY);
 
