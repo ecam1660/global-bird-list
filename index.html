@@ -285,21 +285,32 @@
   /* ── EXPANDED PANEL ───────────────────────────────── */
   .opanel { background: var(--grn-lt); border-top: .5px solid rgba(0,0,0,.14); padding: 4px 0 2px; }
 
-  /* Photo gutter: a right-hand blank column reserved next to the Families/
-     Targets content, for a future featured order photo — Eric's paused on
-     picking/adding actual photos for now (see photoGutterHTML()), so this is
-     just empty space under the Total/Complete scoreboard. Every order gets
-     it except Passerines (COMPACT_GRID), which has no room to spare. Its
-     height always matches .opanel-main's (align-items: stretch, the default
-     for both flex and grid), so an empty gutter can't make the row taller
-     than before — computeSpan()'s row-snap math doesn't need to know it
-     exists. When a photo comes back, drop an <img> in here sized
-     height:100%/width:auto with a max-width past 100% for a little
-     left-bleed "collage" overlap — that was working (see git history / prior
-     conversation) before being pulled back out. */
+  /* Photo gutter: a right-hand column next to the Families/Targets content,
+     showing one featured photo per order (photoGutterHTML()). Every order
+     gets it except Passerines (COMPACT_GRID), which has no room to spare.
+     Its height always matches .opanel-main's (align-items: stretch, the
+     default for both flex and grid) — computeSpan()'s row-snap math doesn't
+     need to know it exists, and a missing photo (still just the tinted
+     background, no <img> loaded) can't make the row taller than before.
+
+     Crop behavior is deliberately loose, not a pre-cropped-per-order exact
+     ratio: the gutter's WIDTH is itself dynamic (it's a percentage/fr-based
+     grid column — auto-fit can collapse a neighboring empty track and hand
+     that space to this tile, so the same order's gutter can render
+     anywhere from ~245px to ~375px wide depending on how many tiles are
+     visible), while its HEIGHT is fixed per order by the row math above.
+     So the <img> is `object-fit: cover` inside `overflow: hidden`, sized to
+     the box's real height and however wide the box happens to be — the
+     browser crops the left/right edges to fit, live, rather than the site
+     shipping a separate crop per width state. The source photo should be
+     shot/cropped to each order's real height (see site-setup-guide.md
+     §5.4 for the current per-order list) with generous side margin around
+     a centered subject, so a narrower gutter just trims further into that
+     margin instead of into the bird. */
   .opanel-body { display: flex; align-items: stretch; }
   .opanel-main { flex: 1 1 auto; min-width: 0; }
-  .opanel-photo { flex: 0 0 33%; max-width: 230px; min-width: 120px; }
+  .opanel-photo { flex: 0 0 33%; max-width: 230px; min-width: 120px; position: relative; overflow: hidden; }
+  .opanel-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
   /* Regular orders (photo spans the full Families+Targets height, unlike
      FULL_TARGETS below): same 3-col grid math as .opanel-topgrid /
@@ -733,12 +744,22 @@ function orderPhotoSrc(name) {
   return 'photos/orders/' + slug(name) + '.jpg';
 }
 
-/* Blank gutter reserved in the expanded panel for a future featured photo —
-   see the .opanel-photo CSS comment. Every order gets it except a compact-
-   grid one (Passerines), which has no width to spare. */
+/* Featured-photo gutter: a right-hand column alongside Families (and, for
+   most orders, Targets too) in an expanded tile, showing one photo per
+   order from photos/orders-featured/<slug>.{jpg,png}. Every order gets it
+   except a compact-grid one (Passerines), which has no width to spare — see
+   the .opanel-photo CSS comment for the sizing/crop treatment.
+   Tries .jpg first, falls back to .png once, and if neither file exists
+   just hides the <img> — the empty tinted box underneath (.opanel-photo's
+   own background) is the fallback look, same as before any photo existed,
+   so a missing photo never leaves a broken-image icon or shifts layout
+   (the box's height is set by computeSpan()'s row math regardless of
+   whether a photo loads). */
 function photoGutterHTML(o) {
   if (COMPACT_GRID[o.order]) return '';
-  return '<div class="opanel-photo"></div>';
+  var sl = slug(o.order);
+  return '<div class="opanel-photo"><img src="photos/orders-featured/' + sl + '.jpg" alt="" '
+       + 'onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=\'photos/orders-featured/' + sl + '.png\';}else{this.style.display=\'none\';}"></div>';
 }
 
 /* Species photos key off the English/common name, not scientific name —
