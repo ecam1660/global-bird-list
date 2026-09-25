@@ -325,7 +325,13 @@
      Passerines' plain flex .opanel-body, full width, is untouched. */
   .opanel-body.opanel-body-photo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 0 clamp(14px, 3vw, 20px); }
   .opanel-body-photo .opanel-main { grid-column: span 2; min-width: 0; }
-  .opanel-body-photo .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; }
+  /* The photo's left-hand gap otherwise reads noticeably tighter than its
+     right-hand one: the grid's own 7px gap (shared with .tgt-grid's target-
+     card spacing — never bump that value directly, it feeds computeSpan()'s
+     row math) sits on the left, against the .opanel-body-photo padding
+     (clamp(14px, 3vw, 20px)) on the right. A margin-left here closes that
+     gap to match, purely horizontal so it can't touch row-height math. */
+  .opanel-body-photo .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; margin-left: calc(clamp(14px, 3vw, 20px) - 7px); }
 
   /* CORACIIFORMES-only layout (FULL_TARGETS): Families and the photo gutter
      share a 3-column top row instead — so the gutter only runs alongside
@@ -335,7 +341,10 @@
      family column and the first two target columns land on identical edges. */
   .opanel-topgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
   .opanel-fams-2col { grid-column: span 2; min-width: 0; }
-  .opanel-topgrid .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; }
+  /* Same left/right gap fix as .opanel-body-photo above, matched against
+     .sect's own clamp(14px, 3vw, 20px) horizontal padding (FULL_TARGETS
+     orders keep the plain .sect around this grid). */
+  .opanel-topgrid .opanel-photo { grid-column: span 1; max-width: none; min-width: 0; margin-left: calc(clamp(14px, 3vw, 20px) - 7px); }
 
   .sect { padding: 14px clamp(14px, 3vw, 20px) 16px; }
   /* Same vertical padding as .sect, no horizontal — used for Families/
