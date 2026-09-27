@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Bird List — Families</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root {
+    /* Shared site palette (same tokens as index.html) */
+    --tan-dk:    #B89D80;
+    --tan-lt:    #E2D3BD;
+    --ink:       #2e2218;
+    --ink-mid:   #5a4a38;
+    --ink-light: #9a8870;
+    --surface:   #fffdf9;
+    --bg:        #f7f2eb;
+    --border:    rgba(46,34,24,0.14);
+    --shadow:    0 1px 6px rgba(46,34,24,0.10);
+    --shadow-h:  0 5px 20px rgba(46,34,24,0.18);
+    --teal-dk:   #435763;
+    --teal-md:   #7692A2;
+    --teal-lt:   #C8D3DA;
+    --header-bg:   var(--teal-dk);
+    --header-text: #F2F7F5;
+    --header-sub:  var(--teal-lt);
+    --header-line: var(--teal-lt);
+    --chip-bg:     #ECE3D4;
+    --chip-border: var(--tan-lt);
+    --chip-text:   var(--ink-mid);
+    --chip-on-bg:  var(--teal-md);
+    --chip-on-text:var(--ink);
+    --field-bg:    #fffefb;
+
+    /* Families page: Dusty Lavender in place of the Orders page's green */
+    --lav-dk:  #867594;   /* seen checkmark, progress fill */
+    --lav-md:  #A89AB5;   /* collapsed tile fill */
+    --lav-lt:  #D5CBDD;   /* expanded panel fill */
+    --lav-ink: #352B3F;   /* text on lavender */
+
+    --serif: Georgia, 'Times New Roman', serif;
+    --tile: 100px;        /* collapsed tile height = square photo size = one grid row */
+    --gap: 14px;
+    --row: 17px;          /* one Seen/Targets list row */
+  }
+  /* Single-theme on purpose, like index.html and the other GitHub Pages sites. */
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--ink);
+    display: flex; flex-direction: column; min-height: 100%;
+  }
+
+  /* ── HEADER (same markup/CSS as index.html) ───────── */
+  .header {
+    background: var(--header-bg);
+    padding: 14px clamp(16px, 4vw, 30px);
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    border-bottom: 3px solid var(--header-line);
+  }
+  .header h1 {
+    margin: 0; font-family: var(--serif); font-weight: 400; font-size: 20px;
+    letter-spacing: .01em; color: var(--header-sub); flex: 1; min-width: 190px;
+  }
+  .header h1 b { color: var(--header-text); font-weight: 400; }
+  .hnav { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hnav-btn {
+    font-size: 12px; font-weight: 600; letter-spacing: .01em;
+    padding: 7px 15px; border-radius: 99px;
+    border: 1px solid var(--header-line); background: rgba(255,255,255,.05);
+    color: var(--header-sub); text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums;
+    transition: background .12s, color .12s, border-color .12s, transform .08s;
+  }
+  .hnav-btn:hover { background: rgba(255,255,255,.15); color: var(--header-text); border-color: rgba(255,255,255,.45); transform: translateY(-1px); }
+
+  /* ── TOOLBAR (same as index.html) ─────────────────── */
+  .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .trow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    padding: 11px clamp(16px, 4vw, 30px);
+  }
+  .fl {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--ink-light); white-space: nowrap;
+  }
+  .search-wrap { position: relative; flex: 1 1 220px; max-width: 320px; }
+  .search-wrap svg {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    opacity: .55; pointer-events: none; color: var(--tan-dk);
+  }
+  .search-wrap input {
+    width: 100%; font-size: 12.5px; font-family: inherit;
+    padding: 7px 12px 7px 32px; border-radius: 99px;
+    border: 1px solid var(--chip-border); background: var(--field-bg);
+    color: var(--ink); outline: none;
+  }
+  .search-wrap input::placeholder { color: var(--ink-light); }
+  .search-wrap input:focus { border-color: var(--teal-dk); box-shadow: 0 0 0 3px rgba(67,87,99,0.16); }
+  .chip {
+    font-size: 12px; font-weight: 600; padding: 6px 15px; border-radius: 99px;
+    border: 1px solid var(--chip-border); background: var(--chip-bg);
+    color: var(--chip-text); cursor: pointer; white-space: nowrap; font-family: inherit;
+    transition: background .12s, color .12s, border-color .12s, transform .08s;
+  }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.on { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
+  .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .sort-select {
+    font-size: 12px; font-family: inherit; font-weight: 600;
+    padding: 7px 30px 7px 13px; border-radius: 99px;
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a4a38'/%3E%3C/svg%3E") no-repeat right 12px center;
+    -webkit-appearance: none; appearance: none;
+    color: var(--chip-text); cursor: pointer; outline: none;
+  }
+  .sort-select:focus { border-color: var(--teal-dk); }
+
+  /* ── ORDER STRIP: one small button per order, in taxonomic order ───────
+     Click to show only that order's families (click again to clear).
+     Lavender = the order of the family that's currently expanded. */
+  .orow {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 clamp(16px, 4vw, 30px) 11px;
+  }
+  .ostrip {
+    flex: 1; min-width: 0; display: flex; gap: 2px;
+    overflow-x: auto; scrollbar-width: none; padding: 2px 0;
+  }
+  .ostrip::-webkit-scrollbar { display: none; }
+  .obtn {
+    flex: 1 0 23px; min-width: 23px; height: 22px; padding: 0;
+    font-family: inherit; font-size: 9px; font-weight: 700; letter-spacing: 0;
+    border-radius: 99px; border: 1px solid var(--chip-border);
+    background: var(--chip-bg); color: var(--chip-text); cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s, opacity .12s, transform .08s;
+  }
+  .obtn:hover { transform: translateY(-1px); border-color: var(--teal-md); }
+  .obtn:focus-visible { outline: 2px solid var(--teal-dk); outline-offset: 1px; }
+  .obtn.dim { opacity: .35; }
+  .obtn.expanded { background: var(--lav-md); border-color: var(--lav-dk); color: var(--lav-ink); opacity: 1; }
+  .obtn.on { background: var(--chip-on-bg); border-color: var(--chip-on-bg); color: var(--chip-on-text); opacity: 1; }
+  .obtn.on.expanded { box-shadow: 0 0 0 2px var(--lav-md); }
+  .otip {
+    position: fixed; z-index: 10; pointer-events: none;
+    background: var(--teal-dk); color: var(--header-text);
+    font-size: 11px; font-weight: 600; padding: 5px 9px; border-radius: 7px;
+    box-shadow: var(--shadow-h); white-space: nowrap; opacity: 0; transition: opacity .1s;
+  }
+  .otip.show { opacity: 1; }
+  .otip span { font-weight: 400; color: var(--header-sub); }
+
+  /* ── GRID ─────────────────────────────────────────── */
+  .grid-wrap { flex: 1; padding: 18px clamp(16px, 4vw, 30px) 48px; }
+  .grid {
+    max-width: 1180px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-auto-rows: var(--tile);
+    grid-auto-flow: dense;
+    gap: var(--gap);
+  }
+  .empty-state { grid-column: 1 / -1; padding: 40px 0; text-align: center; color: var(--ink-light); font-size: 13px; }
+
+  /* ── FAMILY TILE (collapsed) ──────────────────────── */
+  .ftile {
+    background: var(--lav-md); color: var(--lav-ink);
+    border-radius: 10px; box-shadow: var(--shadow); overflow: hidden;
+    cursor: pointer; transition: box-shadow .15s;
+    display: flex; flex-direction: column; min-width: 0;
+  }
+  .ftile:hover { box-shadow: var(--shadow-h); }
+  .ftile:focus-visible { outline: 3px solid var(--teal-dk); outline-offset: 2px; }
+  .fhead { display: flex; height: var(--tile); flex: none; }
+  .fphoto {
+    position: relative; flex: none; width: var(--tile); height: var(--tile); overflow: hidden;
+    background: linear-gradient(135deg, #9a8aa8 0%, #76658a 60%, #584a69 100%);
+  }
+  .fphoto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fphoto .ini[hidden] { display: none; }
+  .fphoto .ini {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-family: var(--serif); font-size: 17px; color: rgba(255,255,255,.62);
+  }
+  .fbody { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 7px 7px 0 10px; }
+  .ftop { display: flex; justify-content: space-between; gap: 6px; align-items: flex-start; }
+  .fnames { flex: 1; min-width: 0; }
+  .fsci {
+    font-size: 10px; letter-spacing: .09em; text-transform: uppercase; padding-top: 2px; opacity: .8;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .fname {
+    font-family: var(--serif); font-size: 16px; line-height: 1.2; margin-top: 3px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .fchk {
+    width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--lav-dk);
+    display: grid; place-items: center; flex: none;
+  }
+  .fchk svg { width: 12px; height: 12px; opacity: 0; }
+  .fchk.on { background: var(--lav-dk); }
+  .fchk.on svg { opacity: 1; }
+  /* count + progress bar; the bar runs flush from the photo's edge to the tile's right edge */
+  .ffoot { margin: auto -7px 0 -10px; display: flex; flex-direction: column; gap: 5px; }
+  .fcnt { display: flex; justify-content: flex-end; font-size: 11px; line-height: 1; font-variant-numeric: tabular-nums; padding-right: 7px; }
+  .fcnt b { font-size: 12px; }
+  .fbar { height: 5px; background: rgba(53,43,63,.18); overflow: hidden; }
+  .fbar i { display: block; height: 100%; background: var(--lav-dk); }
+
+  /* ── FAMILY TILE (expanded) ───────────────────────── */
+  .ftile.open { cursor: default; box-shadow: var(--shadow-h); }
+  .ftile.open .fhead { cursor: pointer; }
+  .fpanel {
+    background: var(--lav-lt); flex: 1; min-height: 0;
+    padding: 7px 10px 8px;
+    display: grid; grid-template-columns: 1fr 1.25fr; gap: 14px;
+  }
+  .fcol { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+  .sect-hd { display: flex; align-items: center; gap: 6px; height: 15px; margin-bottom: 5px; flex: none; }
+  .sect-hd h3 { margin: 0; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .sect-hd i { flex: 1; height: 1px; background: rgba(53,43,63,.2); }
+  .sect-hd .hint { font-size: 9.5px; opacity: .6; white-space: nowrap; display: none; }
+  .fcol.more .sect-hd .hint { display: inline; }
+  .lwrap { position: relative; flex: 1; min-height: 0; display: flex; }
+  .fcol.more .lwrap::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22px; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(213,203,221,0), var(--lav-lt));
+  }
+  .flist {
+    flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    scrollbar-width: thin; scrollbar-color: rgba(53,43,63,.3) transparent;
+  }
+  .srow, .trow2 {
+    display: flex; align-items: center; gap: 6px; height: var(--row);
+    font-size: 11.5px; border-bottom: 1px solid rgba(53,43,63,.08);
+  }
+  .srow .n, .trow2 .n { font-family: var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .srow .y { margin-left: auto; opacity: .55; font-size: 10px; font-variant-numeric: tabular-nums; flex: none; }
+  .trow2 .bx {
+    width: 12px; height: 12px; border-radius: 3px; border: 1.3px solid var(--lav-dk);
+    flex: none; display: grid; place-items: center;
+  }
+  .trow2 .bx svg { width: 9px; height: 9px; opacity: 0; }
+  .trow2.got .bx { background: var(--lav-dk); }
+  .trow2.got .bx svg { opacity: 1; }
+  .trow2 .l { margin-left: auto; font-size: 10px; opacity: .6; white-space: nowrap; flex: none; padding-left: 4px; }
+  .none { font-size: 11px; font-style: italic; opacity: .5; padding-top: 2px; }
+
+  /* Measuring pass for row-snap: let the open tile take its natural height */
+  .ftile.measuring { align-self: start; height: auto !important; }
+  .ftile.measuring .fpanel { flex: none; grid-auto-rows: auto; }
+  .ftile.measuring .lwrap, .ftile.measuring .flist { flex: none; overflow: visible; }
+
+  @media (max-width: 600px) {
+    .fpanel { grid-template-columns: 1fr; grid-auto-rows: minmax(0, 1fr); gap: 8px; }
+  }
+</style>
+
+<div class="header">
+  <h1><b>Global Bird List</b>: Family Summary</h1>
+  <nav class="hnav">
+    <a class="hnav-btn" href="index.html">Orders</a>
+    <a class="hnav-btn" href="life-list.html" id="nav-lifelist">Life List: —</a>
+    <a class="hnav-btn" href="stats.html">Other Stats</a>
+  </nav>
+</div>
+
+<div class="toolbar">
+  <div class="trow">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search" placeholder="Search order or family name…" autocomplete="off">
+    </div>
+    <span class="fl">Show</span>
+    <button class="chip on" data-status="all">All</button>
+    <button class="chip" data-status="observed">Observed ✓</button>
+    <button class="chip" data-status="target">Targets</button>
+    <div class="sort-wrap">
+      <span class="fl">Sort</span>
+      <select class="sort-select" id="sort-sel">
+        <option value="taxo" selected>Taxo Order ↓</option>
+        <option value="count">Species Seen ↓</option>
+        <option value="pct">Completion ↓</option>
+      </select>
+    </div>
+  </div>
+  <div class="orow">
+    <span class="fl">Order</span>
+    <div class="ostrip" id="ostrip"></div>
+  </div>
+</div>
+<div class="otip" id="otip"></div>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+/* ── State ─────────────────────────────────────────────────────────────── */
+var FAMILIES = [];          /* built from birddata.csv — see buildFamilies() */
+var ORDERS = [];            /* [{order, code, fams, seenFams}] in taxonomic order */
+var STATUS = 'all', SORT = 'taxo', QUERY = '', ORDER_FILTER = null, OPEN = null;
+/* Order-strip labels: first 3 letters, except the three pairs that would
+   collide (STR-, COL-, POD-). Edit here to rename any button. */
+var ORDER_CODE = { STRIGIFORMES: 'STG', COLIIFORMES: 'CLI', PODARGIFORMES: 'PDG', PODICIPEDIFORMES: 'PDC' };
+var ROW_H = 100, GAP = 14, MAX_ROWS = 3, MIN_ROWS = 2;
+
+var CHECK = '<svg viewBox="0 0 12 12"><path d="M2.3 6.3 4.8 8.8 9.8 3.4" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* ── Helpers (same rules as index.html) ────────────────────────────────── */
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function stripDiacritics(s){ return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,''); }
+function slug(s){ return stripDiacritics(s).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''); }
+function initials(s){ return s.slice(0,4); }
+function ampersand(s){ return (s||'').replace(/\band\b/g, '&'); }
+function cap(s){ return s.charAt(0) + s.slice(1).toLowerCase(); }
+
+/* Family photo: photos/families/<slug>.jpg, tinted initials panel if missing */
+function familyPhotoHTML(sci) {
+  return '<img src="photos/families/' + slug(sci) + '.jpg" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">'
+       + '<span class="ini" hidden>' + esc(initials(sci)) + '</span>';
+}
+
+/* ── CSV (same parser as index.html) ───────────────────────────────────── */
+function parseCSV(text) {
+  var rows = [], row = [], field = '', inQuotes = false, i = 0, len = text.length;
+  while (i < len) {
+    var c = text.charAt(i);
+    if (inQuotes) {
+      if (c === '"') { if (text.charAt(i+1) === '"') { field += '"'; i += 2; continue; } inQuotes = false; i++; continue; }
+      field += c; i++; continue;
+    }
+    if (c === '"') { inQuotes = true; i++; continue; }
+    if (c === ',') { row.push(field); field = ''; i++; continue; }
+    if (c === '\r') { i++; continue; }
+    if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+    field += c; i++;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+function csvRowsToRecords(rows) {
+  if (!rows.length) return [];
+  var header = rows[0].map(function(h){ return h.replace(/^﻿/, '').trim(); }), out = [];
+  for (var r = 1; r < rows.length; r++) {
+    var cells = rows[r];
+    if (cells.length === 1 && cells[0] === '') continue;
+    var rec = {};
+    for (var c = 0; c < header.length; c++) rec[header[c]] = cells[c] !== undefined ? cells[c] : '';
+    out.push(rec);
+  }
+  return out;
+}
+function isSeenDate(v) {
+  v = (v || '').trim();
+  if (!v) return false;
+  if (/^#?n\/?a$/i.test(v)) return false;
+  return true;
+}
+/* Life list date is M/D/YYYY from the sheet; also accepts YYYY-MM-DD. Returns a sortable number. */
+function dateKey(v) {
+  v = (v || '').trim();
+  var m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if (m) { var y = +m[3]; if (y < 100) y += 2000; return y * 10000 + (+m[1]) * 100 + (+m[2]); }
+  m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m) return (+m[1]) * 10000 + (+m[2]) * 100 + (+m[3]);
+  var t = Date.parse(v);
+  if (!isNaN(t)) { var d = new Date(t); return d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate(); }
+  return 99999999;
+}
+function yearOf(v) { var k = dateKey(v); return k === 99999999 ? v : String(Math.floor(k / 10000)); }
+function col(rec, name) {
+  /* tolerant column lookup: exact name first, then case-insensitive */
+  if (name in rec) return rec[name];
+  var lk = name.toLowerCase();
+  for (var k in rec) if (k.toLowerCase() === lk) return rec[k];
+  return '';
+}
+
+/* Build one entry per family, in taxonomic order (rows sorted by ID first).
+   EX/EW species are skipped entirely, same as index.html. */
+function buildFamilies(records) {
+  records = records.slice().sort(function(a, b) {
+    var ai = parseInt(a['ID'], 10), bi = parseInt(b['ID'], 10);
+    if (isNaN(ai) && isNaN(bi)) return 0;
+    if (isNaN(ai)) return 1;
+    if (isNaN(bi)) return -1;
+    return ai - bi;
+  });
+  var famMap = {}, fams = [], ordMap = {}, ords = [];
+  records.forEach(function(rec, idx) {
+    var ord = (rec['Order'] || '').trim(), sci = (rec['Family'] || '').trim();
+    if (!ord || !sci) return;
+    var iucn = (rec['IUCN Status'] || '').trim().toUpperCase();
+    if (iucn === 'EX' || iucn === 'EW') return;
+    var f = famMap[sci];
+    if (!f) {
+      f = { sci: sci, name: ampersand((rec['Family name'] || '').trim()), order: ord, taxo: fams.length,
+            total: 0, seen: 0, seenList: [], targets: [] };
+      famMap[sci] = f; fams.push(f);
+      if (!ordMap[ord]) { ordMap[ord] = { order: ord, fams: [], seenFams: 0 }; ords.push(ordMap[ord]); }
+      ordMap[ord].fams.push(f);
+    }
+    var common = (rec['Common name'] || '').trim();
+    var dateRaw = rec['Life list date'];
+    var seen = isSeenDate(dateRaw);
+    f.total++;
+    if (seen) { f.seen++; f.seenList.push({ name: common, key: dateKey(dateRaw), year: yearOf(dateRaw), id: idx }); }
+    if ((col(rec, 'Family Target') || '').trim().toLowerCase() === 'yes') {
+      f.targets.push({ name: common, loc: (col(rec, 'Location Short') || '').trim(), seen: seen, id: idx });
+    }
+  });
+  fams.forEach(function(f) {
+    f.pct = f.total ? f.seen / f.total : 0;
+    f.seenList.sort(function(a, b) { return a.key - b.key || a.id - b.id; });   /* first seen, oldest first */
+    f.targets.sort(function(a, b) { return a.id - b.id; });                     /* taxonomic */
+    if (f.seen) ordMap[f.order].seenFams++;
+  });
+  ords.forEach(function(o) { o.code = ORDER_CODE[o.order] || o.order.slice(0, 3); });
+  return { fams: fams, orders: ords };
+}
+
+/* ── Rendering ─────────────────────────────────────────────────────────── */
+function passesStatusAndSearch(f) {
+  if (STATUS === 'observed' && f.seen === 0) return false;
+  if (STATUS === 'target' && f.seen > 0) return false;
+  var q = QUERY.toLowerCase().trim();
+  if (!q) return true;
+  return f.name.toLowerCase().indexOf(q) >= 0
+      || f.sci.toLowerCase().indexOf(q) >= 0
+      || f.order.toLowerCase().indexOf(q) >= 0;
+}
+
+function tileHead(f) {
+  var pctW = Math.round(f.pct * 100);
+  return '<div class="fhead">'
+    + '<div class="fphoto">' + familyPhotoHTML(f.sci) + '</div>'
+    + '<div class="fbody">'
+    +   '<div class="ftop"><div class="fnames"><div class="fsci">' + esc(f.sci) + '</div>'
+    +     '<div class="fname">' + esc(f.name) + '</div></div>'
+    +     '<span class="fchk' + (f.seen ? ' on' : '') + '" title="' + (f.seen ? 'Family seen' : 'Not yet seen') + '">' + CHECK + '</span></div>'
+    +   '<div class="ffoot"><div class="fcnt"><span><b>' + f.seen + '</b> / ' + f.total + '</span></div>'
+    +     '<div class="fbar"><i style="width:' + pctW + '%"></i></div></div>'
+    + '</div></div>';
+}
+
+function panelHTML(f) {
+  var seen = f.seenList.length
+    ? f.seenList.map(function(s) {
+        return '<div class="srow"><span class="n" title="' + esc(s.name) + '">' + esc(s.name) + '</span><span class="y">' + esc(s.year) + '</span></div>';
+      }).join('')
+    : '<div class="none">None seen yet</div>';
+  var tg = f.targets.length
+    ? f.targets.map(function(t) {
+        return '<div class="trow2' + (t.seen ? ' got' : '') + '"><span class="bx">' + CHECK + '</span>'
+             + '<span class="n" title="' + esc(t.name) + '">' + esc(t.name) + '</span><span class="l">' + esc(t.loc) + '</span></div>';
+      }).join('')
+    : '<div class="none">No targets marked yet</div>';
+  return '<div class="fpanel">'
+    + '<div class="fcol"><div class="sect-hd"><h3>Seen</h3><i></i><span class="hint">scroll for all</span></div>'
+    +   '<div class="lwrap"><div class="flist">' + seen + '</div></div></div>'
+    + '<div class="fcol"><div class="sect-hd"><h3>Targets</h3><i></i><span class="hint">scroll for all</span></div>'
+    +   '<div class="lwrap"><div class="flist">' + tg + '</div></div></div>'
+    + '</div>';
+}
+
+function buildTile(f) {
+  var el = document.createElement('div');
+  var isOpen = OPEN === f.sci;
+  el.className = 'ftile' + (isOpen ? ' open' : '');
+  el.tabIndex = 0;
+  el.setAttribute('role', 'button');
+  el.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  el.dataset.sci = f.sci;
+  el.innerHTML = tileHead(f) + (isOpen ? panelHTML(f) : '');
+  el.addEventListener('click', function(e) {
+    if (!isOpen) { toggle(f.sci); return; }
+    if (e.target.closest('.fhead')) toggle(f.sci);   /* clicks inside the panel don't close it */
+  });
+  el.addEventListener('keydown', function(e) {
+    if (e.target !== el) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(f.sci); }
+  });
+  return el;
+}
+
+function toggle(sci) {
+  OPEN = (OPEN === sci) ? null : sci;
+  render();
+  if (OPEN) {
+    var el = document.querySelector('.ftile.open');
+    if (el) el.focus({ preventScroll: true });
+  }
+}
+
+function currentCols() {
+  var cs = getComputedStyle(document.getElementById('grid')).gridTemplateColumns.trim();
+  if (!cs || cs === 'none') return 1;
+  return cs.split(' ').length;
+}
+
+/* Row-snap: measure the open tile's natural height (both lists fully laid
+   out), round up to whole grid rows, clamp to 2–3. A list that still doesn't
+   fit at 3 rows scrolls inside the panel and shows "scroll for all". */
+function snapOpenTile(el) {
+  var cols = currentCols();
+  el.style.gridColumn = 'span ' + Math.min(2, cols);
+  el.style.gridRow = 'span 1';
+  el.classList.add('measuring');
+  var natural = el.offsetHeight;
+  el.classList.remove('measuring');
+  var rows = Math.ceil((natural + GAP) / (ROW_H + GAP));
+  rows = Math.max(MIN_ROWS, Math.min(MAX_ROWS, rows));
+  el.style.gridRow = 'span ' + rows;
+  el.querySelectorAll('.flist').forEach(function(l) {
+    l.closest('.fcol').classList.toggle('more', l.scrollHeight > l.clientHeight + 1);
+  });
+}
+
+function render() {
+  var inView = FAMILIES.filter(passesStatusAndSearch);
+  var list = ORDER_FILTER ? inView.filter(function(f){ return f.order === ORDER_FILTER; }) : inView;
+
+  if (SORT === 'count') list = list.slice().sort(function(a,b){ return b.seen - a.seen || a.taxo - b.taxo; });
+  else if (SORT === 'pct') list = list.slice().sort(function(a,b){ return b.pct - a.pct || b.seen - a.seen || a.taxo - b.taxo; });
+
+  var openFam = null;
+  for (var i = 0; i < list.length; i++) if (list[i].sci === OPEN) { openFam = list[i]; break; }
+
+  updateStrip(inView, openFam);
+
+  /* Keep the page where it is while the grid is rebuilt (see index.html's render()). */
+  var savedScrollY = window.scrollY;
+  var grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state">No families match these filters.</div>';
+    window.scrollTo(0, savedScrollY);
+    return;
+  }
+  var frag = document.createDocumentFragment();
+  list.forEach(function(f){ frag.appendChild(buildTile(f)); });
+  grid.appendChild(frag);
+
+  var openEl = grid.querySelector('.ftile.open');
+  if (openEl) snapOpenTile(openEl);
+
+  window.scrollTo(0, savedScrollY);
+
+  if (openEl) {
+    requestAnimationFrame(function() {
+      var r = openEl.getBoundingClientRect(), vh = window.innerHeight;
+      if (r.top >= 0 && r.bottom <= vh) return;
+      if (r.height >= vh) { openEl.scrollIntoView({ block: 'start' }); return; }
+      openEl.scrollIntoView({ block: 'nearest' });
+    });
+  }
+}
+
+/* ── Order strip ───────────────────────────────────────────────────────── */
+function buildStrip() {
+  var strip = document.getElementById('ostrip');
+  strip.innerHTML = ORDERS.map(function(o) {
+    return '<button class="obtn" data-order="' + esc(o.order) + '" aria-label="' + esc(cap(o.order)) + '">' + esc(o.code) + '</button>';
+  }).join('');
+  var tip = document.getElementById('otip');
+  strip.querySelectorAll('.obtn').forEach(function(b) {
+    var o = ORDERS.filter(function(x){ return x.order === b.dataset.order; })[0];
+    b.addEventListener('click', function() {
+      ORDER_FILTER = (ORDER_FILTER === o.order) ? null : o.order;
+      render();
+    });
+    function showTip() {
+      tip.innerHTML = esc(cap(o.order)) + ' <span>· ' + o.seenFams + ' of ' + o.fams.length + ' families seen</span>';
+      var r = b.getBoundingClientRect();
+      tip.classList.add('show');
+      var tw = tip.offsetWidth;
+      var left = Math.max(8, Math.min(window.innerWidth - tw - 8, r.left + r.width / 2 - tw / 2));
+      tip.style.left = left + 'px';
+      tip.style.top = (r.bottom + 6) + 'px';
+    }
+    function hideTip() { tip.classList.remove('show'); }
+    b.addEventListener('mouseenter', showTip);
+    b.addEventListener('focus', showTip);
+    b.addEventListener('mouseleave', hideTip);
+    b.addEventListener('blur', hideTip);
+  });
+  window.addEventListener('scroll', function(){ tip.classList.remove('show'); }, { passive: true });
+}
+
+function updateStrip(inView, openFam) {
+  var present = {};
+  inView.forEach(function(f){ present[f.order] = true; });
+  document.querySelectorAll('.obtn').forEach(function(b) {
+    var ord = b.dataset.order;
+    b.classList.toggle('on', ORDER_FILTER === ord);
+    b.classList.toggle('expanded', !!openFam && openFam.order === ord);
+    b.classList.toggle('dim', !present[ord]);
+    b.setAttribute('aria-pressed', ORDER_FILTER === ord ? 'true' : 'false');
+  });
+}
+
+/* ── Data load ─────────────────────────────────────────────────────────── */
+function showDataMessage(msg) {
+  document.getElementById('grid').innerHTML = '<div class="empty-state">' + esc(msg) + '</div>';
+}
+function loadData() {
+  showDataMessage('Loading bird data…');
+  fetch('birddata.csv')
+    .then(function(resp) { if (!resp.ok) throw new Error('HTTP ' + resp.status); return resp.text(); })
+    .then(function(text) {
+      var built = buildFamilies(csvRowsToRecords(parseCSV(text)));
+      FAMILIES = built.fams;
+      ORDERS = built.orders;
+      var sn = FAMILIES.reduce(function(a, f){ return a + f.seen; }, 0);
+      document.getElementById('nav-lifelist').textContent = 'Life List: ' + sn.toLocaleString();
+      buildStrip();
+      render();
+    })
+    .catch(function(err) {
+      showDataMessage('Could not load birddata.csv (' + err.message + '). Make sure it sits in the same folder as families.html.');
+    });
+}
+
+(function init() {
+  var chips = document.querySelectorAll('.chip[data-status]');
+  chips.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      chips.forEach(function(b){ b.classList.remove('on'); });
+      btn.classList.add('on');
+      STATUS = btn.dataset.status;
+      render();
+    });
+  });
+  document.getElementById('sort-sel').addEventListener('change', function(){ SORT = this.value; render(); });
+  document.getElementById('search').addEventListener('input', function(){ QUERY = this.value; render(); });
+  var resizeTimer;
+  window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 120); });
+  loadData();
+})();
+</script>
