@@ -776,7 +776,7 @@ function ampersand(s){ return (s||'').replace(/\band\b/g, '&'); }
 /* Photo slot: real file when the repo has one, tinted initials panel otherwise */
 function photoHTML(name, cls, sz) {
   var sl = slug(name);
-  return '<img src="photos/families/' + sl + '.jpg" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">'
+  return '<img src="photos/families/' + sl + '.jpg" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">'
        + '<span class="ini" hidden style="font-size:' + sz + 'px">' + esc(initials(name)) + '</span>';
 }
 
@@ -798,7 +798,7 @@ function orderPhotoSrc(name) {
 function photoGutterHTML(o) {
   if (COMPACT_GRID[o.order]) return '';
   var sl = slug(o.order);
-  return '<div class="opanel-photo"><img src="photos/orders-featured/' + sl + '.jpg" alt="" '
+  return '<div class="opanel-photo"><img src="photos/orders-featured/' + sl + '.jpg" alt="" loading="lazy" '
        + 'onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src=\'photos/orders-featured/' + sl + '.png\';}else{this.style.display=\'none\';}"></div>';
 }
 
@@ -821,7 +821,7 @@ function speciesPhotoSrc(commonName) {
   return 'photos/species/' + speciesSlug(commonName) + '.jpg';
 }
 function speciesPhotoHTML(commonName, cls, sz) {
-  return '<img src="' + speciesPhotoSrc(commonName) + '" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">'
+  return '<img src="' + speciesPhotoSrc(commonName) + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">'
        + '<span class="ini" hidden style="font-size:' + sz + 'px">' + esc(initials(commonName)) + '</span>';
 }
 
@@ -1024,12 +1024,23 @@ function tgtSlotHTML(species) {
     + '</div>';
 }
 
+/* tileHead() renders for every order, collapsed or open — unlike
+   photoGutterHTML()/famRow()/tgtSlotHTML(), which only ever render for
+   whichever single tile is currently OPEN (buildTile() only calls
+   panelHTML() when isOpen — see its own comment). So this banner photo is
+   the one image category that's genuinely in the DOM, and requested, for
+   all ~45 orders at once on every page load — everything else only ever
+   costs one photo at a time. loading="lazy" here (and, for consistency,
+   on every other <img> the site emits) tells the browser not to fetch an
+   offscreen one until it's about to scroll into view, so growing the total
+   order/family/species count doesn't grow what a fresh page load has to
+   download all at once. */
 function tileHead(o) {
   var cname = COMMON_NAMES[o.order];
   return '<div class="ohead">'
     + '<div class="ohead-photo">'
     +   '<div class="ohead-media">'
-    +     '<img src="' + orderPhotoSrc(o.order) + '" alt="" style="object-position:' + headPhotoPos(o.order) + '" onerror="this.parentElement.hidden=true">'
+    +     '<img src="' + orderPhotoSrc(o.order) + '" alt="" loading="lazy" style="object-position:' + headPhotoPos(o.order) + '" onerror="this.parentElement.hidden=true">'
     +   '</div>'
     +   '<div class="ohead-fade"></div>'
     +   '<div class="ohead-text">'
