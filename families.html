@@ -137,17 +137,21 @@
   .obtn {
     flex: 1 0 23px; min-width: 23px; height: 22px; padding: 0;
     font-family: inherit; font-size: 9px; font-weight: 700; letter-spacing: 0;
-    border-radius: 99px; border: 1px solid var(--chip-border);
-    background: var(--chip-bg); color: var(--chip-text); cursor: pointer;
-    transition: background .12s, color .12s, border-color .12s, opacity .12s, transform .08s;
+    border-radius: 99px; border: 1px solid rgba(0,0,0,.08);
+    background: var(--obg, var(--chip-bg)); color: var(--oink, var(--chip-text)); cursor: pointer;
+    transition: box-shadow .12s, opacity .12s, transform .08s, filter .12s;
   }
-  .obtn:hover { transform: translateY(-1px); border-color: var(--teal-md); }
+  .obtn:hover { transform: translateY(-1px); filter: brightness(1.05); }
   .obtn:focus-visible { outline: 2px solid var(--teal-dk); outline-offset: 1px; }
-  .obtn.dim { opacity: .35; }
-  /* selected = dark lavender; the expanded family's order = mid lavender */
-  .obtn.expanded { background: var(--lav-md); border-color: var(--lav-dk); color: var(--lav-ink); opacity: 1; }
-  .obtn.on { background: var(--lav-dk); border-color: var(--lav-dk); color: #fff; opacity: 1; }
-  .obtn.on.expanded { box-shadow: 0 0 0 2px var(--lav-md); }
+  /* orders with nothing matching the current filters */
+  .obtn.dim { opacity: .3; }
+  /* while any order is selected, the unselected ones step back */
+  .ostrip.has-sel .obtn:not(.on) { opacity: .45; }
+  .ostrip.has-sel .obtn.dim:not(.on) { opacity: .2; }
+  /* selected = dark ring; the expanded family's order = lavender ring */
+  .obtn.expanded { box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px var(--lav-dk); opacity: 1; }
+  .obtn.on { box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px var(--lav-ink); opacity: 1; transform: translateY(-1px); }
+  .ostrip { padding: 4px 3px; }
   .oclear {
     width: 52px; flex: none; text-align: left; padding: 0; border: 0; background: none;
     font-family: inherit; cursor: default;
@@ -157,14 +161,6 @@
   .oclear.active .lbl { display: none; }
   .oclear.active .x { display: inline; }
   .oclear.active:hover { color: var(--lav-ink); }
-  .otip {
-    position: fixed; z-index: 10; pointer-events: none;
-    background: var(--teal-dk); color: var(--header-text);
-    font-size: 11px; font-weight: 600; padding: 5px 9px; border-radius: 7px;
-    box-shadow: var(--shadow-h); white-space: nowrap; opacity: 0; transition: opacity .1s;
-  }
-  .otip.show { opacity: 1; }
-  .otip span { font-weight: 400; color: var(--header-sub); }
 
   /* ── GRID ─────────────────────────────────────────── */
   .grid-wrap { flex: 1; padding: 18px clamp(16px, 4vw, 30px) 48px; }
@@ -219,7 +215,7 @@
   /* count + progress bar; the bar runs flush from the photo's edge to the tile's right edge */
   .ffoot { margin: auto -7px 0 -10px; display: flex; flex-direction: column; gap: 5px; }
   .fcnt { display: flex; justify-content: flex-end; font-size: 11px; line-height: 1; font-variant-numeric: tabular-nums; padding-right: 7px; }
-  .fcnt b { font-size: 12px; }
+  .fcnt b { font-size: inherit; font-weight: 700; }
   .fcnt .fpct { opacity: .7; }
   .fbar { height: 5px; background: rgba(53,43,63,.18); overflow: hidden; }
   .fbar i { display: block; height: 100%; background: var(--lav-dk); }
@@ -263,11 +259,7 @@
   .trow2.got .bx { background: var(--lav-dk); }
   .trow2.got .bx svg { opacity: 1; }
   .trow2 .l { margin-left: auto; font-size: 10px; opacity: .6; white-space: nowrap; flex: none; padding-left: 4px; }
-  .done {
-    display: flex; align-items: center; gap: 6px; padding-top: 2px;
-    font-family: var(--serif); font-size: 13px; color: var(--lav-ink);
-  }
-  .done svg { width: 14px; height: 14px; padding: 2px; border-radius: 4px; background: var(--lav-dk); box-sizing: content-box; }
+  .trow2.done { border-bottom: 0; }
   .none { font-size: 11px; font-style: italic; opacity: .5; padding-top: 2px; }
 
   /* Measuring pass for row-snap: let the open tile take its natural height */
@@ -315,7 +307,6 @@
   </div>
 </div>
 </div>
-<div class="otip" id="otip"></div>
 
 <div class="grid-wrap">
   <div class="grid" id="grid"></div>
@@ -330,6 +321,19 @@ var ORDER_SEL = {};          /* selected orders (multi-select); empty = all orde
 function orderSelCount() { return Object.keys(ORDER_SEL).length; }
 /* Order-strip labels: first 3 letters, except the three pairs that would
    collide (STR-, COL-, POD-). Edit here to rename any button. */
+/* One color per order button, in taxonomic sequence (Eric's "45 Jewel Tones"
+   palette, #1–#45). Text on each button flips to white or dark ink by luminance. */
+var ORDER_COLORS = ['#5E8F8A','#7FA99A','#9BB7B0','#A7C3BE','#B7D2CE','#C9E0D8','#A3BBD3','#8CA9C8','#6E8FB0',
+  '#587D92','#4F6F8A','#7188B6','#8E9CC6','#A49BC3','#B9A7D0','#C8B2D6','#D6C6E1','#E3D8E8',
+  '#6F8763','#8CA07E','#9EB59A','#A7B98F','#B7CDA3','#C7E0C2','#5F9E8F','#4F857A','#3F6F63',
+  '#557B7A','#446C66','#3A5F62','#4A6E6A','#5B6973','#6F6588','#7F6B8F','#9A7A9B','#B17E9B',
+  '#A06F8A','#B77A9C','#C596B5','#D3A7B7','#E0B7C5','#D6C1D1','#B8AFC7','#A98AA8','#8A7AA1'];
+function inkFor(hex) {
+  var n = parseInt(hex.slice(1), 16), c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function(v) {
+    v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+  var L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  return L > 0.33 ? '#352B3F' : '#fff';
+}
 var ORDER_CODE = { STRIGIFORMES: 'STG', COLIIFORMES: 'CLI', PODARGIFORMES: 'PDG', PODICIPEDIFORMES: 'PDC' };
 var ROW_H = 100, GAP = 14, MAX_ROWS = 3, MIN_ROWS = 2;
 
@@ -483,7 +487,7 @@ function panelHTML(f) {
       }).join('')
     : '<div class="none">None seen yet</div>';
   var tg = (f.total && f.seen === f.total)
-    ? '<div class="done">' + CHECK + 'Complete!</div>'
+    ? '<div class="trow2 got done"><span class="bx">' + CHECK + '</span><span class="n">Complete!</span></div>'
     : f.targets.length
     ? f.targets.map(function(t) {
         return '<div class="trow2' + (t.seen ? ' got' : '') + '"><span class="bx">' + CHECK + '</span>'
@@ -609,32 +613,18 @@ function render() {
 /* ── Order strip ───────────────────────────────────────────────────────── */
 function buildStrip() {
   var strip = document.getElementById('ostrip');
-  strip.innerHTML = ORDERS.map(function(o) {
-    return '<button class="obtn" data-order="' + esc(o.order) + '" aria-label="' + esc(cap(o.order)) + '">' + esc(o.code) + '</button>';
+  strip.innerHTML = ORDERS.map(function(o, i) {
+    var bg = ORDER_COLORS[i % ORDER_COLORS.length];
+    return '<button class="obtn" data-order="' + esc(o.order) + '" aria-label="' + esc(cap(o.order)) + '"'
+         + ' style="--obg:' + bg + ';--oink:' + inkFor(bg) + '">' + esc(o.code) + '</button>';
   }).join('');
-  var tip = document.getElementById('otip');
   strip.querySelectorAll('.obtn').forEach(function(b) {
     var o = ORDERS.filter(function(x){ return x.order === b.dataset.order; })[0];
     b.addEventListener('click', function() {
       if (ORDER_SEL[o.order]) delete ORDER_SEL[o.order]; else ORDER_SEL[o.order] = true;
       render();
     });
-    function showTip() {
-      tip.innerHTML = esc(cap(o.order)) + ' <span>· ' + o.seenFams + ' of ' + o.fams.length + ' families seen</span>';
-      var r = b.getBoundingClientRect();
-      tip.classList.add('show');
-      var tw = tip.offsetWidth;
-      var left = Math.max(8, Math.min(window.innerWidth - tw - 8, r.left + r.width / 2 - tw / 2));
-      tip.style.left = left + 'px';
-      tip.style.top = (r.bottom + 6) + 'px';
-    }
-    function hideTip() { tip.classList.remove('show'); }
-    b.addEventListener('mouseenter', showTip);
-    b.addEventListener('focus', showTip);
-    b.addEventListener('mouseleave', hideTip);
-    b.addEventListener('blur', hideTip);
   });
-  window.addEventListener('scroll', function(){ tip.classList.remove('show'); }, { passive: true });
 }
 
 function updateStrip(inView, openFam) {
@@ -647,6 +637,7 @@ function updateStrip(inView, openFam) {
     b.classList.toggle('dim', !present[ord]);
     b.setAttribute('aria-pressed', ORDER_SEL[ord] ? 'true' : 'false');
   });
+  document.getElementById('ostrip').classList.toggle('has-sel', orderSelCount() > 0);
   var clr = document.getElementById('oclear');
   clr.classList.toggle('active', orderSelCount() > 0);
   clr.disabled = orderSelCount() === 0;
