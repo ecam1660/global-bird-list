@@ -64,6 +64,12 @@
     display: flex; flex-direction: column; min-height: 100%;
   }
 
+  /* ── STICKY TOP BAR: header + toolbar stay pinned while the grid scrolls.
+     Left static on narrow screens, where the two would eat half the viewport. */
+  .topbar { position: sticky; top: 0; z-index: 30; }
+  @media (max-width: 699px) { .topbar { position: static; } }
+  .otile { scroll-margin-top: calc(var(--topbar-h, 0px) + 12px); scroll-margin-bottom: 12px; }
+
   /* ── HEADER ───────────────────────────────────────── */
   /* Height and h1 font-size match the travel-planning site's header exactly
      (14px vertical padding, fixed 20px h1) rather than this page's previous
@@ -604,6 +610,7 @@
   </defs>
 </svg>
 
+<div class="topbar">
 <div class="header">
   <h1><b>Global Bird List</b>: Order Summary</h1>
   <nav class="hnav">
@@ -632,6 +639,8 @@
       </select>
     </div>
   </div>
+</div>
+
 </div>
 
 <div class="grid-wrap">
@@ -1342,10 +1351,11 @@ function render() {
     requestAnimationFrame(function() {
       var openEl = grid.querySelector('.otile.open');
       if (!openEl) return;
+      var top = setTopbarVar();                                 /* pinned header height (0 on mobile) */
       var r = openEl.getBoundingClientRect();
       var vh = window.innerHeight;
-      if (r.top >= 0 && r.bottom <= vh) return;               /* fully visible already */
-      if (r.height >= vh) { openEl.scrollIntoView({ block: 'start' }); return; }  /* taller than viewport: show its top */
+      if (r.top >= top && r.bottom <= vh) return;               /* fully visible below the pinned bar */
+      if (r.height >= vh - top) { openEl.scrollIntoView({ block: 'start' }); return; }  /* taller than the space left: show its top */
       openEl.scrollIntoView({ block: 'nearest' });
     });
   }
@@ -1617,6 +1627,15 @@ function measureLayoutConstants() {
   }
 
   document.body.removeChild(probe);
+}
+
+/* Height of the pinned top bar (0 when it isn't sticky), exposed as --topbar-h
+   so scrollIntoView() on an opened tile stops just below it, not under it. */
+function setTopbarVar() {
+  var t = document.querySelector('.topbar');
+  var h = (t && getComputedStyle(t).position === 'sticky') ? t.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty('--topbar-h', h + 'px');
+  return h;
 }
 
 function currentCols() {
