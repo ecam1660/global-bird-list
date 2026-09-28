@@ -51,6 +51,12 @@
     display: flex; flex-direction: column; min-height: 100%;
   }
 
+  /* ── STICKY TOP BAR: header + toolbar stay pinned while the grid scrolls.
+     Left static on narrow screens, where the two would eat half the viewport. */
+  .topbar { position: sticky; top: 0; z-index: 30; }
+  @media (max-width: 699px) { .topbar { position: static; } }
+  .ftile { scroll-margin-top: calc(var(--topbar-h, 0px) + 12px); scroll-margin-bottom: 12px; }
+
   /* ── HEADER (same markup/CSS as index.html) ───────── */
   .header {
     background: var(--header-bg);
@@ -138,9 +144,19 @@
   .obtn:hover { transform: translateY(-1px); border-color: var(--teal-md); }
   .obtn:focus-visible { outline: 2px solid var(--teal-dk); outline-offset: 1px; }
   .obtn.dim { opacity: .35; }
+  /* selected = dark lavender; the expanded family's order = mid lavender */
   .obtn.expanded { background: var(--lav-md); border-color: var(--lav-dk); color: var(--lav-ink); opacity: 1; }
-  .obtn.on { background: var(--chip-on-bg); border-color: var(--chip-on-bg); color: var(--chip-on-text); opacity: 1; }
+  .obtn.on { background: var(--lav-dk); border-color: var(--lav-dk); color: #fff; opacity: 1; }
   .obtn.on.expanded { box-shadow: 0 0 0 2px var(--lav-md); }
+  .oclear {
+    width: 52px; flex: none; text-align: left; padding: 0; border: 0; background: none;
+    font-family: inherit; cursor: default;
+  }
+  .oclear .x { display: none; }
+  .oclear.active { cursor: pointer; color: var(--lav-dk); }
+  .oclear.active .lbl { display: none; }
+  .oclear.active .x { display: inline; }
+  .oclear.active:hover { color: var(--lav-ink); }
   .otip {
     position: fixed; z-index: 10; pointer-events: none;
     background: var(--teal-dk); color: var(--header-text);
@@ -204,6 +220,7 @@
   .ffoot { margin: auto -7px 0 -10px; display: flex; flex-direction: column; gap: 5px; }
   .fcnt { display: flex; justify-content: flex-end; font-size: 11px; line-height: 1; font-variant-numeric: tabular-nums; padding-right: 7px; }
   .fcnt b { font-size: 12px; }
+  .fcnt .fpct { opacity: .7; }
   .fbar { height: 5px; background: rgba(53,43,63,.18); overflow: hidden; }
   .fbar i { display: block; height: 100%; background: var(--lav-dk); }
 
@@ -213,7 +230,7 @@
   .fpanel {
     background: var(--lav-lt); flex: 1; min-height: 0;
     padding: 7px 10px 8px;
-    display: grid; grid-template-columns: 1fr 1.25fr; gap: 14px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
   }
   .fcol { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
   .sect-hd { display: flex; align-items: center; gap: 6px; height: 15px; margin-bottom: 5px; flex: none; }
@@ -223,9 +240,11 @@
   .fcol.more .sect-hd .hint { display: inline; }
   .lwrap { position: relative; flex: 1; min-height: 0; display: flex; }
   .fcol.more .lwrap::after {
+    transition: opacity .15s;
     content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22px; pointer-events: none;
     background: linear-gradient(to bottom, rgba(213,203,221,0), var(--lav-lt));
   }
+  .fcol.more.atend .lwrap::after { opacity: 0; }
   .flist {
     flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
     scrollbar-width: thin; scrollbar-color: rgba(53,43,63,.3) transparent;
@@ -244,6 +263,11 @@
   .trow2.got .bx { background: var(--lav-dk); }
   .trow2.got .bx svg { opacity: 1; }
   .trow2 .l { margin-left: auto; font-size: 10px; opacity: .6; white-space: nowrap; flex: none; padding-left: 4px; }
+  .done {
+    display: flex; align-items: center; gap: 6px; padding-top: 2px;
+    font-family: var(--serif); font-size: 13px; color: var(--lav-ink);
+  }
+  .done svg { width: 14px; height: 14px; padding: 2px; border-radius: 4px; background: var(--lav-dk); box-sizing: content-box; }
   .none { font-size: 11px; font-style: italic; opacity: .5; padding-top: 2px; }
 
   /* Measuring pass for row-snap: let the open tile take its natural height */
@@ -256,6 +280,7 @@
   }
 </style>
 
+<div class="topbar">
 <div class="header">
   <h1><b>Global Bird List</b>: Family Summary</h1>
   <nav class="hnav">
@@ -285,9 +310,10 @@
     </div>
   </div>
   <div class="orow">
-    <span class="fl">Order</span>
+    <button class="fl oclear" id="oclear" disabled title="Clear order selection"><span class="lbl">Order</span><span class="x">Clear ×</span></button>
     <div class="ostrip" id="ostrip"></div>
   </div>
+</div>
 </div>
 <div class="otip" id="otip"></div>
 
@@ -299,7 +325,9 @@
 /* ── State ─────────────────────────────────────────────────────────────── */
 var FAMILIES = [];          /* built from birddata.csv — see buildFamilies() */
 var ORDERS = [];            /* [{order, code, fams, seenFams}] in taxonomic order */
-var STATUS = 'all', SORT = 'taxo', QUERY = '', ORDER_FILTER = null, OPEN = null;
+var STATUS = 'all', SORT = 'taxo', QUERY = '', OPEN = null;
+var ORDER_SEL = {};          /* selected orders (multi-select); empty = all orders */
+function orderSelCount() { return Object.keys(ORDER_SEL).length; }
 /* Order-strip labels: first 3 letters, except the three pairs that would
    collide (STR-, COL-, POD-). Edit here to rename any button. */
 var ORDER_CODE = { STRIGIFORMES: 'STG', COLIIFORMES: 'CLI', PODARGIFORMES: 'PDG', PODICIPEDIFORMES: 'PDC' };
@@ -405,7 +433,8 @@ function buildFamilies(records) {
     var dateRaw = rec['Life list date'];
     var seen = isSeenDate(dateRaw);
     f.total++;
-    if (seen) { f.seen++; f.seenList.push({ name: common, key: dateKey(dateRaw), year: yearOf(dateRaw), id: idx }); }
+    if (seen) { f.seen++; var cc = ((rec['Life list location'] || '').trim().match(/^([A-Za-z]{2})\b/) || [])[1];
+      f.seenList.push({ name: common, key: dateKey(dateRaw), year: yearOf(dateRaw), cc: cc ? cc.toUpperCase() : '', id: idx }); }
     if ((col(rec, 'Family Target') || '').trim().toLowerCase() === 'yes') {
       f.targets.push({ name: common, loc: (col(rec, 'Location Short') || '').trim(), seen: seen, id: idx });
     }
@@ -431,6 +460,9 @@ function passesStatusAndSearch(f) {
       || f.order.toLowerCase().indexOf(q) >= 0;
 }
 
+/* Whole-number percent, rounded down so nothing reads 100% until it truly is */
+function pctLabel(f) { return (f.total ? Math.floor(f.seen / f.total * 100) : 0) + '%'; }
+
 function tileHead(f) {
   var pctW = Math.round(f.pct * 100);
   return '<div class="fhead">'
@@ -439,7 +471,7 @@ function tileHead(f) {
     +   '<div class="ftop"><div class="fnames"><div class="fsci">' + esc(f.sci) + '</div>'
     +     '<div class="fname">' + esc(f.name) + '</div></div>'
     +     '<span class="fchk' + (f.seen ? ' on' : '') + '" title="' + (f.seen ? 'Family seen' : 'Not yet seen') + '">' + CHECK + '</span></div>'
-    +   '<div class="ffoot"><div class="fcnt"><span><b>' + f.seen + '</b> / ' + f.total + '</span></div>'
+    +   '<div class="ffoot"><div class="fcnt"><span><b>' + f.seen + '</b> / ' + f.total + ' <span class="fpct">(' + pctLabel(f) + ')</span></span></div>'
     +     '<div class="fbar"><i style="width:' + pctW + '%"></i></div></div>'
     + '</div></div>';
 }
@@ -447,17 +479,19 @@ function tileHead(f) {
 function panelHTML(f) {
   var seen = f.seenList.length
     ? f.seenList.map(function(s) {
-        return '<div class="srow"><span class="n" title="' + esc(s.name) + '">' + esc(s.name) + '</span><span class="y">' + esc(s.year) + '</span></div>';
+        return '<div class="srow"><span class="n" title="' + esc(s.name) + '">' + esc(s.name) + '</span><span class="y">' + esc(s.cc ? s.cc + '-' + s.year : s.year) + '</span></div>';
       }).join('')
     : '<div class="none">None seen yet</div>';
-  var tg = f.targets.length
+  var tg = (f.total && f.seen === f.total)
+    ? '<div class="done">' + CHECK + 'Complete!</div>'
+    : f.targets.length
     ? f.targets.map(function(t) {
         return '<div class="trow2' + (t.seen ? ' got' : '') + '"><span class="bx">' + CHECK + '</span>'
              + '<span class="n" title="' + esc(t.name) + '">' + esc(t.name) + '</span><span class="l">' + esc(t.loc) + '</span></div>';
       }).join('')
     : '<div class="none">No targets marked yet</div>';
   return '<div class="fpanel">'
-    + '<div class="fcol"><div class="sect-hd"><h3>Seen</h3><i></i><span class="hint">scroll for all</span></div>'
+    + '<div class="fcol"><div class="sect-hd"><h3>Observed</h3><i></i><span class="hint">scroll for all</span></div>'
     +   '<div class="lwrap"><div class="flist">' + seen + '</div></div></div>'
     + '<div class="fcol"><div class="sect-hd"><h3>Targets</h3><i></i><span class="hint">scroll for all</span></div>'
     +   '<div class="lwrap"><div class="flist">' + tg + '</div></div></div>'
@@ -493,6 +527,15 @@ function toggle(sci) {
   }
 }
 
+/* Height of the pinned top bar (0 when it isn't sticky), exposed as --topbar-h
+   so scrollIntoView() on an opened tile stops just below it, not under it. */
+function setTopbarVar() {
+  var t = document.querySelector('.topbar');
+  var h = (t && getComputedStyle(t).position === 'sticky') ? t.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty('--topbar-h', h + 'px');
+  return h;
+}
+
 function currentCols() {
   var cs = getComputedStyle(document.getElementById('grid')).gridTemplateColumns.trim();
   if (!cs || cs === 'none') return 1;
@@ -513,13 +556,18 @@ function snapOpenTile(el) {
   rows = Math.max(MIN_ROWS, Math.min(MAX_ROWS, rows));
   el.style.gridRow = 'span ' + rows;
   el.querySelectorAll('.flist').forEach(function(l) {
-    l.closest('.fcol').classList.toggle('more', l.scrollHeight > l.clientHeight + 1);
+    var c = l.closest('.fcol');
+    c.classList.toggle('more', l.scrollHeight > l.clientHeight + 1);
+    /* drop the fade once scrolled to the bottom, so the last row reads clearly */
+    var atEnd = function() { c.classList.toggle('atend', l.scrollTop + l.clientHeight >= l.scrollHeight - 2); };
+    atEnd();
+    l.addEventListener('scroll', atEnd, { passive: true });
   });
 }
 
 function render() {
   var inView = FAMILIES.filter(passesStatusAndSearch);
-  var list = ORDER_FILTER ? inView.filter(function(f){ return f.order === ORDER_FILTER; }) : inView;
+  var list = orderSelCount() ? inView.filter(function(f){ return ORDER_SEL[f.order]; }) : inView;
 
   if (SORT === 'count') list = list.slice().sort(function(a,b){ return b.seen - a.seen || a.taxo - b.taxo; });
   else if (SORT === 'pct') list = list.slice().sort(function(a,b){ return b.pct - a.pct || b.seen - a.seen || a.taxo - b.taxo; });
@@ -549,9 +597,10 @@ function render() {
 
   if (openEl) {
     requestAnimationFrame(function() {
+      var top = setTopbarVar();
       var r = openEl.getBoundingClientRect(), vh = window.innerHeight;
-      if (r.top >= 0 && r.bottom <= vh) return;
-      if (r.height >= vh) { openEl.scrollIntoView({ block: 'start' }); return; }
+      if (r.top >= top && r.bottom <= vh) return;               /* fully visible below the pinned bar */
+      if (r.height >= vh - top) { openEl.scrollIntoView({ block: 'start' }); return; }
       openEl.scrollIntoView({ block: 'nearest' });
     });
   }
@@ -567,7 +616,7 @@ function buildStrip() {
   strip.querySelectorAll('.obtn').forEach(function(b) {
     var o = ORDERS.filter(function(x){ return x.order === b.dataset.order; })[0];
     b.addEventListener('click', function() {
-      ORDER_FILTER = (ORDER_FILTER === o.order) ? null : o.order;
+      if (ORDER_SEL[o.order]) delete ORDER_SEL[o.order]; else ORDER_SEL[o.order] = true;
       render();
     });
     function showTip() {
@@ -593,11 +642,14 @@ function updateStrip(inView, openFam) {
   inView.forEach(function(f){ present[f.order] = true; });
   document.querySelectorAll('.obtn').forEach(function(b) {
     var ord = b.dataset.order;
-    b.classList.toggle('on', ORDER_FILTER === ord);
+    b.classList.toggle('on', !!ORDER_SEL[ord]);
     b.classList.toggle('expanded', !!openFam && openFam.order === ord);
     b.classList.toggle('dim', !present[ord]);
-    b.setAttribute('aria-pressed', ORDER_FILTER === ord ? 'true' : 'false');
+    b.setAttribute('aria-pressed', ORDER_SEL[ord] ? 'true' : 'false');
   });
+  var clr = document.getElementById('oclear');
+  clr.classList.toggle('active', orderSelCount() > 0);
+  clr.disabled = orderSelCount() === 0;
 }
 
 /* ── Data load ─────────────────────────────────────────────────────────── */
@@ -634,6 +686,7 @@ function loadData() {
   });
   document.getElementById('sort-sel').addEventListener('change', function(){ SORT = this.value; render(); });
   document.getElementById('search').addEventListener('input', function(){ QUERY = this.value; render(); });
+  document.getElementById('oclear').addEventListener('click', function(){ ORDER_SEL = {}; render(); });
   var resizeTimer;
   window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 120); });
   loadData();
