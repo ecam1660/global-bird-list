@@ -134,23 +134,20 @@
     overflow-x: auto; scrollbar-width: none; padding: 2px 0;
   }
   .ostrip::-webkit-scrollbar { display: none; }
+  /* unselected = tan chip; selected = that order's own spectrum color */
   .obtn {
     flex: 1 0 23px; min-width: 23px; height: 22px; padding: 0;
     font-family: inherit; font-size: 9px; font-weight: 700; letter-spacing: 0;
-    border-radius: 99px; border: 1px solid rgba(0,0,0,.08);
-    background: var(--obg, var(--chip-bg)); color: var(--oink, var(--chip-text)); cursor: pointer;
-    transition: box-shadow .12s, opacity .12s, transform .08s, filter .12s;
+    border-radius: 99px; border: 1px solid var(--chip-border);
+    background: var(--chip-bg); color: var(--chip-text); cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s, opacity .12s, transform .08s;
   }
-  .obtn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+  .obtn:hover { transform: translateY(-1px); border-color: var(--obg); }
   .obtn:focus-visible { outline: 2px solid var(--teal-dk); outline-offset: 1px; }
-  /* orders with nothing matching the current filters */
-  .obtn.dim { opacity: .3; }
-  /* while any order is selected, the unselected ones step back */
-  .ostrip.has-sel .obtn:not(.on) { opacity: .45; }
-  .ostrip.has-sel .obtn.dim:not(.on) { opacity: .2; }
-  /* selected = dark ring; the expanded family's order = lavender ring */
-  .obtn.expanded { box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px var(--lav-dk); opacity: 1; }
-  .obtn.on { box-shadow: 0 0 0 1.5px var(--surface), 0 0 0 3px var(--lav-ink); opacity: 1; transform: translateY(-1px); }
+  .obtn.dim { opacity: .35; }
+  .obtn.on { background: var(--obg); border-color: var(--obg); color: var(--oink); opacity: 1; }
+  /* the expanded family's order: tan with a border in its spectrum color */
+  .obtn.expanded:not(.on) { border: 2px solid var(--obg); opacity: 1; }
   .ostrip { padding: 4px 3px; }
   .oclear {
     width: 52px; flex: none; text-align: left; padding: 0; border: 0; background: none;
@@ -637,7 +634,6 @@ function updateStrip(inView, openFam) {
     b.classList.toggle('dim', !present[ord]);
     b.setAttribute('aria-pressed', ORDER_SEL[ord] ? 'true' : 'false');
   });
-  document.getElementById('ostrip').classList.toggle('has-sel', orderSelCount() > 0);
   var clr = document.getElementById('oclear');
   clr.classList.toggle('active', orderSelCount() > 0);
   clr.disabled = orderSelCount() === 0;
