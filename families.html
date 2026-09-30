@@ -238,13 +238,16 @@
     background: linear-gradient(to bottom, rgba(213,203,221,0), var(--lav-lt));
   }
   .fcol.more.atend .lwrap::after { opacity: 0; }
+  .fcol.more .flist { overflow-y: auto; }
+  /* A list only becomes scrollable when it has more rows than fit (see snapOpenTile);
+     otherwise it's locked, so a list that fits can't be nudged by the trackpad. */
   .flist {
-    flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    flex: 1; min-height: 0; overflow: hidden; overscroll-behavior: contain;
     scrollbar-width: thin; scrollbar-color: rgba(53,43,63,.3) transparent;
   }
   .srow, .trow2 {
-    display: flex; align-items: center; gap: 6px; height: var(--row);
-    font-size: 11.5px; border-bottom: 1px solid rgba(53,43,63,.08);
+    display: flex; align-items: center; gap: 6px; height: var(--row); box-sizing: border-box;
+    font-size: 11.5px; line-height: 15px; overflow: hidden; border-bottom: 1px solid rgba(53,43,63,.08);
   }
   .srow .n, .trow2 .n { font-family: var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .srow .y { margin-left: auto; opacity: .55; font-size: 10px; font-variant-numeric: tabular-nums; flex: none; }
@@ -255,7 +258,12 @@
   .trow2 .bx svg { width: 9px; height: 9px; opacity: 0; }
   .trow2.got .bx { background: var(--lav-dk); }
   .trow2.got .bx svg { opacity: 1; }
-  .trow2 .l { margin-left: auto; font-size: 10px; opacity: .6; white-space: nowrap; flex: none; padding-left: 4px; }
+  .trow2 .l { margin-left: auto; font-size: 10px; opacity: .6; white-space: nowrap; flex: none; padding-left: 4px; font-variant-numeric: tabular-nums; }
+  .trow2 .aba {
+    flex: none; font-size: 8.5px; font-weight: 700; letter-spacing: .03em; line-height: 12px;
+    padding: 0 5px; border-radius: 99px; background: #BFB3CA; color: var(--lav-ink); white-space: nowrap;
+    opacity: .9;  /* a step lighter than the tile's #A89AB5 so the pills stay quiet */
+  }
   .trow2.done { border-bottom: 0; }
   .none { font-size: 11px; font-style: italic; opacity: .5; padding-top: 2px; }
 
@@ -332,6 +340,7 @@ function inkFor(hex) {
   return L > 0.33 ? '#352B3F' : '#fff';
 }
 var ORDER_CODE = { STRIGIFORMES: 'STG', COLIIFORMES: 'CLI', PODARGIFORMES: 'PDG', PODICIPEDIFORMES: 'PDC' };
+var ROWS_AT_2 = 4;   /* list rows that fit in a 2-tile-high expanded tile (11 fit at 3) */
 var ROW_H = 100, GAP = 14, MAX_ROWS = 3, MIN_ROWS = 2;
 
 var CHECK = '<svg viewBox="0 0 12 12"><path d="M2.3 6.3 4.8 8.8 9.8 3.4" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -437,13 +446,15 @@ function buildFamilies(records) {
     if (seen) { f.seen++; var cc = ((rec['Life list location'] || '').trim().match(/^([A-Za-z]{2})\b/) || [])[1];
       f.seenList.push({ name: common, key: dateKey(dateRaw), year: yearOf(dateRaw), cc: cc ? cc.toUpperCase() : '', id: idx }); }
     if ((col(rec, 'Family Target') || '').trim().toLowerCase() === 'yes') {
-      f.targets.push({ name: common, loc: (col(rec, 'Location Short') || '').trim(), seen: seen, id: idx });
+      var abaM = (rec['ABA Status'] || '').match(/ABA\s*([1-4])\b/i);
+      var obs = parseInt((col(rec, 'World Obs (Oct 2025)') || '').replace(/[^0-9]/g, ''), 10);
+      f.targets.push({ name: common, aba: abaM ? abaM[1] : '', obs: isNaN(obs) ? 0 : obs, seen: seen, id: idx });
     }
   });
   fams.forEach(function(f) {
     f.pct = f.total ? f.seen / f.total : 0;
     f.seenList.sort(function(a, b) { return a.key - b.key || a.id - b.id; });   /* first seen, oldest first */
-    f.targets.sort(function(a, b) { return a.id - b.id; });                     /* taxonomic */
+    f.targets.sort(function(a, b) { return b.obs - a.obs || a.id - b.id; });    /* most global observations first */
     if (f.seen) ordMap[f.order].seenFams++;
   });
   ords.forEach(function(o) { o.code = ORDER_CODE[o.order] || o.order.slice(0, 3); });
@@ -488,7 +499,9 @@ function panelHTML(f) {
     : f.targets.length
     ? f.targets.map(function(t) {
         return '<div class="trow2' + (t.seen ? ' got' : '') + '"><span class="bx">' + CHECK + '</span>'
-             + '<span class="n" title="' + esc(t.name) + '">' + esc(t.name) + '</span><span class="l">' + esc(t.loc) + '</span></div>';
+             + '<span class="n" title="' + esc(t.name) + '">' + esc(t.name) + '</span>'
+             + (t.aba ? '<span class="aba">ABA ' + t.aba + '</span>' : '')
+             + '<span class="l" title="Global observations (Oct 2025)">' + t.obs.toLocaleString('en-US') + '</span></div>';
       }).join('')
     : '<div class="none">No targets marked yet</div>';
   return '<div class="fpanel">'
@@ -549,16 +562,29 @@ function currentCols() {
 function snapOpenTile(el) {
   var cols = currentCols();
   el.style.gridColumn = 'span ' + Math.min(2, cols);
-  el.style.gridRow = 'span 1';
-  el.classList.add('measuring');
-  var natural = el.offsetHeight;
-  el.classList.remove('measuring');
-  var rows = Math.ceil((natural + GAP) / (ROW_H + GAP));
-  rows = Math.max(MIN_ROWS, Math.min(MAX_ROWS, rows));
+  var panel = el.querySelector('.fpanel');
+  var sideBySide = getComputedStyle(panel).gridTemplateColumns.trim().split(' ').length >= 2;
+  var rows;
+  if (sideBySide) {
+    /* Seen/Targets side by side: 2 tiles high holds 4 list rows, 3 tiles holds 11.
+       Grow to 3 as soon as either list has more than 4 rows. */
+    var longest = 0;
+    el.querySelectorAll('.flist').forEach(function(l) { longest = Math.max(longest, l.children.length); });
+    rows = longest > ROWS_AT_2 ? MAX_ROWS : MIN_ROWS;
+  } else {
+    /* narrow screens: lists are stacked, so measure the natural height instead */
+    el.style.gridRow = 'span 1';
+    el.classList.add('measuring');
+    var natural = el.offsetHeight;
+    el.classList.remove('measuring');
+    rows = Math.max(MIN_ROWS, Math.min(MAX_ROWS, Math.ceil((natural + GAP) / (ROW_H + GAP))));
+  }
   el.style.gridRow = 'span ' + rows;
+  var rowPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--row')) || 17;
   el.querySelectorAll('.flist').forEach(function(l) {
     var c = l.closest('.fcol');
-    c.classList.toggle('more', l.scrollHeight > l.clientHeight + 1);
+    var fits = Math.floor((l.clientHeight + 0.5) / rowPx);
+    c.classList.toggle('more', l.children.length > fits);   /* only then does it scroll */
     /* drop the fade once scrolled to the bottom, so the last row reads clearly */
     var atEnd = function() { c.classList.toggle('atend', l.scrollTop + l.clientHeight >= l.scrollHeight - 2); };
     atEnd();
