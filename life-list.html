@@ -114,6 +114,8 @@
     transition: background .12s, color .12s, border-color .12s, transform .08s;
   }
   .chip svg { width: 14px; height: 14px; flex: none; }
+  .chip.ico { padding: 6px 11px; }
+  .chip.ico svg { width: 16px; height: 16px; }
   .chip:hover { transform: translateY(-1px); }
   .chip.on { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
   .chip-sep { width: 1px; height: 18px; background: var(--chip-border); margin: 0 2px; }
@@ -184,33 +186,30 @@
   .ph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--serif); font-size: 19px; color: rgba(255,255,255,.62); }
   .ph .ini[hidden] { display: none; }
   .info { flex: 1; min-width: 0; padding: 8px 10px 8px 11px; display: flex; flex-direction: column; position: relative; }
-  .num { position: absolute; top: 5px; right: 9px; font: 22px/1 var(--serif); color: var(--num); font-variant-numeric: lining-nums; }
   .cn {
-    font: bold 16px/1.15 var(--serif); padding-right: 40px;
+    font: bold 15px/1.15 var(--serif);
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .w3 .cn { padding-right: 46px; }
-  .w4 .cn { padding-right: 58px; }
   .sn { font-style: italic; font-size: 12px; margin-top: 2px; color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .meta { margin-top: auto; font-size: 11px; display: flex; gap: 8px; align-items: center; font-variant-numeric: tabular-nums; }
-  .meta .rg { font-weight: 700; }
+  .meta .ln, .meta .rg { font-weight: 700; }
 
   .bot {
-    flex: 1; min-height: 0; background: var(--lt); padding: 9px 12px 9px;
+    flex: 1; min-height: 0; background: var(--lt); color: #3E2F22; padding: 9px 12px 9px;
     display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 1fr auto; gap: 6px 14px;
   }
   .tax { font-size: 12px; line-height: 1.3; min-width: 0; }
-  .tax .k { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--ink3); margin-top: 3px; }
+  .tax .k { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: #8A7660; margin-top: 3px; }
   .tax .k:first-child { margin-top: 0; }
   .tax .v { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .obs { display: flex; flex-direction: column; gap: 5px; padding-top: 1px; }
+  .obs { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding-top: 1px; }
   .ob { display: flex; align-items: center; gap: 7px; font-size: 12px; font-variant-numeric: tabular-nums; }
   .slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 16px; flex: none; color: var(--dk); }
   .geo-g { width: 15px; height: 15px; }
   .geo-us { width: 19px; height: 12px; }
   .row { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; border-top: 1px solid var(--line); padding-top: 6px; }
   .pill { display: inline-flex; align-items: center; border-radius: 99px; padding: 2px 8px; font-size: 10px; font-weight: 700; letter-spacing: .04em; line-height: 1.3; white-space: nowrap; }
-  .pill.aba { background: var(--aba); color: var(--ink2); }
+  .pill.aba { background: var(--aba); color: var(--ink2); margin-left: 27px; }   /* lines up with the counts above */
   .media { display: inline-flex; gap: 7px; margin-left: auto; color: var(--dk); }
   .media svg { width: 16px; height: 16px; display: block; }
 
@@ -237,11 +236,15 @@
     <div class="chips">
       <button class="chip on" data-f="all">All</button>
       <span class="chip-sep"></span>
-      <button class="chip" data-f="photo" data-v="yes" title="Photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>Photo</button>
-      <button class="chip" data-f="photo" data-v="no" title="Not yet photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>No photo</button>
+      <button class="chip ico" data-f="photo" data-v="yes" title="Photographed" aria-label="Photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+      <button class="chip ico" data-f="photo" data-v="no" title="Not yet photographed" aria-label="Not yet photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/><path d="M3 3l18 18"/></svg></button>
       <span class="chip-sep"></span>
-      <button class="chip" data-f="audio" data-v="yes" title="Audio uploaded"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>Audio</button>
-      <button class="chip" data-f="audio" data-v="no" title="No audio yet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>No audio</button>
+      <button class="chip ico" data-f="audio" data-v="yes" title="Audio uploaded" aria-label="Audio uploaded"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
+      <button class="chip ico" data-f="audio" data-v="no" title="No audio yet" aria-label="No audio yet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/><path d="M3 3l18 18"/></svg></button>
+      <span class="chip-sep"></span>
+      <button class="chip" data-f="region" data-v="US" title="Seen in the US">US</button>
+      <button class="chip" data-f="region" data-v="ABA" title="Seen in the ABA Area (US & Canada)">ABA</button>
+      <button class="chip" data-f="region" data-v="CA" title="Seen in California">CA</button>
     </div>
     <div class="sort-wrap">
       <span class="count" id="count"></span>
@@ -269,60 +272,62 @@
 /* ── State ─────────────────────────────────────────────────────────────── */
 var LIFERS = [];            /* one entry per seen species, numbered by first-seen date */
 var ORDERS = [];            /* orders in taxonomic order: [{order, code}] */
-var PHOTO = 'any', AUDIO = 'any', SORT = 'first', QUERY = '', OPEN = null;
+var PHOTO = 'any', AUDIO = 'any', REGION = '', SORT = 'first', QUERY = '', OPEN = null;
 var ORDER_SEL = {};
 function orderSelCount() { return Object.keys(ORDER_SEL).length; }
 
 /* Per-order tile palette (rose → pink → violet → blue → teal → green, in
-   taxonomic order). md = tile, lt = expanded panel, line = panel hairline,
-   aba = ABA pill, num = lifer number, dk = icons, ink3 = secondary text,
-   ink2 = main text. The order-strip buttons use md + ink2 when selected. */
+   taxonomic order). md = tile, lt = expanded panel (shared cream),
+   line = panel hairline, aba = ABA pill, num = photo-fallback shade,
+   dk = icons, ink3 = secondary text, ink2 = main text. Tile colors are
+   Eric's picks from the color tuner (2026-10-01); the rest are derived
+   from each tile color's hue. The order-strip buttons use md + ink2 when selected. */
 var ORDER_PAL = {
-  STRUTHIONIFORMES: {md:'#D59499', lt:'#F9DADC', line:'#EFC7C9', aba:'#E8BCBF', num:'#B4767B', dk:'#9D6166', ink3:'#895156', ink2:'#572B30'},
-  CASUARIIFORMES: {md:'#DB939C', lt:'#F9DADD', line:'#EFC7CB', aba:'#E7BCC1', num:'#B6777F', dk:'#A15E67', ink3:'#885158', ink2:'#572B32'},
-  APTERYGIFORMES: {md:'#D89EA7', lt:'#F9DADE', line:'#EEC7CD', aba:'#E7BCC2', num:'#B77F89', dk:'#99636C', ink3:'#86525B', ink2:'#572B34'},
-  RHEIFORMES: {md:'#DCA1AD', lt:'#F9DADF', line:'#EEC7CE', aba:'#E7BCC4', num:'#BB828E', dk:'#98636E', ink3:'#86525D', ink2:'#562B36'},
-  TINAMIFORMES: {md:'#DAAAB5', lt:'#F8DAE1', line:'#EDC7D0', aba:'#E6BCC6', num:'#B98B96', dk:'#926671', ink3:'#805560', ink2:'#532D38'},
-  ANSERIFORMES: {md:'#DEAFBC', lt:'#F8DAE2', line:'#EDC7D2', aba:'#E6BCC8', num:'#BE909D', dk:'#916673', ink3:'#7F5562', ink2:'#532D3A'},
-  GALLIFORMES: {md:'#DCADBD', lt:'#F7DAE3', line:'#ECC7D3', aba:'#E5BCCA', num:'#BB8E9D', dk:'#916675', ink3:'#7E5564', ink2:'#522D3B'},
-  COLUMBIFORMES: {md:'#D9ABBD', lt:'#F7DAE5', line:'#ECC7D5', aba:'#E4BCCB', num:'#B98D9E', dk:'#906677', ink3:'#7E5566', ink2:'#522D3D'},
-  MESITORNITHIFORMES: {md:'#D8ABBE', lt:'#F6DAE6', line:'#EBC7D6', aba:'#E3BCCD', num:'#B78C9F', dk:'#8F6779', ink3:'#7D5668', ink2:'#512D3F'},
-  PTEROCLIFORMES: {md:'#CFAAC8', lt:'#F2DBED', line:'#E5C8E0', aba:'#DDBDD7', num:'#AF8CA8', dk:'#896884', ink3:'#775772', ink2:'#4C2F48'},
-  OTIDIFORMES: {md:'#CCA3C8', lt:'#F1DBEE', line:'#E4C9E1', aba:'#DCBED9', num:'#AC84A8', dk:'#8B6688', ink3:'#795576', ink2:'#4D2D4B'},
-  MUSOPHAGIFORMES: {md:'#C3A5CD', lt:'#EDDCF2', line:'#DFCAE6', aba:'#D7BFDE', num:'#A487AD', dk:'#84698D', ink3:'#73587B', ink2:'#482F50'},
-  CUCULIFORMES: {md:'#BFA2CF', lt:'#EBDDF4', line:'#DDCAE8', aba:'#D5C0E0', num:'#9F83AF', dk:'#846892', ink3:'#725780', ink2:'#473052'},
-  CAPRIMULGIFORMES: {md:'#B899CE', lt:'#EADDF5', line:'#DCCBE9', aba:'#D3C0E2', num:'#987BAD', dk:'#846798', ink3:'#715783', ink2:'#453054'},
-  NYCTIBIIFORMES: {md:'#AE97D2', lt:'#E7DEF7', line:'#D8CCEC', aba:'#CFC2E5', num:'#8F7AAE', dk:'#7E689F', ink3:'#6B5987', ink2:'#413257'},
-  STEATORNITHIFORMES: {md:'#A793CF', lt:'#E6DEF8', line:'#D6CDED', aba:'#CDC2E6', num:'#8877AB', dk:'#7C68A1', ink3:'#695988', ink2:'#3F3257'},
-  PODARGIFORMES: {md:'#A393CF', lt:'#E5DFF8', line:'#D5CDED', aba:'#CBC3E6', num:'#8476AB', dk:'#7969A2', ink3:'#675A89', ink2:'#3E3358'},
-  AEGOTHELIFORMES: {md:'#A598D5', lt:'#E3DFF9', line:'#D3CEEE', aba:'#CAC3E7', num:'#867BB0', dk:'#776AA3', ink3:'#655B8A', ink2:'#3C3359'},
-  APODIFORMES: {md:'#B0AADC', lt:'#E2DFF9', line:'#D2CEEF', aba:'#C8C4E8', num:'#918BBC', dk:'#746D9C', ink3:'#635C8A', ink2:'#3A345A'},
-  GRUIFORMES: {md:'#A8A4DD', lt:'#E1E0FA', line:'#D0CFEF', aba:'#C6C5E9', num:'#8A86BC', dk:'#716DA2', ink3:'#605C8C', ink2:'#39355B'},
-  CHARADRIIFORMES: {md:'#9AA6E0', lt:'#DCE2FB', line:'#C9D1F1', aba:'#BFC7EA', num:'#7D87BC', dk:'#6670A6', ink3:'#57608E', ink2:'#31375C'},
-  PHOENICOPTERIFORMES: {md:'#8FA3DD', lt:'#D9E3FB', line:'#C6D2F1', aba:'#BBC8EA', num:'#7385B8', dk:'#5F72A9', ink3:'#52618E', ink2:'#2D385C'},
-  PODICIPEDIFORMES: {md:'#859DD6', lt:'#D8E3FB', line:'#C5D3F1', aba:'#BAC9EA', num:'#6A7FB1', dk:'#5C73A9', ink3:'#4F628E', ink2:'#2A395C'},
-  OPISTHOCOMIFORMES: {md:'#849FD1', lt:'#D7E3FB', line:'#C3D3F1', aba:'#B8CAEA', num:'#6780B1', dk:'#5C74A4', ink3:'#4C638E', ink2:'#283A5C'},
-  EURYPYGIFORMES: {md:'#829FCF', lt:'#D6E4FB', line:'#C2D4F1', aba:'#B6CAEA', num:'#6581AF', dk:'#5A75A2', ink3:'#4A648E', ink2:'#263A5C'},
-  PHAETHONTIFORMES: {md:'#82A0CB', lt:'#D5E4FB', line:'#C0D4F1', aba:'#B5CBEA', num:'#6582AB', dk:'#5A769E', ink3:'#49648C', ink2:'#243B5C'},
-  GAVIIFORMES: {md:'#81A6D3', lt:'#D3E5FA', line:'#BFD5F0', aba:'#B3CBEA', num:'#6387B3', dk:'#5477A2', ink3:'#44658D', ink2:'#213C5C'},
-  SPHENISCIFORMES: {md:'#82AEDF', lt:'#D2E5FA', line:'#BED5F0', aba:'#B2CCE9', num:'#678FBB', dk:'#4D78A5', ink3:'#42668D', ink2:'#1F3C5B'},
-  PROCELLARIIFORMES: {md:'#7EB0DF', lt:'#D1E6FA', line:'#BCD6EF', aba:'#B0CDE9', num:'#6490BA', dk:'#4979A5', ink3:'#3F678C', ink2:'#1C3D5B'},
-  CICONIIFORMES: {md:'#92B8D9', lt:'#D0E6F9', line:'#BBD6EF', aba:'#AFCDE8', num:'#7499B8', dk:'#557997', ink3:'#446785', ink2:'#1B3D59'},
-  SULIFORMES: {md:'#8CBDCF', lt:'#CBE9F4', line:'#B3DAE8', aba:'#A6D1E1', num:'#6D9EAF', dk:'#4D7C8D', ink3:'#3B6B7B', ink2:'#0E4150'},
-  PELECANIFORMES: {md:'#7ABCD0', lt:'#CAE9F3', line:'#B3DAE7', aba:'#A5D1DF', num:'#5B9CB0', dk:'#3D7F91', ink3:'#296D7F', ink2:'#004251'},
-  CATHARTIFORMES: {md:'#73BBC6', lt:'#C9EAEF', line:'#B1DBE2', aba:'#A4D3DA', num:'#549BA6', dk:'#38808B', ink3:'#246F79', ink2:'#00434B'},
-  ACCIPITRIFORMES: {md:'#68B5BF', lt:'#C9EAEE', line:'#B1DCE1', aba:'#A3D3D9', num:'#48969F', dk:'#32818A', ink3:'#206F78', ink2:'#024349'},
-  STRIGIFORMES: {md:'#74AFAA', lt:'#CAEBE8', line:'#B2DDD9', aba:'#A4D4D0', num:'#55908B', dk:'#46807C', ink3:'#346F6B', ink2:'#024441'},
-  COLIIFORMES: {md:'#78ADA2', lt:'#CBEBE4', line:'#B4DDD3', aba:'#A6D4CA', num:'#5A8E83', dk:'#4C8076', ink3:'#3B6E64', ink2:'#0C443B'},
-  LEPTOSOMIFORMES: {md:'#79AB9B', lt:'#CCEBE1', line:'#B5DDD0', aba:'#A8D4C6', num:'#5B8C7D', dk:'#4F8071', ink3:'#3E6E60', ink2:'#114438'},
-  TROGONIFORMES: {md:'#7DAE9C', lt:'#CDEBDF', line:'#B6DDCE', aba:'#A9D4C4', num:'#5F8F7E', dk:'#51806F', ink3:'#3F6E5E', ink2:'#134436'},
-  BUCEROTIFORMES: {md:'#82B29E', lt:'#CEEBDE', line:'#B7DDCC', aba:'#ABD4C2', num:'#649380', dk:'#52806D', ink3:'#416E5C', ink2:'#164434'},
-  CORACIIFORMES: {md:'#89B6A1', lt:'#CFEBDD', line:'#B9DCCB', aba:'#ACD4C0', num:'#6B9782', dk:'#54806B', ink3:'#426E5A', ink2:'#184432'},
-  PICIFORMES: {md:'#8DB9A1', lt:'#D0EBDB', line:'#BADCC9', aba:'#ADD4BE', num:'#6F9A83', dk:'#557F69', ink3:'#446E58', ink2:'#1A4431'},
-  CARIAMIFORMES: {md:'#95BCA0', lt:'#D2EAD8', line:'#BDDCC5', aba:'#B1D3BA', num:'#769D82', dk:'#5A7F65', ink3:'#496D54', ink2:'#20432C'},
-  FALCONIFORMES: {md:'#9BC0A2', lt:'#D3EAD7', line:'#BEDCC4', aba:'#B2D3B9', num:'#7CA184', dk:'#5B7E63', ink3:'#4A6D52', ink2:'#22432B'},
-  PSITTACIFORMES: {md:'#A4C4A3', lt:'#D6E9D4', line:'#C2DBC0', aba:'#B6D2B5', num:'#86A584', dk:'#607E5F', ink3:'#4F6C4E', ink2:'#274226'},
-  PASSERIFORMES: {md:'#ADC7A2', lt:'#D8E9D2', line:'#C5DABD', aba:'#BAD1B1', num:'#8EA784', dk:'#657D5B', ink3:'#546B4A', ink2:'#2C4223'}
+  STRUTHIONIFORMES: {md:'#E2C79D', lt:'#F4ECDF', line:'#E4D8C6', aba:'#DBC6A5', num:'#C1A77E', dk:'#866D46', ink3:'#775F38', ink2:'#4C360D'},
+  CASUARIIFORMES: {md:'#E8CA96', lt:'#F4ECDF', line:'#E4D8C6', aba:'#DAC6A5', num:'#C7AA77', dk:'#886D3B', ink3:'#795F2D', ink2:'#4C360A'},
+  APTERYGIFORMES: {md:'#EECD8E', lt:'#F4ECDF', line:'#E4D8C6', aba:'#D9C7A5', num:'#CBAE76', dk:'#8B6C2E', ink3:'#785F2D', ink2:'#4B370A'},
+  RHEIFORMES: {md:'#F3D087', lt:'#F4ECDF', line:'#E4D8C6', aba:'#D8C7A4', num:'#CCB179', dk:'#8A6D2C', ink3:'#77602D', ink2:'#4A370A'},
+  TINAMIFORMES: {md:'#F5D184', lt:'#F4ECDF', line:'#E4D8C6', aba:'#D8C7A4', num:'#CDB27A', dk:'#896D2C', ink3:'#77602D', ink2:'#4A370A'},
+  ANSERIFORMES: {md:'#F5CC84', lt:'#F4ECDF', line:'#E4D8C6', aba:'#DAC6A5', num:'#CDAE77', dk:'#8C6C2D', ink3:'#795E2D', ink2:'#4C360A'},
+  GALLIFORMES: {md:'#F3C287', lt:'#F4ECDF', line:'#E4D8C6', aba:'#DEC4A6', num:'#CCA474', dk:'#926831', ink3:'#7E5C30', ink2:'#4F340E'},
+  COLUMBIFORMES: {md:'#F0B78E', lt:'#F4ECDF', line:'#E4D8C6', aba:'#E3C1AA', num:'#CC9974', dk:'#97643D', ink3:'#845837', ink2:'#543115'},
+  MESITORNITHIFORMES: {md:'#E9AC9C', lt:'#F4ECDF', line:'#E4D8C6', aba:'#E7BEB3', num:'#C88D7E', dk:'#986153', ink3:'#885345', ink2:'#572D22'},
+  PTEROCLIFORMES: {md:'#D8A4AE', lt:'#F4ECDF', line:'#E4D8C6', aba:'#E7BCC4', num:'#B7858F', dk:'#92626C', ink3:'#82545E', ink2:'#562C36'},
+  OTIDIFORMES: {md:'#CBA3BB', lt:'#F4ECDF', line:'#E4D8C6', aba:'#E1BDD2', num:'#AB849C', dk:'#89657B', ink3:'#7A566C', ink2:'#4F2E43'},
+  MUSOPHAGIFORMES: {md:'#C6A3C5', lt:'#F4ECDF', line:'#E4D8C6', aba:'#DBBEDA', num:'#A684A5', dk:'#856585', ink3:'#765776', ink2:'#4B2E4B'},
+  CUCULIFORMES: {md:'#C1A4D0', lt:'#F4ECDF', line:'#E4D8C6', aba:'#D5C0E0', num:'#A285B0', dk:'#80658E', ink3:'#72577F', ink2:'#473052'},
+  CAPRIMULGIFORMES: {md:'#BBA5D7', lt:'#F4ECDF', line:'#E4D8C6', aba:'#D0C1E4', num:'#9C86B7', dk:'#7B6795', ink3:'#6D5886', ink2:'#423156'},
+  NYCTIBIIFORMES: {md:'#B5A7DA', lt:'#F4ECDF', line:'#E4D8C6', aba:'#CCC3E6', num:'#9688BA', dk:'#766898', ink3:'#685A88', ink2:'#3E3358'},
+  STEATORNITHIFORMES: {md:'#AFA8DC', lt:'#F4ECDF', line:'#E4D8C6', aba:'#C8C4E8', num:'#9089BB', dk:'#716A9A', ink3:'#635C8B', ink2:'#3B345A'},
+  PODARGIFORMES: {md:'#AAA9DD', lt:'#F4ECDF', line:'#E4D8C6', aba:'#C5C5E9', num:'#8C8ABC', dk:'#6D6B9B', ink3:'#5F5D8C', ink2:'#37355B'},
+  AEGOTHELIFORMES: {md:'#A5AADE', lt:'#F4ECDF', line:'#E4D8C6', aba:'#C2C6EA', num:'#878BBD', dk:'#696D9D', ink3:'#5B5E8D', ink2:'#34365C'},
+  APODIFORMES: {md:'#A0ACDF', lt:'#F4ECDF', line:'#E4D8C6', aba:'#BEC7EA', num:'#828DBE', dk:'#646E9E', ink3:'#56608E', ink2:'#30375C'},
+  GRUIFORMES: {md:'#9CADDF', lt:'#F4ECDF', line:'#E4D8C6', aba:'#BCC8EA', num:'#7E8EBE', dk:'#606F9E', ink3:'#52618E', ink2:'#2D385C'},
+  CHARADRIIFORMES: {md:'#99AFE0', lt:'#F4ECDF', line:'#E4D8C6', aba:'#BAC9EA', num:'#7B90BF', dk:'#5D719E', ink3:'#4F628E', ink2:'#2A395C'},
+  PHOENICOPTERIFORMES: {md:'#95B1E0', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B7CAEA', num:'#7792BF', dk:'#58729E', ink3:'#4A638E', ink2:'#263A5C'},
+  PODICIPEDIFORMES: {md:'#91B3DF', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B4CBEA', num:'#7394BE', dk:'#54749C', ink3:'#46658D', ink2:'#223B5C'},
+  OPISTHOCOMIFORMES: {md:'#8EB5DF', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B1CCE9', num:'#7096BE', dk:'#50759C', ink3:'#42668C', ink2:'#1E3C5B'},
+  EURYPYGIFORMES: {md:'#8AB7DD', lt:'#F4ECDF', line:'#E4D8C6', aba:'#AECDE8', num:'#6C98BC', dk:'#4B7699', ink3:'#3D688A', ink2:'#193E5A'},
+  PHAETHONTIFORMES: {md:'#85BADB', lt:'#F4ECDF', line:'#E4D8C6', aba:'#ABCFE6', num:'#679BBB', dk:'#457897', ink3:'#366A87', ink2:'#103F58'},
+  GAVIIFORMES: {md:'#82BCD8', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A8D0E3', num:'#639DB8', dk:'#417A94', ink3:'#326B84', ink2:'#084056'},
+  SPHENISCIFORMES: {md:'#7FBED5', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A6D1E1', num:'#609EB5', dk:'#3C7B90', ink3:'#2D6C81', ink2:'#004153'},
+  PROCELLARIIFORMES: {md:'#7EC0D1', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A5D2DE', num:'#5FA0B1', dk:'#3A7C8C', ink3:'#2A6D7D', ink2:'#02424F'},
+  CICONIIFORMES: {md:'#7DC2CE', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A4D2DB', num:'#5EA2AE', dk:'#377D88', ink3:'#276E7A', ink2:'#00434C'},
+  SULIFORMES: {md:'#7DC3CB', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A3D3D8', num:'#5EA3AB', dk:'#377E85', ink3:'#266F77', ink2:'#024349'},
+  PELECANIFORMES: {md:'#7DC4C8', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A3D3D6', num:'#5EA4A8', dk:'#367E82', ink3:'#256F73', ink2:'#014347'},
+  CATHARTIFORMES: {md:'#7EC5C5', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A4D4D3', num:'#5FA5A5', dk:'#377F7F', ink3:'#267070', ink2:'#014444'},
+  ACCIPITRIFORMES: {md:'#7FC5C2', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A4D4D1', num:'#60A5A3', dk:'#387F7C', ink3:'#28706E', ink2:'#024443'},
+  STRIGIFORMES: {md:'#81C6BF', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A5D4CF', num:'#62A6A0', dk:'#3A7F79', ink3:'#29706A', ink2:'#004540'},
+  COLIIFORMES: {md:'#83C6BC', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A5D4CD', num:'#64A69D', dk:'#3C7F76', ink3:'#2C7068', ink2:'#02453E'},
+  LEPTOSOMIFORMES: {md:'#86C7B9', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A6D4CA', num:'#67A79A', dk:'#3F7F73', ink3:'#2F7064', ink2:'#02453B'},
+  TROGONIFORMES: {md:'#89C8B6', lt:'#F4ECDF', line:'#E4D8C6', aba:'#A8D4C7', num:'#6AA897', dk:'#417F6F', ink3:'#327061', ink2:'#024538'},
+  BUCEROTIFORMES: {md:'#8CC8B2', lt:'#F4ECDF', line:'#E4D8C6', aba:'#AAD4C4', num:'#6DA893', dk:'#447F6B', ink3:'#35705D', ink2:'#094535'},
+  CORACIIFORMES: {md:'#90C9AF', lt:'#F4ECDF', line:'#E4D8C6', aba:'#ACD4C1', num:'#71A990', dk:'#487F67', ink3:'#397059', ink2:'#0F4532'},
+  PICIFORMES: {md:'#94C9AC', lt:'#F4ECDF', line:'#E4D8C6', aba:'#AED4BE', num:'#75A98D', dk:'#4B7E64', ink3:'#3D6F56', ink2:'#14452F'},
+  CARIAMIFORMES: {md:'#98C9A9', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B0D3BB', num:'#79A98A', dk:'#4F7E61', ink3:'#416F53', ink2:'#19442C'},
+  FALCONIFORMES: {md:'#9CC9A6', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B2D3B9', num:'#7DA987', dk:'#537D5D', ink3:'#456F4F', ink2:'#1D4429'},
+  PSITTACIFORMES: {md:'#A1CAA3', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B5D2B6', num:'#82AA84', dk:'#577D59', ink3:'#486E4B', ink2:'#224325'},
+  PASSERIFORMES: {md:'#A5CAA1', lt:'#F4ECDF', line:'#E4D8C6', aba:'#B7D2B4', num:'#86AA82', dk:'#5A7C56', ink3:'#4C6D49', ink2:'#254323'}
 };
 var ORDER_COMMON = {
   STRUTHIONIFORMES: 'Ostriches', CASUARIIFORMES: 'Cassowaries & Emus', APTERYGIFORMES: 'Kiwis', RHEIFORMES: 'Rheas',
@@ -454,6 +459,9 @@ function buildLifers(records) {
       aba: aba,
       world: num(col(rec, 'World Obs (Oct 2025)')),
       us: num(col(rec, 'US Obs (Oct 2025)')),
+      seenUS: isTrue(col(rec, 'US')),
+      seenABA: isTrue(col(rec, 'ABA')),
+      seenCA: isTrue(col(rec, 'CA')),
       photo: isTrue(col(rec, 'Photo')),
       audio: isTrue(col(rec, 'Audio'))
     });
@@ -481,6 +489,7 @@ function passesFilters(s) {
   if (PHOTO === 'no' && s.photo) return false;
   if (AUDIO === 'yes' && !s.audio) return false;
   if (AUDIO === 'no' && s.audio) return false;
+  if (REGION && !s['seen' + REGION]) return false;   /* US / ABA / CA columns = Yes */
   var q = stripDiacritics(QUERY.toLowerCase().trim());
   return !q || s.hay.indexOf(q) >= 0;
 }
@@ -489,24 +498,24 @@ function topHTML(s) {
   return '<div class="top">'
     + '<div class="ph">' + speciesPhotoHTML(s.name) + '</div>'
     + '<div class="info">'
-    +   '<span class="num" title="Lifer #' + s.n + '">' + s.n + '</span>'
     +   '<div class="cn">' + esc(s.name) + '</div>'
     +   '<div class="sn">' + esc(s.sci) + '</div>'
-    +   '<div class="meta"><span class="rg">' + esc(s.loc) + '</span><span>' + shortDate(s.key) + '</span></div>'
+    +   '<div class="meta"><span class="ln" title="Lifer #' + s.n + '">#' + s.n + '</span><span class="rg">' + esc(s.loc) + '</span><span>' + shortDate(s.key) + '</span></div>'
     + '</div></div>';
 }
 function panelHTML(s) {
   var obs = '<div class="ob" title="Global observations (Oct 2025)">' + ICON.globe + fmt(s.world) + '</div>'
-          + (s.us > 0 ? '<div class="ob" title="US observations (Oct 2025)">' + ICON.us + fmt(s.us) + '</div>' : '');
+          + (s.us > 0 ? '<div class="ob" title="US observations (Oct 2025)">' + ICON.us + fmt(s.us) + '</div>' : '')
+          + (s.aba ? '<span class="pill aba" title="ABA code">ABA ' + s.aba + '</span>' : '');
   var iu = IUCN[s.iucn];
-  var pills = (iu ? '<span class="pill" style="background:' + iu[0] + ';color:' + iu[1] + '" title="IUCN status">' + esc(s.iucn) + '</span>' : '')
-            + (s.aba ? '<span class="pill aba">ABA ' + s.aba + '</span>' : '');
+  var pills = (iu ? '<span class="pill" style="background:' + iu[0] + ';color:' + iu[1] + '" title="IUCN status">' + esc(s.iucn) + '</span>' : '');
+
   var media = '<span class="media">'
             + (s.photo ? '<span title="Photographed">' + ICON.cam + '</span>' : '')
             + (s.audio ? '<span title="Audio uploaded">' + ICON.spk + '</span>' : '')
             + '</span>';
   return '<div class="bot">'
-    + '<div class="tax"><span class="k">Order</span><span class="v" title="' + esc(cap(s.order)) + '">' + esc(s.orderCommon) + '</span>'
+    + '<div class="tax"><span class="k">Order</span><span class="v" title="' + esc(s.orderCommon) + '">' + esc(cap(s.order)) + '</span>'
     +   '<span class="k">Family</span><span class="v" title="' + esc(s.fam) + '">' + esc(s.famName) + '</span></div>'
     + '<div class="obs">' + obs + '</div>'
     + '<div class="row">' + pills + media + '</div>'
@@ -516,7 +525,7 @@ function panelHTML(s) {
 var BY_N = {};
 function tileHTML(s) {
   var open = OPEN === s.n;
-  return '<div class="stile' + (s.n >= 1000 ? ' w4' : s.n >= 100 ? ' w3' : '') + (open ? ' open' : '') + '" data-n="' + s.n + '" tabindex="0" role="button" aria-expanded="' + open + '" style="' + palVars(s.order) + '">'
+  return '<div class="stile' + (open ? ' open' : '') + '" data-n="' + s.n + '" tabindex="0" role="button" aria-expanded="' + open + '" style="' + palVars(s.order) + '">'
     + topHTML(s) + (open ? panelHTML(s) : '') + '</div>';
 }
 
@@ -630,16 +639,18 @@ function loadData() {
   function syncChips() {
     chips.forEach(function(b) {
       var f = b.dataset.f;
-      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any')
-                              : f === 'photo' ? PHOTO === b.dataset.v : AUDIO === b.dataset.v);
+      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any' && !REGION)
+                              : f === 'photo' ? PHOTO === b.dataset.v
+                              : f === 'audio' ? AUDIO === b.dataset.v : REGION === b.dataset.v);
     });
   }
   chips.forEach(function(btn) {
     btn.addEventListener('click', function() {
       var f = btn.dataset.f, v = btn.dataset.v;
-      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; }
+      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; REGION = ''; }
       else if (f === 'photo') PHOTO = (PHOTO === v ? 'any' : v);
-      else AUDIO = (AUDIO === v ? 'any' : v);
+      else if (f === 'audio') AUDIO = (AUDIO === v ? 'any' : v);
+      else REGION = (REGION === v ? '' : v);   /* one region at a time; click again to clear */
       syncChips();
       render();
     });
