@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Bird List — Lifers</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root {
+    /* Shared site palette (same tokens as index.html / families.html) */
+    --tan-dk:    #B89D80;
+    --tan-lt:    #E2D3BD;
+    --ink:       #2e2218;
+    --ink-mid:   #5a4a38;
+    --ink-light: #9a8870;
+    --surface:   #fffdf9;
+    --bg:        #f7f2eb;
+    --border:    rgba(46,34,24,0.14);
+    --shadow:    0 1px 6px rgba(46,34,24,0.10);
+    --shadow-h:  0 5px 20px rgba(46,34,24,0.18);
+    --teal-dk:   #435763;
+    --teal-md:   #7692A2;
+    --teal-lt:   #C8D3DA;
+    --header-bg:   var(--teal-dk);
+    --header-text: #F2F7F5;
+    --header-sub:  var(--teal-lt);
+    --header-line: var(--teal-lt);
+    --chip-bg:     #ECE3D4;
+    --chip-border: var(--tan-lt);
+    --chip-text:   var(--ink-mid);
+    --chip-on-bg:  var(--teal-md);
+    --chip-on-text:var(--ink);
+    --field-bg:    #fffefb;
+
+    /* Life List tile defaults (frog-tile green). Every tile overrides these
+       with its own order's palette — see ORDER_PAL. */
+    --md:   #9EBB93;   /* tile fill */
+    --lt:   #D3EACC;   /* expanded panel */
+    --line: #C0D8B9;   /* hairline on panel */
+    --aba:  #B5CFAA;   /* ABA pill */
+    --num:  #7C9A71;   /* lifer number */
+    --dk:   #648457;   /* icons */
+    --ink3: #5E7B54;   /* secondary text */
+    --ink2: #2E4A26;   /* main text */
+
+    --serif: Georgia, 'Times New Roman', serif;
+    --tile: 100px;
+    --gap: 14px;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--ink);
+    display: flex; flex-direction: column; min-height: 100%;
+  }
+
+  /* ── STICKY TOP BAR (same as families.html) ── */
+  .topbar { position: sticky; top: 0; z-index: 30; }
+  @media (max-width: 699px) { .topbar { position: static; } }
+  .stile { scroll-margin-top: calc(var(--topbar-h, 0px) + 12px); scroll-margin-bottom: 12px; }
+
+  /* ── HEADER (same markup/CSS as index.html) ── */
+  .header {
+    background: var(--header-bg);
+    padding: 14px clamp(16px, 4vw, 30px);
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    border-bottom: 3px solid var(--header-line);
+  }
+  .header h1 {
+    margin: 0; font-family: var(--serif); font-weight: 400; font-size: 20px;
+    letter-spacing: .01em; color: var(--header-sub); flex: 1; min-width: 190px;
+  }
+  .header h1 b { color: var(--header-text); font-weight: 400; }
+  .hnav { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hnav-btn {
+    font-size: 12px; font-weight: 600; letter-spacing: .01em;
+    padding: 7px 15px; border-radius: 99px;
+    border: 1px solid var(--header-line); background: rgba(255,255,255,.05);
+    color: var(--header-sub); text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums;
+    transition: background .12s, color .12s, border-color .12s, transform .08s;
+  }
+  .hnav-btn:hover { background: rgba(255,255,255,.15); color: var(--header-text); border-color: rgba(255,255,255,.45); transform: translateY(-1px); }
+
+  /* ── TOOLBAR (same as families.html) ── */
+  .toolbar { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .trow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    padding: 11px clamp(16px, 4vw, 30px);
+  }
+  .fl {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--ink-light); white-space: nowrap;
+  }
+  .search-wrap { position: relative; flex: 1 1 220px; max-width: 320px; }
+  .search-wrap svg {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    opacity: .55; pointer-events: none; color: var(--tan-dk);
+  }
+  .search-wrap input {
+    width: 100%; font-size: 12.5px; font-family: inherit;
+    padding: 7px 12px 7px 32px; border-radius: 99px;
+    border: 1px solid var(--chip-border); background: var(--field-bg);
+    color: var(--ink); outline: none;
+  }
+  .search-wrap input::placeholder { color: var(--ink-light); }
+  .search-wrap input:focus { border-color: var(--teal-dk); box-shadow: 0 0 0 3px rgba(67,87,99,0.16); }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .chip {
+    font-size: 12px; font-weight: 600; padding: 6px 13px; border-radius: 99px;
+    border: 1px solid var(--chip-border); background: var(--chip-bg);
+    color: var(--chip-text); cursor: pointer; white-space: nowrap; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 5px;
+    transition: background .12s, color .12s, border-color .12s, transform .08s;
+  }
+  .chip svg { width: 14px; height: 14px; flex: none; }
+  .chip:hover { transform: translateY(-1px); }
+  .chip.on { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
+  .chip-sep { width: 1px; height: 18px; background: var(--chip-border); margin: 0 2px; }
+  .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .count { font-size: 12px; color: var(--ink-mid); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .count b { color: var(--ink); }
+  .sort-select {
+    font-size: 12px; font-family: inherit; font-weight: 600;
+    padding: 7px 30px 7px 13px; border-radius: 99px;
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235a4a38'/%3E%3C/svg%3E") no-repeat right 12px center;
+    -webkit-appearance: none; appearance: none;
+    color: var(--chip-text); cursor: pointer; outline: none;
+  }
+  .sort-select:focus { border-color: var(--teal-dk); }
+
+  /* ── ORDER STRIP (same as families.html; selected = this page's order palette) ── */
+  .orow { display: flex; align-items: center; gap: 10px; padding: 0 clamp(16px, 4vw, 30px) 11px; }
+  .ostrip { flex: 1; min-width: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; padding: 4px 3px; }
+  .ostrip::-webkit-scrollbar { display: none; }
+  .obtn {
+    flex: 1 0 23px; min-width: 23px; height: 22px; padding: 0;
+    font-family: inherit; font-size: 9px; font-weight: 700; letter-spacing: 0;
+    border-radius: 99px; border: 1px solid var(--chip-border);
+    background: var(--chip-bg); color: var(--chip-text); cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s, opacity .12s, transform .08s;
+  }
+  .obtn:hover { transform: translateY(-1px); border-color: var(--obg); }
+  .obtn:focus-visible { outline: 2px solid var(--teal-dk); outline-offset: 1px; }
+  .obtn.dim { opacity: .35; }
+  .obtn.on { background: var(--obg); border-color: var(--obg); color: var(--oink); opacity: 1; }
+  .obtn.expanded:not(.on) { border: 2px solid var(--obg); opacity: 1; }
+  .oclear { width: 52px; flex: none; text-align: left; padding: 0; border: 0; background: none; font-family: inherit; cursor: default; }
+  .oclear .x { display: none; }
+  .oclear.active { cursor: pointer; color: var(--teal-dk); }
+  .oclear.active .lbl { display: none; }
+  .oclear.active .x { display: inline; }
+
+  /* ── GRID ── */
+  .grid-wrap { flex: 1; padding: 18px clamp(16px, 4vw, 30px) 48px; }
+  .grid {
+    max-width: 1180px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: var(--tile);
+    grid-auto-flow: dense;
+    gap: var(--gap);
+  }
+  .empty-state { grid-column: 1 / -1; padding: 40px 0; text-align: center; color: var(--ink-light); font-size: 13px; }
+
+  /* ── SPECIES TILE ── */
+  .stile {
+    position: relative; border-radius: 10px; overflow: hidden;
+    background: var(--md); color: var(--ink2); box-shadow: var(--shadow);
+    cursor: pointer; transition: box-shadow .15s; min-width: 0;
+    display: flex; flex-direction: column;
+  }
+  .stile:hover { box-shadow: var(--shadow-h); }
+  .stile:focus-visible { outline: 3px solid var(--teal-dk); outline-offset: 2px; }
+  .stile.open { grid-row: span 2; cursor: default; box-shadow: var(--shadow-h); }
+  .stile.open .top { cursor: pointer; }
+  .top { display: flex; height: var(--tile); flex: none; }
+  .ph {
+    position: relative; flex: none; width: var(--tile); height: var(--tile); overflow: hidden;
+    background: linear-gradient(135deg, var(--num) 0%, var(--dk) 100%);
+  }
+  .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--serif); font-size: 19px; color: rgba(255,255,255,.62); }
+  .ph .ini[hidden] { display: none; }
+  .info { flex: 1; min-width: 0; padding: 8px 10px 8px 11px; display: flex; flex-direction: column; position: relative; }
+  .num { position: absolute; top: 5px; right: 9px; font: 22px/1 var(--serif); color: var(--num); font-variant-numeric: lining-nums; }
+  .cn {
+    font: bold 16px/1.15 var(--serif); padding-right: 40px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .w3 .cn { padding-right: 46px; }
+  .w4 .cn { padding-right: 58px; }
+  .sn { font-style: italic; font-size: 12px; margin-top: 2px; color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meta { margin-top: auto; font-size: 11px; display: flex; gap: 8px; align-items: center; font-variant-numeric: tabular-nums; }
+  .meta .rg { font-weight: 700; }
+
+  .bot {
+    flex: 1; min-height: 0; background: var(--lt); padding: 9px 12px 9px;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 1fr auto; gap: 6px 14px;
+  }
+  .tax { font-size: 12px; line-height: 1.3; min-width: 0; }
+  .tax .k { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--ink3); margin-top: 3px; }
+  .tax .k:first-child { margin-top: 0; }
+  .tax .v { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .obs { display: flex; flex-direction: column; gap: 5px; padding-top: 1px; }
+  .ob { display: flex; align-items: center; gap: 7px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 16px; flex: none; color: var(--dk); }
+  .geo-g { width: 15px; height: 15px; }
+  .geo-us { width: 19px; height: 12px; }
+  .row { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; border-top: 1px solid var(--line); padding-top: 6px; }
+  .pill { display: inline-flex; align-items: center; border-radius: 99px; padding: 2px 8px; font-size: 10px; font-weight: 700; letter-spacing: .04em; line-height: 1.3; white-space: nowrap; }
+  .pill.aba { background: var(--aba); color: var(--ink2); }
+  .media { display: inline-flex; gap: 7px; margin-left: auto; color: var(--dk); }
+  .media svg { width: 16px; height: 16px; display: block; }
+
+  @media (max-width: 420px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="topbar">
+<div class="header">
+  <h1><b>Global Bird List</b>: Lifers</h1>
+  <nav class="hnav">
+    <a class="hnav-btn" href="index.html">Orders</a>
+    <a class="hnav-btn" href="families.html">Families</a>
+    <a class="hnav-btn" href="stats.html">Other Stats</a>
+  </nav>
+</div>
+
+<div class="toolbar">
+  <div class="trow">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search" placeholder="Search species, family or order…" autocomplete="off">
+    </div>
+    <span class="fl">Show</span>
+    <div class="chips">
+      <button class="chip on" data-f="all">All</button>
+      <span class="chip-sep"></span>
+      <button class="chip" data-f="photo" data-v="yes" title="Photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>Photo</button>
+      <button class="chip" data-f="photo" data-v="no" title="Not yet photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>No photo</button>
+      <span class="chip-sep"></span>
+      <button class="chip" data-f="audio" data-v="yes" title="Audio uploaded"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>Audio</button>
+      <button class="chip" data-f="audio" data-v="no" title="No audio yet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>No audio</button>
+    </div>
+    <div class="sort-wrap">
+      <span class="count" id="count"></span>
+      <span class="fl">Sort</span>
+      <select class="sort-select" id="sort-sel">
+        <option value="first" selected>First Observed</option>
+        <option value="latest">Latest Observed</option>
+        <option value="obsdesc">Global Obs ↓</option>
+        <option value="obsasc">Global Obs ↑</option>
+      </select>
+    </div>
+  </div>
+  <div class="orow">
+    <button class="fl oclear" id="oclear" disabled title="Clear order selection"><span class="lbl">Order</span><span class="x">Clear ×</span></button>
+    <div class="ostrip" id="ostrip"></div>
+  </div>
+</div>
+</div>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+/* ── State ─────────────────────────────────────────────────────────────── */
+var LIFERS = [];            /* one entry per seen species, numbered by first-seen date */
+var ORDERS = [];            /* orders in taxonomic order: [{order, code}] */
+var PHOTO = 'any', AUDIO = 'any', SORT = 'first', QUERY = '', OPEN = null;
+var ORDER_SEL = {};
+function orderSelCount() { return Object.keys(ORDER_SEL).length; }
+
+/* Per-order tile palette (rose → pink → violet → blue → teal → green, in
+   taxonomic order). md = tile, lt = expanded panel, line = panel hairline,
+   aba = ABA pill, num = lifer number, dk = icons, ink3 = secondary text,
+   ink2 = main text. The order-strip buttons use md + ink2 when selected. */
+var ORDER_PAL = {
+  STRUTHIONIFORMES: {md:'#D59499', lt:'#F9DADC', line:'#EFC7C9', aba:'#E8BCBF', num:'#B4767B', dk:'#9D6166', ink3:'#895156', ink2:'#572B30'},
+  CASUARIIFORMES: {md:'#DB939C', lt:'#F9DADD', line:'#EFC7CB', aba:'#E7BCC1', num:'#B6777F', dk:'#A15E67', ink3:'#885158', ink2:'#572B32'},
+  APTERYGIFORMES: {md:'#D89EA7', lt:'#F9DADE', line:'#EEC7CD', aba:'#E7BCC2', num:'#B77F89', dk:'#99636C', ink3:'#86525B', ink2:'#572B34'},
+  RHEIFORMES: {md:'#DCA1AD', lt:'#F9DADF', line:'#EEC7CE', aba:'#E7BCC4', num:'#BB828E', dk:'#98636E', ink3:'#86525D', ink2:'#562B36'},
+  TINAMIFORMES: {md:'#DAAAB5', lt:'#F8DAE1', line:'#EDC7D0', aba:'#E6BCC6', num:'#B98B96', dk:'#926671', ink3:'#805560', ink2:'#532D38'},
+  ANSERIFORMES: {md:'#DEAFBC', lt:'#F8DAE2', line:'#EDC7D2', aba:'#E6BCC8', num:'#BE909D', dk:'#916673', ink3:'#7F5562', ink2:'#532D3A'},
+  GALLIFORMES: {md:'#DCADBD', lt:'#F7DAE3', line:'#ECC7D3', aba:'#E5BCCA', num:'#BB8E9D', dk:'#916675', ink3:'#7E5564', ink2:'#522D3B'},
+  COLUMBIFORMES: {md:'#D9ABBD', lt:'#F7DAE5', line:'#ECC7D5', aba:'#E4BCCB', num:'#B98D9E', dk:'#906677', ink3:'#7E5566', ink2:'#522D3D'},
+  MESITORNITHIFORMES: {md:'#D8ABBE', lt:'#F6DAE6', line:'#EBC7D6', aba:'#E3BCCD', num:'#B78C9F', dk:'#8F6779', ink3:'#7D5668', ink2:'#512D3F'},
+  PTEROCLIFORMES: {md:'#CFAAC8', lt:'#F2DBED', line:'#E5C8E0', aba:'#DDBDD7', num:'#AF8CA8', dk:'#896884', ink3:'#775772', ink2:'#4C2F48'},
+  OTIDIFORMES: {md:'#CCA3C8', lt:'#F1DBEE', line:'#E4C9E1', aba:'#DCBED9', num:'#AC84A8', dk:'#8B6688', ink3:'#795576', ink2:'#4D2D4B'},
+  MUSOPHAGIFORMES: {md:'#C3A5CD', lt:'#EDDCF2', line:'#DFCAE6', aba:'#D7BFDE', num:'#A487AD', dk:'#84698D', ink3:'#73587B', ink2:'#482F50'},
+  CUCULIFORMES: {md:'#BFA2CF', lt:'#EBDDF4', line:'#DDCAE8', aba:'#D5C0E0', num:'#9F83AF', dk:'#846892', ink3:'#725780', ink2:'#473052'},
+  CAPRIMULGIFORMES: {md:'#B899CE', lt:'#EADDF5', line:'#DCCBE9', aba:'#D3C0E2', num:'#987BAD', dk:'#846798', ink3:'#715783', ink2:'#453054'},
+  NYCTIBIIFORMES: {md:'#AE97D2', lt:'#E7DEF7', line:'#D8CCEC', aba:'#CFC2E5', num:'#8F7AAE', dk:'#7E689F', ink3:'#6B5987', ink2:'#413257'},
+  STEATORNITHIFORMES: {md:'#A793CF', lt:'#E6DEF8', line:'#D6CDED', aba:'#CDC2E6', num:'#8877AB', dk:'#7C68A1', ink3:'#695988', ink2:'#3F3257'},
+  PODARGIFORMES: {md:'#A393CF', lt:'#E5DFF8', line:'#D5CDED', aba:'#CBC3E6', num:'#8476AB', dk:'#7969A2', ink3:'#675A89', ink2:'#3E3358'},
+  AEGOTHELIFORMES: {md:'#A598D5', lt:'#E3DFF9', line:'#D3CEEE', aba:'#CAC3E7', num:'#867BB0', dk:'#776AA3', ink3:'#655B8A', ink2:'#3C3359'},
+  APODIFORMES: {md:'#B0AADC', lt:'#E2DFF9', line:'#D2CEEF', aba:'#C8C4E8', num:'#918BBC', dk:'#746D9C', ink3:'#635C8A', ink2:'#3A345A'},
+  GRUIFORMES: {md:'#A8A4DD', lt:'#E1E0FA', line:'#D0CFEF', aba:'#C6C5E9', num:'#8A86BC', dk:'#716DA2', ink3:'#605C8C', ink2:'#39355B'},
+  CHARADRIIFORMES: {md:'#9AA6E0', lt:'#DCE2FB', line:'#C9D1F1', aba:'#BFC7EA', num:'#7D87BC', dk:'#6670A6', ink3:'#57608E', ink2:'#31375C'},
+  PHOENICOPTERIFORMES: {md:'#8FA3DD', lt:'#D9E3FB', line:'#C6D2F1', aba:'#BBC8EA', num:'#7385B8', dk:'#5F72A9', ink3:'#52618E', ink2:'#2D385C'},
+  PODICIPEDIFORMES: {md:'#859DD6', lt:'#D8E3FB', line:'#C5D3F1', aba:'#BAC9EA', num:'#6A7FB1', dk:'#5C73A9', ink3:'#4F628E', ink2:'#2A395C'},
+  OPISTHOCOMIFORMES: {md:'#849FD1', lt:'#D7E3FB', line:'#C3D3F1', aba:'#B8CAEA', num:'#6780B1', dk:'#5C74A4', ink3:'#4C638E', ink2:'#283A5C'},
+  EURYPYGIFORMES: {md:'#829FCF', lt:'#D6E4FB', line:'#C2D4F1', aba:'#B6CAEA', num:'#6581AF', dk:'#5A75A2', ink3:'#4A648E', ink2:'#263A5C'},
+  PHAETHONTIFORMES: {md:'#82A0CB', lt:'#D5E4FB', line:'#C0D4F1', aba:'#B5CBEA', num:'#6582AB', dk:'#5A769E', ink3:'#49648C', ink2:'#243B5C'},
+  GAVIIFORMES: {md:'#81A6D3', lt:'#D3E5FA', line:'#BFD5F0', aba:'#B3CBEA', num:'#6387B3', dk:'#5477A2', ink3:'#44658D', ink2:'#213C5C'},
+  SPHENISCIFORMES: {md:'#82AEDF', lt:'#D2E5FA', line:'#BED5F0', aba:'#B2CCE9', num:'#678FBB', dk:'#4D78A5', ink3:'#42668D', ink2:'#1F3C5B'},
+  PROCELLARIIFORMES: {md:'#7EB0DF', lt:'#D1E6FA', line:'#BCD6EF', aba:'#B0CDE9', num:'#6490BA', dk:'#4979A5', ink3:'#3F678C', ink2:'#1C3D5B'},
+  CICONIIFORMES: {md:'#92B8D9', lt:'#D0E6F9', line:'#BBD6EF', aba:'#AFCDE8', num:'#7499B8', dk:'#557997', ink3:'#446785', ink2:'#1B3D59'},
+  SULIFORMES: {md:'#8CBDCF', lt:'#CBE9F4', line:'#B3DAE8', aba:'#A6D1E1', num:'#6D9EAF', dk:'#4D7C8D', ink3:'#3B6B7B', ink2:'#0E4150'},
+  PELECANIFORMES: {md:'#7ABCD0', lt:'#CAE9F3', line:'#B3DAE7', aba:'#A5D1DF', num:'#5B9CB0', dk:'#3D7F91', ink3:'#296D7F', ink2:'#004251'},
+  CATHARTIFORMES: {md:'#73BBC6', lt:'#C9EAEF', line:'#B1DBE2', aba:'#A4D3DA', num:'#549BA6', dk:'#38808B', ink3:'#246F79', ink2:'#00434B'},
+  ACCIPITRIFORMES: {md:'#68B5BF', lt:'#C9EAEE', line:'#B1DCE1', aba:'#A3D3D9', num:'#48969F', dk:'#32818A', ink3:'#206F78', ink2:'#024349'},
+  STRIGIFORMES: {md:'#74AFAA', lt:'#CAEBE8', line:'#B2DDD9', aba:'#A4D4D0', num:'#55908B', dk:'#46807C', ink3:'#346F6B', ink2:'#024441'},
+  COLIIFORMES: {md:'#78ADA2', lt:'#CBEBE4', line:'#B4DDD3', aba:'#A6D4CA', num:'#5A8E83', dk:'#4C8076', ink3:'#3B6E64', ink2:'#0C443B'},
+  LEPTOSOMIFORMES: {md:'#79AB9B', lt:'#CCEBE1', line:'#B5DDD0', aba:'#A8D4C6', num:'#5B8C7D', dk:'#4F8071', ink3:'#3E6E60', ink2:'#114438'},
+  TROGONIFORMES: {md:'#7DAE9C', lt:'#CDEBDF', line:'#B6DDCE', aba:'#A9D4C4', num:'#5F8F7E', dk:'#51806F', ink3:'#3F6E5E', ink2:'#134436'},
+  BUCEROTIFORMES: {md:'#82B29E', lt:'#CEEBDE', line:'#B7DDCC', aba:'#ABD4C2', num:'#649380', dk:'#52806D', ink3:'#416E5C', ink2:'#164434'},
+  CORACIIFORMES: {md:'#89B6A1', lt:'#CFEBDD', line:'#B9DCCB', aba:'#ACD4C0', num:'#6B9782', dk:'#54806B', ink3:'#426E5A', ink2:'#184432'},
+  PICIFORMES: {md:'#8DB9A1', lt:'#D0EBDB', line:'#BADCC9', aba:'#ADD4BE', num:'#6F9A83', dk:'#557F69', ink3:'#446E58', ink2:'#1A4431'},
+  CARIAMIFORMES: {md:'#95BCA0', lt:'#D2EAD8', line:'#BDDCC5', aba:'#B1D3BA', num:'#769D82', dk:'#5A7F65', ink3:'#496D54', ink2:'#20432C'},
+  FALCONIFORMES: {md:'#9BC0A2', lt:'#D3EAD7', line:'#BEDCC4', aba:'#B2D3B9', num:'#7CA184', dk:'#5B7E63', ink3:'#4A6D52', ink2:'#22432B'},
+  PSITTACIFORMES: {md:'#A4C4A3', lt:'#D6E9D4', line:'#C2DBC0', aba:'#B6D2B5', num:'#86A584', dk:'#607E5F', ink3:'#4F6C4E', ink2:'#274226'},
+  PASSERIFORMES: {md:'#ADC7A2', lt:'#D8E9D2', line:'#C5DABD', aba:'#BAD1B1', num:'#8EA784', dk:'#657D5B', ink3:'#546B4A', ink2:'#2C4223'}
+};
+var ORDER_COMMON = {
+  STRUTHIONIFORMES: 'Ostriches', CASUARIIFORMES: 'Cassowaries & Emus', APTERYGIFORMES: 'Kiwis', RHEIFORMES: 'Rheas',
+  TINAMIFORMES: 'Tinamous', ANSERIFORMES: 'Ducks, Geese, & Waterfowl', GALLIFORMES: 'Turkeys, Chickens, & Groundfowl',
+  COLUMBIFORMES: 'Pigeons & Doves', MESITORNITHIFORMES: 'Mesites', PTEROCLIFORMES: 'Sandgrouse', OTIDIFORMES: 'Bustards',
+  MUSOPHAGIFORMES: 'Turacos', CUCULIFORMES: 'Cuckoos, Anis, & Roadrunners', CAPRIMULGIFORMES: 'Nightjars & Allies',
+  NYCTIBIIFORMES: 'Potoos', STEATORNITHIFORMES: 'Oilbird', PODARGIFORMES: 'Frogmouths', AEGOTHELIFORMES: 'Owlet-nightjars',
+  APODIFORMES: 'Hummingbirds & Swifts', GRUIFORMES: 'Rails, Cranes, & Allies', CHARADRIIFORMES: 'Shorebirds',
+  PHOENICOPTERIFORMES: 'Flamingos', PODICIPEDIFORMES: 'Grebes', OPISTHOCOMIFORMES: 'Hoatzin', EURYPYGIFORMES: 'Kagu & Sunbittern',
+  PHAETHONTIFORMES: 'Tropicbirds', GAVIIFORMES: 'Loons', SPHENISCIFORMES: 'Penguins',
+  PROCELLARIIFORMES: 'Albatrosses, Shearwaters, & Petrels', CICONIIFORMES: 'Storks', SULIFORMES: 'Cormorants, Boobies, & Allies',
+  PELECANIFORMES: 'Pelicans, Herons, Egrets, & Allies', CATHARTIFORMES: 'New World Vultures',
+  ACCIPITRIFORMES: 'Hawks, Eagles, Kites, & Allies', STRIGIFORMES: 'Owls', COLIIFORMES: 'Mousebirds',
+  LEPTOSOMIFORMES: 'Cuckoo-roller', TROGONIFORMES: 'Trogons', BUCEROTIFORMES: 'Hornbills & Hoopoes',
+  CORACIIFORMES: 'Kingfishers, Bee-eaters, & Allies', PICIFORMES: 'Woodpeckers, Toucans, & Barbets', CARIAMIFORMES: 'Seriemas',
+  FALCONIFORMES: 'Falcons', PSITTACIFORMES: 'Parrots & Cockatoos', PASSERIFORMES: 'Passerines'
+};
+var ORDER_CODE = { STRIGIFORMES: 'STG', COLIIFORMES: 'CLI', PODARGIFORMES: 'PDG', PODICIPEDIFORMES: 'PDC' };
+/* Muted IUCN colors [fill, text]; UN (unknown) shares DD's gray */
+var IUCN = { LC:['#6E9F68','#fff'], NT:['#B7B24A','#2e2218'], VU:['#D6AE34','#2e2218'], EN:['#C8703A','#fff'],
+             CR:['#B04032','#fff'], DD:['#B9B5A8','#2e2218'], UN:['#B9B5A8','#2e2218'], EW:['#6B3F5E','#fff'], EX:['#2E2A26','#fff'] };
+
+var ICON = {
+  globe: '<span class="slot"><svg class="geo-g" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="currentColor" fill-opacity=".32"/><path d="M52.9,97.9L52.5,97.9L52.0,98.0L51.9,97.9L52.5,97.9L52.9,97.9ZM53.5,97.9L53.4,97.9L53.6,97.9L54.2,97.8L55.2,97.7L55.7,97.6L55.7,97.6L55.6,97.7L55.0,97.7L54.8,97.8L54.8,97.8ZM53.1,97.1L52.9,97.3L51.5,97.3L51.3,97.2L52.1,97.1L52.4,96.8L52.9,96.7ZM39.3,96.8L39.3,96.8L40.0,96.9L41.8,97.2L42.3,97.2L42.5,97.2L43.2,97.3L43.3,97.3L44.3,97.5L44.8,97.5L45.7,97.6L45.7,97.5L45.0,97.4L44.2,97.2L45.1,97.3L46.2,97.4L47.0,97.4L47.9,97.4L49.7,97.5L49.9,97.4L50.9,97.5L52.7,97.4L53.2,97.3L53.3,97.2L53.3,96.9L53.9,96.5L53.9,96.4L56.0,95.7L57.8,95.3L58.3,95.3L57.4,95.6L56.9,95.6L56.1,95.8L55.9,96.1L54.6,96.4L54.6,96.6L54.9,96.7L54.9,97.0L54.6,97.3L54.0,97.5L53.3,97.6L52.0,97.7L51.8,97.8L50.5,97.8L51.0,97.8L50.9,97.9L50.4,97.9L50.3,97.9L50.7,98.0L51.5,98.0L51.9,98.0L51.9,98.0L50.2,98.0L48.6,98.0L46.9,97.9L45.2,97.8L43.5,97.6L41.9,97.3L40.2,97.0ZM56.5,97.6L56.8,97.5L57.6,97.4L58.6,97.2L59.2,97.1L59.2,97.1L57.5,97.4ZM56.0,92.2L57.2,92.5L55.6,92.9L54.3,92.7L52.7,91.9L54.4,92.4L54.9,91.9L55.7,91.8ZM55.8,40.1L57.2,40.0L59.2,41.0L56.6,41.6L54.5,41.1L56.1,41.1ZM50.2,37.8L51.3,38.0L52.7,39.0L54.6,39.8L51.8,40.1L52.3,39.7L51.0,38.7L47.9,37.8L48.3,37.4ZM28.1,17.6L27.4,17.3L27.3,16.0L28.0,16.4ZM62.3,17.1L62.7,17.8L64.0,17.9L64.9,18.9L64.3,19.5L64.0,18.9L61.5,19.1L61.9,16.7ZM78.1,13.6L77.9,14.0L77.4,13.4L76.6,12.9L76.2,12.2L76.8,12.3ZM74.3,10.2L75.0,10.8L75.1,10.6L76.2,11.5L76.3,11.4L77.4,12.0L78.5,12.7L78.8,12.8L79.9,13.9L79.6,14.7L79.1,14.0L77.6,12.8L77.9,12.7L77.0,12.2L76.3,11.9L75.3,11.3L74.1,10.3ZM48.2,9.4L50.0,10.3L49.6,10.5L48.9,10.2L47.9,10.6L47.7,10.2L48.0,9.4ZM67.4,7.5L68.5,8.0L68.8,8.4L68.8,8.9L67.7,8.9L67.6,8.7L66.9,8.5L66.9,8.3L66.4,8.3L66.3,7.9L67.0,8.1ZM98.0,51.9L98.0,51.1L97.9,47.5L97.8,46.2L97.7,46.9L97.5,45.5L97.2,46.1L96.8,47.5L96.4,47.3L95.6,48.4L95.2,48.2L93.8,46.1L92.8,43.8L92.0,42.9L91.1,40.9L91.3,39.6L90.4,36.4L89.9,35.8L89.5,33.6L89.2,31.5L89.1,29.9L89.3,29.8L89.2,28.2L88.6,27.3L88.0,25.7L88.0,25.0L87.5,23.7L88.4,23.8L88.1,22.5L88.2,21.2L88.6,21.7L89.6,23.2L90.1,23.8L90.4,24.1L90.4,24.1L91.3,25.5L92.1,27.0L92.9,28.5L93.6,30.0L94.3,31.5L94.9,33.1L95.5,34.6L96.0,36.2L96.4,37.9L96.8,39.5L97.2,41.1L97.5,42.8L97.7,44.4L97.8,46.1L97.9,47.8L98.0,49.4L98.0,51.1ZM84.9,17.1L84.6,16.8L83.8,15.9L83.5,15.7L84.4,16.7L85.7,18.0L85.9,18.2L85.9,18.2L86.3,18.6L86.3,18.6L86.3,18.6L86.3,18.6L87.4,19.9L87.4,19.9L87.6,20.2L86.6,18.9L86.0,18.4L84.3,16.9L85.0,17.8L84.8,18.1L85.5,18.9L85.8,19.6L86.5,20.8L86.9,21.2L87.6,22.7L87.3,22.9L87.5,23.5L86.8,23.0L86.3,23.2L85.3,22.0L84.4,20.6L83.1,19.2L83.0,18.6L84.1,18.3L82.7,16.7L80.7,15.4L81.1,15.2L80.4,14.2L79.9,13.7L79.6,13.2L78.7,12.4L78.2,11.6L77.2,10.9L76.1,10.2L75.6,9.8L76.5,10.3L77.2,10.9L78.2,11.5L77.9,11.1L78.3,11.4L77.4,10.6L77.5,10.7L76.9,10.2L75.8,9.5L75.0,9.0L75.1,9.1L75.1,9.1L76.5,10.0L77.9,10.9L79.2,11.9L80.5,12.9L81.8,14.0L83.0,15.2L84.2,16.3ZM74.0,8.4L73.9,8.4L73.9,8.3L73.9,8.3ZM73.3,8.0L73.5,8.2L73.0,7.9L71.7,7.2L70.7,6.7L69.5,6.1L68.9,5.9L69.3,6.1L70.3,6.6L71.8,7.3L72.8,7.9L73.7,8.3L74.7,9.0L76.6,10.2L77.2,10.7L74.4,9.0L75.2,9.7L74.9,9.7L72.5,8.3L70.7,7.1L68.1,5.8L66.3,5.0L65.8,4.8L65.1,4.5L64.7,4.3L65.0,4.4L65.3,4.5L65.4,4.5L65.4,4.5L67.0,5.1L68.6,5.7L70.1,6.4L71.6,7.1L73.1,7.9ZM34.5,4.6L34.5,4.6L33.7,4.9L33.8,4.8L34.6,4.5L34.0,4.8L33.4,5.0L33.0,5.2L33.0,5.2L31.4,6.0L31.2,6.2L30.5,6.6L30.1,6.6L29.3,7.0L29.2,7.0L30.1,6.5L30.7,6.2L30.0,6.4L30.0,6.4L29.9,6.4L28.6,7.1L28.1,7.3L28.4,7.2L28.2,7.2L28.2,7.2L29.7,6.5L31.2,5.8L32.8,5.2L34.4,4.6ZM35.0,4.6L34.5,4.7L34.8,4.6ZM46.9,7.8L46.8,8.2L47.3,7.9L47.6,8.2L47.6,8.7L48.3,8.1L48.4,7.7L49.6,8.0L49.4,8.4L49.5,8.8L48.9,9.1L48.1,9.0L47.4,9.8L46.4,10.1L44.3,11.6L43.7,12.6L44.3,12.7L44.4,13.6L45.9,13.8L47.6,14.7L48.9,14.8L48.8,15.3L49.3,16.6L50.0,17.1L50.7,16.3L50.1,15.1L50.8,14.8L51.6,14.0L51.2,13.2L50.6,12.8L51.1,12.2L50.7,11.0L52.4,10.9L53.5,11.6L54.2,11.6L54.6,12.7L55.4,13.0L55.9,12.7L56.3,11.9L58.3,13.6L58.3,14.0L59.6,14.5L60.7,14.8L61.8,15.5L62.1,16.2L60.5,17.5L57.2,17.6L56.3,18.4L55.1,19.9L57.3,18.3L58.6,18.5L58.2,19.0L58.9,20.1L60.6,20.3L60.9,19.5L61.5,20.2L59.8,21.1L58.8,21.9L58.2,21.3L59.1,20.7L57.7,21.1L56.0,21.9L55.6,22.5L56.3,23.3L54.5,23.7L52.8,26.0L52.3,25.5L52.9,27.8L51.0,29.1L49.0,30.9L48.9,31.5L50.0,34.5L49.7,35.8L49.1,35.8L47.3,32.1L46.3,32.3L45.4,31.7L43.1,31.8L43.1,32.6L41.6,32.1L39.4,32.2L37.3,33.8L37.3,35.0L36.4,37.7L37.6,40.7L38.6,41.3L41.5,40.5L42.0,39.1L44.5,38.7L43.3,42.8L42.8,43.3L46.5,43.4L47.5,44.1L46.8,47.2L48.8,49.3L50.4,48.6L52.6,49.5L53.6,48.8L53.7,47.8L55.4,47.3L56.7,46.2L57.0,47.4L59.1,47.0L59.7,47.7L64.7,47.4L64.3,48.1L67.0,49.6L68.5,51.2L70.1,51.0L71.8,51.4L73.0,52.4L74.0,54.9L73.7,55.9L75.0,55.9L77.6,56.8L77.8,57.7L78.6,57.3L80.8,57.5L82.5,58.9L83.6,59.2L83.8,60.7L83.4,62.1L82.1,63.9L80.6,66.2L80.4,67.7L79.2,70.7L78.1,72.6L77.2,73.4L75.5,73.8L74.2,74.5L72.6,75.9L71.8,77.8L70.1,79.5L68.9,80.4L67.5,81.8L66.7,82.2L64.5,82.0L65.2,82.5L65.1,83.5L64.3,84.2L63.3,84.6L61.3,84.8L61.2,85.8L59.3,86.1L59.2,86.6L60.1,86.9L58.9,87.4L58.5,88.2L57.1,88.9L58.1,89.3L56.5,90.6L55.7,91.0L56.0,91.6L54.6,91.9L54.4,92.3L53.7,92.2L52.6,91.7L52.4,90.1L53.4,89.3L52.5,89.1L53.1,88.7L53.4,87.9L54.0,88.0L54.5,86.9L53.5,87.4L54.6,84.0L56.0,81.1L56.2,78.7L56.7,77.9L57.7,73.5L57.6,71.2L56.8,70.5L53.2,68.5L50.2,62.6L49.0,61.7L48.8,60.6L50.2,58.9L49.2,58.5L49.9,56.0L51.0,55.5L52.4,53.5L52.1,51.1L50.7,49.2L50.0,50.4L47.5,49.8L45.2,48.2L45.3,47.4L43.8,45.8L40.9,44.9L38.3,42.9L36.8,43.3L31.8,40.9L30.5,39.0L30.9,38.3L30.6,37.1L29.0,34.0L27.6,31.9L27.5,30.2L26.7,29.6L26.4,30.9L27.5,33.8L28.4,36.5L26.8,35.2L26.9,34.2L25.8,33.2L26.3,32.1L25.7,31.3L25.6,28.5L25.2,27.7L24.4,27.3L24.2,23.9L24.4,22.9L25.3,21.2L26.7,19.5L27.6,17.6L28.1,17.9L28.5,17.3L28.1,16.3L27.7,16.0L28.3,15.1L28.0,14.8L28.6,13.6L29.5,11.7L28.9,11.5L29.0,10.7L28.4,10.3L28.5,9.7L27.7,10.1L26.6,10.3L27.8,9.6L26.5,10.0L26.2,10.3L24.9,10.8L23.7,11.3L22.5,11.7L22.3,11.6L23.4,11.2L23.5,11.2L24.8,10.6L25.9,10.1L25.3,10.2L25.7,9.8L25.3,9.9L26.0,9.5L26.0,9.3L27.1,8.4L28.4,7.9L28.4,8.0L29.1,7.8L29.8,7.5L29.4,7.4L30.2,6.8L31.0,6.6L30.8,6.9L32.1,6.1L32.7,5.8L32.8,5.9L34.0,5.6L35.1,5.5L34.8,5.8L35.1,6.3L35.4,6.3L35.6,7.0L36.4,6.8L36.6,6.9L38.1,6.7L37.9,7.1L38.8,7.1L40.1,7.8L39.9,8.1L41.0,8.1L42.4,7.9L42.6,8.2L43.3,8.4L44.3,8.4L44.4,8.1L45.5,8.3L45.8,7.9L45.4,7.5L45.6,7.1L46.1,6.8L46.6,7.1ZM42.2,6.1L42.5,6.4L43.0,6.3L42.9,6.7L43.4,6.2L43.9,6.4L43.5,7.0L44.1,7.5L43.5,7.6L43.4,7.9L42.5,7.7L40.4,7.8L39.9,7.5L40.0,7.2L41.4,7.1L40.2,6.9L40.9,6.7L40.4,6.5L41.2,6.2ZM48.4,6.4L48.6,6.7L48.8,6.4L49.5,6.2L49.9,6.6L49.8,6.8L50.5,6.6L52.4,7.2L53.1,7.4L53.8,7.9L53.4,8.1L54.7,8.4L55.4,8.8L55.9,8.8L55.6,9.6L54.4,9.1L54.1,9.4L55.3,9.9L55.7,10.7L54.1,10.3L55.4,11.1L54.3,10.9L51.9,10.0L50.8,10.1L50.7,9.6L52.1,9.5L52.4,8.7L52.1,8.4L50.9,8.1L51.1,8.0L50.3,7.6L49.6,7.7L47.6,7.4L47.4,6.7L48.0,6.3L48.6,6.2ZM45.4,6.1L46.0,6.1L45.6,6.4L45.9,6.6L45.7,6.9L45.1,7.0L44.5,6.5L45.0,6.5L45.0,6.2ZM46.8,6.5L46.1,6.8L46.1,6.4L46.7,6.0L47.6,6.2ZM40.1,6.6L39.3,6.7L39.3,6.3L40.6,5.7L40.8,5.5L41.5,5.5L42.0,5.7L42.1,6.0L40.9,6.2ZM46.5,5.2L46.1,5.7L45.6,5.7L45.4,5.5L45.6,5.3ZM44.6,5.2L44.9,5.3L44.5,5.6L43.1,5.7L43.0,5.6L43.5,5.5L42.5,5.4L43.5,5.1L44.1,5.5L44.3,5.1ZM47.3,5.1L47.8,5.2L48.1,5.6L48.7,5.6L49.8,5.6L50.0,5.8L49.6,6.0L48.2,6.0L47.3,5.8L47.3,5.3L46.8,5.2ZM43.9,4.7L43.5,4.9L42.6,5.1L42.2,5.0L43.5,4.7ZM58.5,3.1L59.0,3.1L59.4,3.2L60.9,3.5L60.5,3.5L60.2,3.4L59.3,3.3L58.6,3.2L58.6,3.2L58.2,3.0ZM57.7,2.8L57.9,2.8L58.4,2.9L58.6,3.0L58.0,3L57.6,2.9ZM48.9,4.4L49.1,4.5L48.5,4.8L47.8,4.8L48.0,4.5L47.7,4.5L47.6,4.3L48.1,4.0L48.4,4.0L48.5,4.1L48.9,4.3ZM51.1,3.6L51.7,3.6L52.0,3.7L51.5,4.0L51.8,3.9L51.4,4.2L51.3,4.4L50.5,4.5L50.8,4.7L50.4,4.9L50.1,5.2L50.4,5.3L49.9,5.4L49.4,5.4L48.1,5.3L48.6,5.1L48.6,4.9L49.1,5.0L48.7,4.8L49.2,4.5L49.0,4.3L49.5,4.3L49.7,4.2L49.0,4.2L48.6,3.9L49.4,3.7L49.6,3.8L49.7,3.7L50.1,3.6L50.7,3.6ZM54.3,3.2L55.2,3.3L55.4,3.4L54.8,3.5L55.6,3.5L55.5,3.4L56.2,3.6L56.1,3.3L56.7,3.4L57.3,3.7L58.1,4.0L58.9,4.3L59.5,4.4L59.4,4.6L60.0,4.7L60.6,4.9L61.3,5.1L61.1,5.2L61.7,5.4L61.5,5.5L62.4,5.8L61.9,5.8L62.9,6.1L63.5,6.3L63.4,6.4L62.4,6.2L63.1,6.6L63.8,6.5L63.9,7.3L63.3,7.5L63.6,8.2L63.5,8.6L62.9,8.9L63.4,9.8L63.3,10.2L63.8,10.6L64.3,11.5L63.8,11.5L63.0,11.2L62.3,11.3L60.1,10.0L59.4,9.3L58.6,9.0L58.2,8.5L58.0,8.0L58.3,7.8L58.0,7.4L57.6,7.7L57.2,7.5L56.8,7.1L57.6,7.1L56.7,6.8L56.2,6.8L56.1,6.5L54.4,5.5L53.7,5.4L52.3,5.4L51.6,5.2L52.4,5.0L51.6,5.0L51.1,4.8L52.2,4.5L51.7,4.3L51.8,4.2L52.2,4.0L52.0,3.9L52.5,3.7L53.1,3.8L53.1,3.6L54.0,3.8L53.4,3.6L53.4,3.4L53.7,3.4L53.8,3.3Z" fill="currentColor"/></svg></span>',
+  us: '<span class="slot"><svg class="geo-us" viewBox="0 0 100 62"><path d="M80.2,47.7L80.9,49.8L82.9,52.6L82.9,53.4L84.3,55.8L84.7,58.9L84.3,60.1L83.0,60.4L82.3,59.2L81.4,59.0L80.8,57.7L78.8,55.6L79.3,54.6L78.3,54.6L78.5,52.9L78.0,51.7L76.7,51.0L76.1,50.2L74.8,49.9L73.3,51.3L71.5,50.0L69.9,49.7L68.2,50.1L66.4,50.1L65.3,50.1L64.2,50.7L63.6,51.1L64.9,52.6L65.1,53.4L63.6,52.8L62.9,53.4L62.4,52.8L61.7,53.5L60.6,53.0L59.4,51.8L58.6,52.5L56.8,52.0L55.5,52.2L53.6,53.0L52.3,54.2L48.9,56.0L48.1,57.8L47.9,59.0L48.6,61L46.3,60.7L44.5,59.8L43.8,58.4L43.8,57.3L42.2,55.4L41.5,53.4L39.9,51.8L37.5,51.7L36.5,53.4L34.4,52.3L33.7,51.5L33.0,49.1L32.2,48.6L30.2,46.2L26.9,45.8L26.8,46.9L25.1,46.7L21.1,46.1L14.3,42.1L14.6,41.6L9.9,41.0L9.6,39.0L8.0,37.0L6.8,36.4L6.3,35.6L4.6,35.1L4.7,33.4L3.2,30.1L3.7,29.1L2.9,27.9L3.3,26.1L2.6,25.8L1.7,23.2L2.1,21.1L1.5,19.9L2.8,17.4L3.0,16.0L3.0,14.0L4.3,12.0L6.3,6.8L6.9,6.8L6.2,6.2L6.5,4.8L6.5,1.9L7.6,2.3L9.6,3.5L9.5,4.9L10.1,3.4L9.9,1L14.1,2.1L18.6,3.2L20.1,3.5L27.0,4.9L34.8,5.9L38.5,6.3L45.6,6.7L49.1,6.8L52.4,6.8L52.9,6.1L53.3,7.5L55.4,7.6L57.8,8.5L59.2,8.4L61.2,8.9L59.7,9.6L57.4,11.8L57.5,12.0L59.1,11.4L60.1,12.2L61.7,11.5L63.5,9.9L64.1,9.8L63.2,11.1L64.5,11.3L65.0,12.0L66.1,12.1L66.9,11.4L68.8,11.0L68.8,11.7L70.2,11.4L70.3,12.1L71.3,12.7L69.3,13.0L68.1,12.7L65.5,13.9L64.9,15.3L64.5,16.7L65.9,14.8L65.3,16.6L64.8,19.7L65.1,21.5L65.8,23.3L67.0,23.0L67.7,21.8L67.7,20.0L67.0,18.6L67.3,16.0L68.2,14.8L69.3,14.2L69.4,13.2L71.6,14.0L72.1,14.7L72.2,16.3L71.3,17.8L71.8,18.1L72.9,16.8L73.5,17.3L74.2,19.3L73.6,20.1L72.8,22.4L74.6,23.0L75.8,22.6L77.7,21.1L78.9,20.2L80.2,18.7L79.7,17.7L80.6,17.3L83.2,17L84.3,16.2L83.8,14.6L85.6,12.4L88.2,11.7L91.2,10.9L91.6,10.1L92.6,8.4L92.5,6.5L93.2,4.4L93.9,4.9L94.9,4.3L95.7,4.7L96.6,7.8L98.5,9.3L97.8,10.4L96.3,11.7L95.8,10.9L95.7,12.2L94.5,13.0L93.6,15.0L93.6,15.5L94.1,15.9L93.6,16.6L94.8,17.9L95.8,17.8L93.9,18.8L93.7,18.4L93.6,18.3L92.5,17.9L92.8,19.5L91.0,20.0L89.9,21.0L92.5,20.4L91.1,21.5L89.7,22.2L89.4,21.9L89.4,22.0L89.1,22.4L89.6,22.5L89.8,24.0L89.0,26.1L87.4,25.0L87.3,24.9L87.4,24.8L87.5,24.5L86.9,24.8L87.7,27.7L88.8,27.4L88.7,28.5L88.0,28.8L87.6,29.0L87.0,27.6L86.3,27.0L86.6,25.5L86.1,25.8L86.0,27.3L86.8,28.9L85.8,28.6L85.1,27.8L84.8,28.3L87.0,29.2L87.3,31.1L88.3,32.2L88.4,32.9L87.2,33.9L88.8,33.5L89.0,34.1L88.4,35.1L86.7,35.0L87.9,35.4L87.5,36.3L88.4,36.0L88.0,36.8L86.8,37.2L85.8,38.4L85.7,39.2L84.6,39.4L83.9,40.0L83.7,41.2L82.3,42.8L81.4,43.3L80.8,44.4L80.5,45.2ZM84.9,27.1L85.1,27.4L84.9,27.1ZM63.2,35.8L63.1,35.8L63.2,35.8Z" fill="currentColor"/></svg></span>',
+  cam: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  spk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>'
+};
+
+/* ── Helpers (same rules as index.html) ────────────────────────────────── */
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function stripDiacritics(s){ return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,''); }
+function speciesSlug(s) {
+  return stripDiacritics(s || '').toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+}
+function initials(s) {
+  return (s || '').split(/[\s-]+/).filter(Boolean).slice(0, 3).map(function(w){ return w.charAt(0); }).join('').toUpperCase();
+}
+function ampersand(s){ return (s||'').replace(/\band\b/g, '&'); }
+function cap(s){ return s.charAt(0) + s.slice(1).toLowerCase(); }
+function isTrue(v){ return /^(true|yes|y|1)$/i.test((v || '').trim()); }
+function num(v){ var n = parseInt((v || '').replace(/[^0-9]/g, ''), 10); return isNaN(n) ? 0 : n; }
+function fmt(n){ return n.toLocaleString('en-US'); }
+
+/* Species photo: photos/species/<slug>.jpg, tinted initials panel if missing */
+function speciesPhotoHTML(name) {
+  return '<img src="photos/species/' + speciesSlug(name) + '.jpg" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.hidden=false">'
+       + '<span class="ini" hidden>' + esc(initials(name)) + '</span>';
+}
+
+/* ── CSV (same parser as families.html) ────────────────────────────────── */
+function parseCSV(text) {
+  var rows = [], row = [], field = '', inQuotes = false, i = 0, len = text.length;
+  while (i < len) {
+    var c = text.charAt(i);
+    if (inQuotes) {
+      if (c === '"') { if (text.charAt(i+1) === '"') { field += '"'; i += 2; continue; } inQuotes = false; i++; continue; }
+      field += c; i++; continue;
+    }
+    if (c === '"') { inQuotes = true; i++; continue; }
+    if (c === ',') { row.push(field); field = ''; i++; continue; }
+    if (c === '\r') { i++; continue; }
+    if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+    field += c; i++;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+function csvRowsToRecords(rows) {
+  if (!rows.length) return [];
+  var header = rows[0].map(function(h){ return h.replace(/^﻿/, '').trim(); }), out = [];
+  for (var r = 1; r < rows.length; r++) {
+    var cells = rows[r];
+    if (cells.length === 1 && cells[0] === '') continue;
+    var rec = {};
+    for (var c = 0; c < header.length; c++) rec[header[c]] = cells[c] !== undefined ? cells[c] : '';
+    out.push(rec);
+  }
+  return out;
+}
+function isSeenDate(v) {
+  v = (v || '').trim();
+  return !!v && !/^#?n\/?a$/i.test(v);
+}
+/* Life list date is M/D/YYYY from the sheet; also accepts YYYY-MM-DD. Returns a sortable number. */
+function dateKey(v) {
+  v = (v || '').trim();
+  var m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if (m) { var y = +m[3]; if (y < 100) y += 2000; return y * 10000 + (+m[1]) * 100 + (+m[2]); }
+  m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m) return (+m[1]) * 10000 + (+m[2]) * 100 + (+m[3]);
+  var t = Date.parse(v);
+  if (!isNaN(t)) { var d = new Date(t); return d.getFullYear() * 10000 + (d.getMonth()+1) * 100 + d.getDate(); }
+  return 99999999;
+}
+/* 20221115 -> "11/15/22" */
+function shortDate(k) {
+  if (k === 99999999) return '';
+  return Math.floor(k / 100) % 100 + '/' + k % 100 + '/' + String(Math.floor(k / 10000)).slice(2);
+}
+function col(rec, name) {
+  if (name in rec) return rec[name];
+  var lk = name.toLowerCase();
+  for (var k in rec) if (k.toLowerCase() === lk) return rec[k];
+  return '';
+}
+
+/* One entry per seen species. Lifer # = order of first sighting; species
+   first seen on the same day are numbered in taxonomic (ID) order. */
+function buildLifers(records) {
+  var ordSeen = {}, ords = [], out = [];
+  records.forEach(function(rec) {
+    var id = parseInt(rec['ID'], 10), ord = (rec['Order'] || '').trim();
+    if (ord && !ordSeen[ord]) { ordSeen[ord] = { order: ord, id: isNaN(id) ? 1e9 : id }; ords.push(ordSeen[ord]); }
+    else if (ord && !isNaN(id) && id < ordSeen[ord].id) ordSeen[ord].id = id;
+    if (!isSeenDate(rec['Life list date'])) return;
+    var aba = ((rec['ABA Status'] || '').match(/ABA\s*([1-4])\b/i) || [])[1] || '';
+    out.push({
+      id: isNaN(id) ? 1e9 : id,
+      name: (rec['Common name'] || '').trim(),
+      sci: (rec['Scientific name'] || '').trim(),
+      order: ord,
+      orderCommon: ORDER_COMMON[ord] || cap(ord),
+      fam: (rec['Family'] || '').trim(),
+      famName: ampersand((rec['Family name'] || '').trim()),
+      loc: (rec['Life list location'] || '').trim().replace(/^#N\/A$/i, ''),
+      key: dateKey(rec['Life list date']),
+      iucn: (rec['IUCN Status'] || '').trim().toUpperCase(),
+      aba: aba,
+      world: num(col(rec, 'World Obs (Oct 2025)')),
+      us: num(col(rec, 'US Obs (Oct 2025)')),
+      photo: isTrue(col(rec, 'Photo')),
+      audio: isTrue(col(rec, 'Audio'))
+    });
+  });
+  out.sort(function(a, b){ return a.key - b.key || a.id - b.id; });
+  out.forEach(function(s, i){
+    s.n = i + 1;
+    s.hay = [s.name, s.sci, s.fam, s.famName, s.order, s.orderCommon].join(' | ').toLowerCase();
+    s.hay = stripDiacritics(s.hay);
+  });
+  ords.sort(function(a, b){ return a.id - b.id; });
+  ords.forEach(function(o){ o.code = ORDER_CODE[o.order] || o.order.slice(0, 3); });
+  return { lifers: out, orders: ords };
+}
+
+/* ── Rendering ─────────────────────────────────────────────────────────── */
+function palVars(ord) {
+  var p = ORDER_PAL[ord];
+  if (!p) return '';
+  return '--md:' + p.md + ';--lt:' + p.lt + ';--line:' + p.line + ';--aba:' + p.aba + ';--num:' + p.num
+       + ';--dk:' + p.dk + ';--ink3:' + p.ink3 + ';--ink2:' + p.ink2;
+}
+function passesFilters(s) {
+  if (PHOTO === 'yes' && !s.photo) return false;
+  if (PHOTO === 'no' && s.photo) return false;
+  if (AUDIO === 'yes' && !s.audio) return false;
+  if (AUDIO === 'no' && s.audio) return false;
+  var q = stripDiacritics(QUERY.toLowerCase().trim());
+  return !q || s.hay.indexOf(q) >= 0;
+}
+
+function topHTML(s) {
+  return '<div class="top">'
+    + '<div class="ph">' + speciesPhotoHTML(s.name) + '</div>'
+    + '<div class="info">'
+    +   '<span class="num" title="Lifer #' + s.n + '">' + s.n + '</span>'
+    +   '<div class="cn">' + esc(s.name) + '</div>'
+    +   '<div class="sn">' + esc(s.sci) + '</div>'
+    +   '<div class="meta"><span class="rg">' + esc(s.loc) + '</span><span>' + shortDate(s.key) + '</span></div>'
+    + '</div></div>';
+}
+function panelHTML(s) {
+  var obs = '<div class="ob" title="Global observations (Oct 2025)">' + ICON.globe + fmt(s.world) + '</div>'
+          + (s.us > 0 ? '<div class="ob" title="US observations (Oct 2025)">' + ICON.us + fmt(s.us) + '</div>' : '');
+  var iu = IUCN[s.iucn];
+  var pills = (iu ? '<span class="pill" style="background:' + iu[0] + ';color:' + iu[1] + '" title="IUCN status">' + esc(s.iucn) + '</span>' : '')
+            + (s.aba ? '<span class="pill aba">ABA ' + s.aba + '</span>' : '');
+  var media = '<span class="media">'
+            + (s.photo ? '<span title="Photographed">' + ICON.cam + '</span>' : '')
+            + (s.audio ? '<span title="Audio uploaded">' + ICON.spk + '</span>' : '')
+            + '</span>';
+  return '<div class="bot">'
+    + '<div class="tax"><span class="k">Order</span><span class="v" title="' + esc(cap(s.order)) + '">' + esc(s.orderCommon) + '</span>'
+    +   '<span class="k">Family</span><span class="v" title="' + esc(s.fam) + '">' + esc(s.famName) + '</span></div>'
+    + '<div class="obs">' + obs + '</div>'
+    + '<div class="row">' + pills + media + '</div>'
+    + '</div>';
+}
+
+var BY_N = {};
+function tileHTML(s) {
+  var open = OPEN === s.n;
+  return '<div class="stile' + (s.n >= 1000 ? ' w4' : s.n >= 100 ? ' w3' : '') + (open ? ' open' : '') + '" data-n="' + s.n + '" tabindex="0" role="button" aria-expanded="' + open + '" style="' + palVars(s.order) + '">'
+    + topHTML(s) + (open ? panelHTML(s) : '') + '</div>';
+}
+
+function sorted(list) {
+  if (SORT === 'latest') return list.slice().reverse();
+  if (SORT === 'obsdesc') return list.slice().sort(function(a, b){ return b.world - a.world || a.n - b.n; });
+  if (SORT === 'obsasc') return list.slice().sort(function(a, b){ return a.world - b.world || a.n - b.n; });
+  return list;   /* LIFERS is already in first-observed order */
+}
+
+function render() {
+  var inView = LIFERS.filter(passesFilters);
+  var list = orderSelCount() ? inView.filter(function(s){ return ORDER_SEL[s.order]; }) : inView;
+  list = sorted(list);
+  if (OPEN && !list.some(function(s){ return s.n === OPEN; })) OPEN = null;
+  updateStrip(inView);
+  document.getElementById('count').innerHTML = list.length === LIFERS.length
+    ? '<b>' + fmt(LIFERS.length) + '</b> lifers'
+    : '<b>' + fmt(list.length) + '</b> of ' + fmt(LIFERS.length);
+
+  var savedScrollY = window.scrollY;
+  var grid = document.getElementById('grid');
+  grid.innerHTML = list.length
+    ? list.map(tileHTML).join('')
+    : '<div class="empty-state">No lifers match these filters.</div>';
+  window.scrollTo(0, savedScrollY);
+}
+
+/* Open/close without rebuilding the grid, so scroll position never jumps. */
+function toggle(n) {
+  var grid = document.getElementById('grid');
+  var prev = OPEN && grid.querySelector('.stile[data-n="' + OPEN + '"]');
+  if (prev) { prev.classList.remove('open'); prev.setAttribute('aria-expanded', 'false'); var b = prev.querySelector('.bot'); if (b) b.remove(); }
+  OPEN = (OPEN === n) ? null : n;
+  var el = OPEN && grid.querySelector('.stile[data-n="' + OPEN + '"]');
+  if (el) {
+    el.classList.add('open'); el.setAttribute('aria-expanded', 'true');
+    el.insertAdjacentHTML('beforeend', panelHTML(BY_N[OPEN]));
+    el.focus({ preventScroll: true });
+    requestAnimationFrame(function() {
+      var top = setTopbarVar();
+      var r = el.getBoundingClientRect();
+      if (r.top < top || r.bottom > window.innerHeight) el.scrollIntoView({ block: 'nearest' });
+    });
+  }
+  updateStrip(null);
+}
+
+function setTopbarVar() {
+  var t = document.querySelector('.topbar');
+  var h = (t && getComputedStyle(t).position === 'sticky') ? t.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty('--topbar-h', h + 'px');
+  return h;
+}
+
+/* ── Order strip ───────────────────────────────────────────────────────── */
+function buildStrip() {
+  var strip = document.getElementById('ostrip');
+  strip.innerHTML = ORDERS.map(function(o) {
+    var p = ORDER_PAL[o.order] || { md: '#9EBB93', ink2: '#2E4A26' };
+    return '<button class="obtn" data-order="' + esc(o.order) + '" aria-label="' + esc(cap(o.order)) + '"'
+         + ' style="--obg:' + p.md + ';--oink:' + p.ink2 + '">' + esc(o.code) + '</button>';
+  }).join('');
+  strip.addEventListener('click', function(e) {
+    var b = e.target.closest('.obtn');
+    if (!b) return;
+    var ord = b.dataset.order;
+    if (ORDER_SEL[ord]) delete ORDER_SEL[ord]; else ORDER_SEL[ord] = true;
+    render();
+  });
+}
+var LAST_PRESENT = {};
+function updateStrip(inView) {
+  if (inView) { LAST_PRESENT = {}; inView.forEach(function(s){ LAST_PRESENT[s.order] = true; }); }
+  var openOrd = OPEN && BY_N[OPEN] ? BY_N[OPEN].order : null;
+  document.querySelectorAll('.obtn').forEach(function(b) {
+    var ord = b.dataset.order;
+    b.classList.toggle('on', !!ORDER_SEL[ord]);
+    b.classList.toggle('expanded', openOrd === ord);
+    b.classList.toggle('dim', !LAST_PRESENT[ord]);
+    b.setAttribute('aria-pressed', ORDER_SEL[ord] ? 'true' : 'false');
+  });
+  var clr = document.getElementById('oclear');
+  clr.classList.toggle('active', orderSelCount() > 0);
+  clr.disabled = orderSelCount() === 0;
+}
+
+/* ── Data load ─────────────────────────────────────────────────────────── */
+function showDataMessage(msg) {
+  document.getElementById('grid').innerHTML = '<div class="empty-state">' + esc(msg) + '</div>';
+}
+function loadData() {
+  showDataMessage('Loading bird data…');
+  fetch('birddata.csv')
+    .then(function(resp) { if (!resp.ok) throw new Error('HTTP ' + resp.status); return resp.text(); })
+    .then(function(text) {
+      var built = buildLifers(csvRowsToRecords(parseCSV(text)));
+      LIFERS = built.lifers;
+      ORDERS = built.orders;
+      LIFERS.forEach(function(s){ BY_N[s.n] = s; });
+      buildStrip();
+      render();
+    })
+    .catch(function(err) {
+      showDataMessage('Could not load birddata.csv (' + err.message + '). Make sure it sits in the same folder as life-list.html.');
+    });
+}
+
+(function init() {
+  var chips = document.querySelectorAll('.chip[data-f]');
+  function syncChips() {
+    chips.forEach(function(b) {
+      var f = b.dataset.f;
+      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any')
+                              : f === 'photo' ? PHOTO === b.dataset.v : AUDIO === b.dataset.v);
+    });
+  }
+  chips.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var f = btn.dataset.f, v = btn.dataset.v;
+      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; }
+      else if (f === 'photo') PHOTO = (PHOTO === v ? 'any' : v);
+      else AUDIO = (AUDIO === v ? 'any' : v);
+      syncChips();
+      render();
+    });
+  });
+  document.getElementById('sort-sel').addEventListener('change', function(){ SORT = this.value; render(); });
+  var t;
+  document.getElementById('search').addEventListener('input', function(){
+    var v = this.value; clearTimeout(t); t = setTimeout(function(){ QUERY = v; render(); }, 90);
+  });
+  document.getElementById('oclear').addEventListener('click', function(){ ORDER_SEL = {}; render(); });
+  var grid = document.getElementById('grid');
+  grid.addEventListener('click', function(e) {
+    var el = e.target.closest('.stile');
+    if (!el) return;
+    var n = +el.dataset.n;
+    if (OPEN === n && !e.target.closest('.top')) return;   /* clicks inside the panel don't close it */
+    toggle(n);
+  });
+  grid.addEventListener('keydown', function(e) {
+    if (!e.target.classList.contains('stile')) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(+e.target.dataset.n); }
+  });
+  window.addEventListener('resize', setTopbarVar);
+  setTopbarVar();
+  loadData();
+})();
+</script>
