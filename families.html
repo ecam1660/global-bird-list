@@ -306,6 +306,7 @@
         <option value="taxo" selected>Taxo Order ↓</option>
         <option value="count">Species Seen ↓</option>
         <option value="pct">Completion ↓</option>
+        <option value="tgtobs">Most Obs Target ↓</option>
       </select>
     </div>
   </div>
@@ -498,6 +499,8 @@ function buildFamilies(records) {
   });
   fams.forEach(function(f) {
     f.pct = f.total ? f.seen / f.total : 0;
+    /* highest World Obs among the targets shown on the tile (0 if none, or if the family is complete) */
+    f.topTgtObs = (f.total && f.seen === f.total) ? 0 : f.targets.reduce(function(m, t){ return Math.max(m, t.obs); }, 0);
     f.seenList.sort(function(a, b) { return a.key - b.key || a.id - b.id; });   /* first seen, oldest first */
     f.targets.sort(function(a, b) { return b.obs - a.obs || a.id - b.id; });    /* most global observations first */
     if (f.seen) ordMap[f.order].seenFams++;
@@ -642,6 +645,7 @@ function render() {
 
   if (SORT === 'count') list = list.slice().sort(function(a,b){ return b.seen - a.seen || a.taxo - b.taxo; });
   else if (SORT === 'pct') list = list.slice().sort(function(a,b){ return b.pct - a.pct || b.seen - a.seen || a.taxo - b.taxo; });
+  else if (SORT === 'tgtobs') list = list.slice().sort(function(a,b){ return b.topTgtObs - a.topTgtObs || a.taxo - b.taxo; });
 
   var openFam = null;
   for (var i = 0; i < list.length; i++) if (list[i].sci === OPEN) { openFam = list[i]; break; }
