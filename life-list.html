@@ -202,14 +202,14 @@
   .tax .k { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: #8A7660; margin-top: 3px; }
   .tax .k:first-child { margin-top: 0; }
   .tax .v { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .obs { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding-top: 1px; }
+  .obs { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding-top: 1px; justify-self: end; }
   .ob { display: flex; align-items: center; gap: 7px; font-size: 12px; font-variant-numeric: tabular-nums; }
   .slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 16px; flex: none; color: var(--dk); }
   .geo-g { width: 15px; height: 15px; }
   .geo-us { width: 19px; height: 12px; }
   .row { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; border-top: 1px solid var(--line); padding-top: 6px; }
   .pill { display: inline-flex; align-items: center; border-radius: 99px; padding: 2px 8px; font-size: 10px; font-weight: 700; letter-spacing: .04em; line-height: 1.3; white-space: nowrap; }
-  .pill.aba { background: var(--aba); color: var(--ink2); margin-left: 27px; }   /* lines up with the counts above */
+  .pill.aba { background: var(--aba); color: var(--ink2); align-self: flex-end; }   /* right edge of the panel */
   .media { display: inline-flex; gap: 7px; margin-left: auto; color: var(--dk); }
   .media svg { width: 16px; height: 16px; display: block; }
 
@@ -242,6 +242,7 @@
       <button class="chip ico" data-f="audio" data-v="yes" title="Audio uploaded" aria-label="Audio uploaded"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
       <button class="chip ico" data-f="audio" data-v="no" title="No audio yet" aria-label="No audio yet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/><path d="M3 3l18 18"/></svg></button>
       <span class="chip-sep"></span>
+      <span class="fl">Seen in</span>
       <button class="chip" data-f="region" data-v="US" title="Seen in the US">US</button>
       <button class="chip" data-f="region" data-v="ABA" title="Seen in the ABA Area (US & Canada)">ABA</button>
       <button class="chip" data-f="region" data-v="CA" title="Seen in California">CA</button>
