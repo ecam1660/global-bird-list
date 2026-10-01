@@ -329,13 +329,55 @@ var ORDER_SEL = {};          /* selected orders (multi-select); empty = all orde
 function orderSelCount() { return Object.keys(ORDER_SEL).length; }
 /* Order-strip labels: first 3 letters, except the three pairs that would
    collide (STR-, COL-, POD-). Edit here to rename any button. */
-/* One color per order button, in taxonomic sequence (Eric's "45 Jewel Tones"
-   palette, #1–#45). Text on each button flips to white or dark ink by luminance. */
-var ORDER_COLORS = ['#5E8F8A','#7FA99A','#9BB7B0','#A7C3BE','#B7D2CE','#C9E0D8','#A3BBD3','#8CA9C8','#6E8FB0',
-  '#587D92','#4F6F8A','#7188B6','#8E9CC6','#A49BC3','#B9A7D0','#C8B2D6','#D6C6E1','#E3D8E8',
-  '#6F8763','#8CA07E','#9EB59A','#A7B98F','#B7CDA3','#C7E0C2','#5F9E8F','#4F857A','#3F6F63',
-  '#557B7A','#446C66','#3A5F62','#4A6E6A','#5B6973','#6F6588','#7F6B8F','#9A7A9B','#B17E9B',
-  '#A06F8A','#B77A9C','#C596B5','#D3A7B7','#E0B7C5','#D6C1D1','#B8AFC7','#A98AA8','#8A7AA1'];
+/* One color per order button: the Life List page's per-order palette
+   ([tile color, text color]), so an order looks the same on both pages. */
+var ORDER_PILL = {
+  STRUTHIONIFORMES: ['#E8B188','#533115'],
+  CASUARIIFORMES: ['#EAAC91','#562F1C'],
+  APTERYGIFORMES: ['#EAA79E','#582C27'],
+  RHEIFORMES: ['#E6A4AB','#572B31'],
+  TINAMIFORMES: ['#E0A2B6','#552B3A'],
+  ANSERIFORMES: ['#DAA2C0','#522C42'],
+  GALLIFORMES: ['#D4A2C6','#502D47'],
+  COLUMBIFORMES: ['#D0A2CA','#4E2D4A'],
+  MESITORNITHIFORMES: ['#CCA3CD','#4C2E4D'],
+  PTEROCLIFORMES: ['#C9A3CF','#4A2E4F'],
+  OTIDIFORMES: ['#C6A3D1','#492F50'],
+  MUSOPHAGIFORMES: ['#C3A4D3','#473052'],
+  CUCULIFORMES: ['#BFA4D5','#453054'],
+  CAPRIMULGIFORMES: ['#BBA5D7','#423156'],
+  NYCTIBIIFORMES: ['#B6A6D9','#3F3258'],
+  STEATORNITHIFORMES: ['#B0A7DB','#3C3459'],
+  PODARGIFORMES: ['#AAA8DD','#38355B'],
+  AEGOTHELIFORMES: ['#A5AADE','#34365C'],
+  APODIFORMES: ['#A0ACDF','#30375C'],
+  GRUIFORMES: ['#9CADDF','#2D385C'],
+  CHARADRIIFORMES: ['#99AFE0','#2A395C'],
+  PHOENICOPTERIFORMES: ['#95B1E0','#263A5C'],
+  PODICIPEDIFORMES: ['#91B3DF','#223B5C'],
+  OPISTHOCOMIFORMES: ['#8EB5DF','#1E3C5B'],
+  EURYPYGIFORMES: ['#8AB7DD','#193E5A'],
+  PHAETHONTIFORMES: ['#85BADB','#103F58'],
+  GAVIIFORMES: ['#82BCD8','#084056'],
+  SPHENISCIFORMES: ['#7FBED5','#004153'],
+  PROCELLARIIFORMES: ['#7EC0D1','#02424F'],
+  CICONIIFORMES: ['#7DC2CE','#00434C'],
+  SULIFORMES: ['#7DC3CB','#024349'],
+  PELECANIFORMES: ['#7DC4C8','#014347'],
+  CATHARTIFORMES: ['#7EC5C5','#014444'],
+  ACCIPITRIFORMES: ['#7FC5C2','#024443'],
+  STRIGIFORMES: ['#81C6BF','#004540'],
+  COLIIFORMES: ['#83C6BC','#02453E'],
+  LEPTOSOMIFORMES: ['#86C7B9','#02453B'],
+  TROGONIFORMES: ['#89C8B6','#024538'],
+  BUCEROTIFORMES: ['#8CC8B2','#094535'],
+  CORACIIFORMES: ['#90C9AF','#0F4532'],
+  PICIFORMES: ['#94C9AC','#14452F'],
+  CARIAMIFORMES: ['#98C9A9','#19442C'],
+  FALCONIFORMES: ['#9CC9A6','#1D4429'],
+  PSITTACIFORMES: ['#A1CAA3','#224325'],
+  PASSERIFORMES: ['#A5CAA1','#254323']
+};
 function inkFor(hex) {
   var n = parseInt(hex.slice(1), 16), c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function(v) {
     v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
@@ -639,9 +681,9 @@ function render() {
 function buildStrip() {
   var strip = document.getElementById('ostrip');
   strip.innerHTML = ORDERS.map(function(o, i) {
-    var bg = ORDER_COLORS[i % ORDER_COLORS.length];
+    var pc = ORDER_PILL[o.order] || ['#A89AB5', '#352B3F'];   /* same order colors as the Life List page */
     return '<button class="obtn" data-order="' + esc(o.order) + '" aria-label="' + esc(cap(o.order)) + '"'
-         + ' style="--obg:' + bg + ';--oink:' + inkFor(bg) + '">' + esc(o.code) + '</button>';
+         + ' style="--obg:' + pc[0] + ';--oink:' + pc[1] + '">' + esc(o.code) + '</button>';
   }).join('');
   strip.querySelectorAll('.obtn').forEach(function(b) {
     var o = ORDERS.filter(function(x){ return x.order === b.dataset.order; })[0];
