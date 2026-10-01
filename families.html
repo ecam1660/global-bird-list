@@ -175,7 +175,7 @@
   .ftile {
     background: var(--lav-md); color: var(--lav-ink);
     border-radius: 10px; box-shadow: var(--shadow); overflow: hidden;
-    cursor: pointer; transition: box-shadow .15s;
+    cursor: auto; transition: box-shadow .15s;
     display: flex; flex-direction: column; min-width: 0;
   }
   .ftile:hover { box-shadow: var(--shadow-h); }
@@ -218,8 +218,11 @@
   .fbar i { display: block; height: 100%; background: var(--lav-dk); }
 
   /* ── FAMILY TILE (expanded) ───────────────────────── */
-  .ftile.open { cursor: default; box-shadow: var(--shadow-h); }
-  .ftile.open .fhead { cursor: pointer; }
+  .ftile.open { box-shadow: var(--shadow-h); }
+  /* Only the photo opens/closes a tile, so the text stays easy to select and copy */
+  .fphoto { cursor: pointer; }
+  .fphoto::after { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,0); transition: background .15s; }
+  .fphoto:hover::after { background: rgba(255,255,255,.12); }
   .fpanel {
     background: var(--lav-lt); flex: 1; min-height: 0;
     padding: 7px 10px 8px;
@@ -522,8 +525,7 @@ function buildTile(f) {
   el.dataset.sci = f.sci;
   el.innerHTML = tileHead(f) + (isOpen ? panelHTML(f) : '');
   el.addEventListener('click', function(e) {
-    if (!isOpen) { toggle(f.sci); return; }
-    if (e.target.closest('.fhead')) toggle(f.sci);   /* clicks inside the panel don't close it */
+    if (e.target.closest('.fphoto')) toggle(f.sci);   /* only the square photo opens/closes the tile */
   });
   el.addEventListener('keydown', function(e) {
     if (e.target !== el) return;
