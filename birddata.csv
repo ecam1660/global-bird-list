@@ -1636,8 +1636,8 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 2535,CICONIIFORMES,Ciconiidae,Storks,Marabou Stork,Leptoptilos crumenifer,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"70,242",0,0,west-central sub-Saharan Africa,,Yes,Central/Southern Africa,Yes,,,#N/A,#N/A
 2528,CICONIIFORMES,Ciconiidae,Storks,Maguari Stork,Ciconia maguari,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"67,687",0,0,plains and marshes of west-central South America east of the Andes,,Yes,Argentina/Brazil,Yes,,,#N/A,#N/A
 2533,CICONIIFORMES,Ciconiidae,Storks,Jabiru,Jabiru mycteria,LC,ABA 4,,#N/A,#N/A,#N/A,#N/A,#N/A,"60,917",124,0,west-central Mexico through South America to northeastern Argentina,,Yes,Central/South America,Yes,,,#N/A,#N/A
-2539,CICONIIFORMES,Ciconiidae,Storks,Yellow-billed Stork,Mycteria ibis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,260",0,0,sub-Saharan Africa and Madagascar,,,,Yes,,,#N/A,#N/A
-2531,CICONIIFORMES,Ciconiidae,Storks,Black-necked Stork,Ephippiorhynchus asiaticus,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"55,185",0,0,,,,,Yes,,,#N/A,#N/A
+2539,CICONIIFORMES,Ciconiidae,Storks,Yellow-billed Stork,Mycteria ibis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"57,260",0,0,sub-Saharan Africa and Madagascar,,Yes,Central/South Africa,Yes,,,#N/A,#N/A
+2531,CICONIIFORMES,Ciconiidae,Storks,Black-necked Stork,Ephippiorhynchus asiaticus,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"55,185",0,0,,,Yes,India/SE Asia/AU,Yes,,,#N/A,#N/A
 2534,CICONIIFORMES,Ciconiidae,Storks,Lesser Adjutant,Leptoptilos javanicus,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,"43,223",0,0,"India and Sri Lanka to southern China, Indochina, and Indonesia",,,,Yes,,,#N/A,#N/A
 2522,CICONIIFORMES,Ciconiidae,Storks,African Openbill,Anastomus lamelligerus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"41,404",0,0,,,,,Yes,,,#N/A,#N/A
 2532,CICONIIFORMES,Ciconiidae,Storks,Saddle-billed Stork,Ephippiorhynchus senegalensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"27,586",0,0,locally in sub-Saharan Africa,,,,Yes,,,#N/A,#N/A
@@ -4270,7 +4270,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 8495,PASSERIFORMES,Leiothrichidae,Laughingthrushes and Allies,Black-hooded Laughingthrush,Garrulax milleti,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,11,0,0,,,,,,,,#N/A,#N/A
 8441,PASSERIFORMES,Leiothrichidae,Laughingthrushes and Allies,Black-crowned Barwing,Actinodura sodangorum,NT,,,#N/A,#N/A,#N/A,#N/A,#N/A,7,0,0,western highlands of Vietnam,,,,,,,#N/A,#N/A
 8470,PASSERIFORMES,Leiothrichidae,Laughingthrushes and Allies,Chapin's Mountain-Babbler,Turdoides chapini,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,0,0,0,,,,,,,,#N/A,#N/A
-3228,LEPTOSOMIFORMES,Leptosomidae,Cuckoo-roller,Cuckoo-roller,Leptosomus discolor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"5,308",0,0,,,,,Yes,,New,#N/A,#N/A
+3228,LEPTOSOMIFORMES,Leptosomidae,Cuckoo-roller,Cuckoo-roller,Leptosomus discolor,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"5,308",0,0,,,Yes,Madagascar,Yes,,New,#N/A,#N/A
 7615,PASSERIFORMES,Locustellidae,Grassbirds and Allies,Little Grassbird,Poodytes gramineus,LC,,,10/3/2024,AU-VIC,,,,"95,435",0,0,,,,,,,,TRUE,TRUE
 7624,PASSERIFORMES,Locustellidae,Grassbirds and Allies,Tawny Grassbird,Cincloramphus timoriensis,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"74,960",0,0,,,,,Yes,,,#N/A,#N/A
 7593,PASSERIFORMES,Locustellidae,Grassbirds and Allies,Savi's Warbler,Locustella luscinioides,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"71,519",0,0,,,,,Yes,,,#N/A,#N/A
@@ -8453,13 +8453,13 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 8551,PASSERIFORMES,Sittidae,Nuthatches,Algerian Nuthatch,Sitta ledanti,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,223,0,0,montane oak-cedar forest of northeastern Algeria,,,,,,,#N/A,#N/A
 8549,PASSERIFORMES,Sittidae,Nuthatches,Bahama Nuthatch,Sitta insularis,CR,,,#N/A,#N/A,#N/A,#N/A,#N/A,51,0,0,Grand Bahama Island; now critically endangered or extinct,,,,,,,#N/A,#N/A
 8558,PASSERIFORMES,Sittidae,Nuthatches,Siberian Nuthatch,Sitta arctica,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,17,0,0,north-central Siberia to Anadyr River (eastern Russia),,,,,,,#N/A,#N/A
-2364,SPHENISCIFORMES,Spheniscidae,Penguins,Magellanic Penguin,Spheniscus magellanicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"29,620",0,0,breeds coastal central Chile and central Argentina to Cape Horn and Falkland Islands; winters to southeastern Brazil,,,,Yes,,,#N/A,#N/A
+2364,SPHENISCIFORMES,Spheniscidae,Penguins,Magellanic Penguin,Spheniscus magellanicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"29,620",0,0,breeds coastal central Chile and central Argentina to Cape Horn and Falkland Islands; winters to southeastern Brazil,,Yes,Chile/Argentina,Yes,,,#N/A,#N/A
 2360,SPHENISCIFORMES,Spheniscidae,Penguins,Little Penguin,Eudyptula minor,LC,,,10/3/2024,AU-VIC,,,,"24,372",0,0,,,,,,,,TRUE,FALSE
-2357,SPHENISCIFORMES,Spheniscidae,Penguins,Gentoo Penguin,Pygoscelis papua,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,026",0,0,,,,,Yes,,,#N/A,#N/A
-2362,SPHENISCIFORMES,Spheniscidae,Penguins,Humboldt Penguin,Spheniscus humboldti,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"12,749",0,0,Humboldt Current region of coastal northern Peru to central Chile,,,,Yes,,,#N/A,#N/A
-2354,SPHENISCIFORMES,Spheniscidae,Penguins,King Penguin,Aptenodytes patagonicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"11,496",0,0,"breeds on beaches of subantarctic islands, in Tierra del Fuego, Falkland Islands, South Georgia, South Sandwich Islands, Prince Edward, Crozet, Kerguelen, and Heard islands, and Macquarie Island (southeast of Australia); disperses widely at sea mostly around Antarctic Convergence",,,,Yes,,,#N/A,#N/A
-2358,SPHENISCIFORMES,Spheniscidae,Penguins,Chinstrap Penguin,Pygoscelis antarcticus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"9,854",0,0,"breeds on Antarctic Peninsula and associated islands, including Balleny Island (eastern Antarctica); winters mostly south of Antarctic Convergence, to southern South America and subantarctic islands",,,,,,,#N/A,#N/A
-2363,SPHENISCIFORMES,Spheniscidae,Penguins,Galapagos Penguin,Spheniscus mendiculus,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,850",0,0,coastal western Galapagos (Fernandina and Isabela),,,,,,,#N/A,#N/A
+2357,SPHENISCIFORMES,Spheniscidae,Penguins,Gentoo Penguin,Pygoscelis papua,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"22,026",0,0,,,Yes,Argentina,Yes,,,#N/A,#N/A
+2362,SPHENISCIFORMES,Spheniscidae,Penguins,Humboldt Penguin,Spheniscus humboldti,VU,,,#N/A,#N/A,#N/A,#N/A,#N/A,"12,749",0,0,Humboldt Current region of coastal northern Peru to central Chile,,Yes,Chile/Peru,Yes,,,#N/A,#N/A
+2354,SPHENISCIFORMES,Spheniscidae,Penguins,King Penguin,Aptenodytes patagonicus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"11,496",0,0,"breeds on beaches of subantarctic islands, in Tierra del Fuego, Falkland Islands, South Georgia, South Sandwich Islands, Prince Edward, Crozet, Kerguelen, and Heard islands, and Macquarie Island (southeast of Australia); disperses widely at sea mostly around Antarctic Convergence",,Yes,Southern islands,Yes,,,#N/A,#N/A
+2358,SPHENISCIFORMES,Spheniscidae,Penguins,Chinstrap Penguin,Pygoscelis antarcticus,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"9,854",0,0,"breeds on Antarctic Peninsula and associated islands, including Balleny Island (eastern Antarctica); winters mostly south of Antarctic Convergence, to southern South America and subantarctic islands",,Yes,Southern islands,,,,#N/A,#N/A
+2363,SPHENISCIFORMES,Spheniscidae,Penguins,Galapagos Penguin,Spheniscus mendiculus,EN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"8,850",0,0,coastal western Galapagos (Fernandina and Isabela),,Yes,Galapagos,,,,#N/A,#N/A
 2361,SPHENISCIFORMES,Spheniscidae,Penguins,African Penguin,Spheniscus demersus,CR,,,#N/A,#N/A,#N/A,#N/A,#N/A,"6,833",0,0,breeds coastal southern Namibia and southern South Africa; ranges to central Namibia and southeastern Africa,,,,,,,#N/A,#N/A
 2356,SPHENISCIFORMES,Spheniscidae,Penguins,Adelie Penguin,Pygoscelis adeliae,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"6,605",0,0,breeds circumpolarly along coastline of Antarctica and associated islands; winters near edge of ice pack,,,,,,,#N/A,#N/A
 2369,SPHENISCIFORMES,Spheniscidae,Penguins,Western Rockhopper Penguin,Eudyptes chrysocome,UN,,,#N/A,#N/A,#N/A,#N/A,#N/A,"5,010",0,0,breeds far southern Chilean islands of Magallanes Province to Cape Horn Archipelago and Falkland Islands; winters northward along Patagonian coast,,,,,,,#N/A,#N/A
@@ -8494,7 +8494,7 @@ ID,Order,Family,Family name,Common name,Scientific name,IUCN Status,ABA Status,C
 3071,STRIGIFORMES,Strigidae,Owls,Eastern Screech-Owl,Megascops asio,LC,ABA 1,,5/19/2022,US-OH,Yes,,Yes,"470,111","419,056",0,,,,,,,,TRUE,FALSE
 3148,STRIGIFORMES,Strigidae,Owls,Burrowing Owl,Athene cunicularia,LC,ABA 1,CA,12/5/2021,US-CA,Yes,Yes,Yes,"371,783","199,003","68,247",,,,,,,,TRUE,FALSE
 3176,STRIGIFORMES,Strigidae,Owls,Short-eared Owl,Asio flammeus,LC,ABA 1,CA,11/8/2024,US-CA,Yes,Yes,Yes,"287,816","175,035","10,966",,,,,,,,TRUE,FALSE
-3084,STRIGIFORMES,Strigidae,Owls,Snowy Owl,Bubo scandiacus,VU,ABA 2,,2/14/2026,US-WI,,,,"278,293","151,650","1,270",Arctic circumpolar; irregular southern post-breeding irruptions,,,,,,,TRUE,FALSE
+3084,STRIGIFORMES,Strigidae,Owls,Snowy Owl,Bubo scandiacus,VU,ABA 2,,2/14/2026,US-WI,Yes,,Yes,"278,293","151,650","1,270",Arctic circumpolar; irregular southern post-breeding irruptions,,,,,,,TRUE,FALSE
 3124,STRIGIFORMES,Strigidae,Owls,Ferruginous Pygmy-Owl,Glaucidium brasilianum,LC,ABA 3,,1/15/2024,MX-JAL,,,,"268,066","4,811",0,,,,,,,,FALSE,TRUE
 3141,STRIGIFORMES,Strigidae,Owls,Little Owl,Athene noctua,LC,,,4/15/2022,GR-K,,,,"208,766",0,0,,,,,,,,FALSE,FALSE
 3140,STRIGIFORMES,Strigidae,Owls,Spotted Owlet,Athene brama,LC,,,#N/A,#N/A,#N/A,#N/A,#N/A,"205,538",0,0,,,Yes,India/SE Asia,Yes,,,#N/A,#N/A
