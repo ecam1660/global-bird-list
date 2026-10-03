@@ -118,6 +118,7 @@
   .chip.ico svg { width: 16px; height: 16px; }
   .chip:hover { transform: translateY(-1px); }
   .chip.on { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
+  .chip-tmp { border-style: dashed; }
   .chip-sep { width: 1px; height: 18px; background: var(--chip-border); margin: 0 2px; }
   .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .count { font-size: 12px; color: var(--ink-mid); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -164,6 +165,18 @@
     grid-auto-flow: dense;
     gap: var(--gap);
   }
+  /* "Taxo – divided" sort: one block per order, a thin line + label for each
+     order, and a small label for each family (only when the order has several).
+     Every family gets its own grid, so an opened tile never pulls tiles across a divider. */
+  .grid.divided { display: block; }
+  .grid.sub { margin: 0; max-width: none; }
+  .og { margin-bottom: 20px; }
+  .ohd { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; color: var(--dk); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; }
+  .ohd b { font-weight: 700; }
+  .ohd i { flex: 1; height: 2px; background: var(--md); }
+  .ohd .cnt { letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+  .fhd { margin: 11px 0 6px; font-size: 11px; font-weight: 600; color: var(--dk); }
+  .ohd + .fhd { margin-top: 0; }
   .empty-state { grid-column: 1 / -1; padding: 40px 0; text-align: center; color: var(--ink-light); font-size: 13px; }
 
   /* ── SPECIES TILE ── */
@@ -204,11 +217,13 @@
   .tax .k { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; font-weight: 400; color: #8A7660; margin-top: 3px; }
   .tax .k:first-child { margin-top: 0; }
   .tax .v { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .obs { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding-top: 1px; justify-self: end; }
-  .ob { display: flex; align-items: center; gap: 7px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  /* icons in one column, counts right-aligned in the next, so digits line up */
+  .obs { display: grid; grid-template-columns: auto auto; column-gap: 7px; row-gap: 5px; align-items: center; align-content: start; padding-top: 1px; justify-self: end; }
+  .ob { display: contents; }
+  .ob .n { font-size: 12px; font-variant-numeric: tabular-nums; text-align: right; }
   .slot { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 16px; flex: none; color: var(--dk); }
   .geo-g { width: 15px; height: 15px; }
-  .geo-us { width: 19px; height: 12px; }
+  .geo-us { width: 19px; height: 12px; transform: translateX(1.5px); }   /* optical nudge; doesn't move the counts */
   .row { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; border-top: 1px solid var(--line); padding-top: 6px; }
   .pill { display: inline-flex; align-items: center; border-radius: 99px; padding: 2px 8px; font-size: 10px; font-weight: 400; letter-spacing: .04em; line-height: 1.3; white-space: nowrap; }
   .pill.aba { background: transparent; color: var(--dk); border: 1.3px solid var(--dk); padding: 1px 7px; margin-right: 2px; }   /* outline only, in the order's accent color */
@@ -247,6 +262,9 @@
       <span class="fl">Seen in</span>
       <button class="chip" data-f="region" data-v="US" title="Seen in the US">US</button>
       <button class="chip" data-f="region" data-v="CA" title="Seen in California">CA</button>
+      <span class="chip-sep"></span>
+      <!-- TEMPORARY: lifers with no photo file in photos/species/ yet. Remove this button (and the NEED_PHOTO code) once the folder is filled in. -->
+      <button class="chip chip-tmp" id="needphoto" title="Lifers that don't have a photo file in the repo yet">Add Photo</button>
     </div>
     <div class="sort-wrap">
       <span class="count" id="count"></span>
@@ -256,6 +274,8 @@
         <option value="latest">Latest Observed</option>
         <option value="obsdesc">Global Obs ↓</option>
         <option value="obsasc">Global Obs ↑</option>
+        <option value="taxo">Taxonomic</option>
+        <option value="taxodiv">Taxo – divided</option>
       </select>
     </div>
   </div>
@@ -274,6 +294,7 @@
 /* ── State ─────────────────────────────────────────────────────────────── */
 var LIFERS = [];            /* one entry per seen species, numbered by first-seen date */
 var ORDERS = [];            /* orders in taxonomic order: [{order, code}] */
+var NEED_PHOTO = false, REPO_PHOTOS = null;   /* temporary "Add Photo" filter */
 var PHOTO = 'any', AUDIO = 'any', REGION = '', SORT = 'first', QUERY = '', OPEN = null;
 var ORDER_SEL = {};
 function orderSelCount() { return Object.keys(ORDER_SEL).length; }
@@ -492,6 +513,7 @@ function passesFilters(s) {
   if (AUDIO === 'yes' && !s.audio) return false;
   if (AUDIO === 'no' && s.audio) return false;
   if (REGION && !s['seen' + REGION]) return false;   /* US / ABA / CA columns = Yes */
+  if (NEED_PHOTO && REPO_PHOTOS && REPO_PHOTOS[speciesSlug(s.name)]) return false;   /* keep only lifers with no photo file */
   var q = stripDiacritics(QUERY.toLowerCase().trim());
   return !q || s.hay.indexOf(q) >= 0;
 }
@@ -506,8 +528,8 @@ function topHTML(s) {
     + '</div></div>';
 }
 function panelHTML(s) {
-  var obs = '<div class="ob" title="Global observations (Oct 2025)">' + ICON.globe + fmt(s.world) + '</div>'
-          + (s.us > 0 ? '<div class="ob" title="US observations (Oct 2025)">' + ICON.us + fmt(s.us) + '</div>' : '');
+  var obs = '<div class="ob" title="Global observations (Oct 2025)">' + ICON.globe + '<span class="n" title="Global observations (Oct 2025)">' + fmt(s.world) + '</span></div>'
+          + (s.us > 0 ? '<div class="ob" title="US observations (Oct 2025)">' + ICON.us + '<span class="n" title="US observations (Oct 2025)">' + fmt(s.us) + '</span></div>' : '');
   var iu = IUCN[s.iucn];
   var pills = (iu ? '<span class="pill" style="background:' + iu[0] + ';color:' + iu[1] + '" title="IUCN status">' + esc(s.iucn) + '</span>' : '');
 
@@ -525,16 +547,69 @@ function panelHTML(s) {
 }
 
 var BY_N = {};
+/* "Taxo – divided": list arrives in taxonomic order; group it order → family. */
+function dividedHTML(list) {
+  var orders = [], om = {};
+  list.forEach(function(s) {
+    var o = om[s.order]; if (!o) { o = om[s.order] = { order: s.order, fams: [], fm: {}, n: 0 }; orders.push(o); }
+    var f = o.fm[s.fam]; if (!f) { f = o.fm[s.fam] = { name: s.famName, sp: [] }; o.fams.push(f); }
+    f.sp.push(s); o.n++;
+  });
+  return orders.map(function(o) {
+    var multi = o.fams.length > 1;
+    return '<div class="og" style="' + palVars(o.order) + '">'
+      + '<div class="ohd"><b>' + esc(o.order) + '</b><span>' + esc(ORDER_COMMON[o.order] || '') + '</span><i></i>'
+      +   '<span class="cnt">' + fmt(o.n) + ' lifer' + (o.n === 1 ? '' : 's') + '</span></div>'
+      + o.fams.map(function(f) {
+          return (multi ? '<div class="fhd">' + esc(f.name) + '</div>' : '')
+               + '<div class="grid sub">' + f.sp.map(tileHTML).join('') + '</div>';
+        }).join('')
+      + '</div>';
+  }).join('');
+}
 function tileHTML(s) {
   var open = OPEN === s.n;
   return '<div class="stile' + (open ? ' open' : '') + '" data-n="' + s.n + '" tabindex="0" role="button" aria-expanded="' + open + '" style="' + palVars(s.order) + '">'
     + topHTML(s) + (open ? panelHTML(s) : '') + '</div>';
 }
 
+/* ── TEMPORARY "Add Photo" helper ──────────────────────────────────────────
+   Finds which photos/species/<slug>.jpg files exist. First choice: one call
+   to GitHub's file listing for the repo (fast). If that isn't reachable
+   (e.g. a local preview), it falls back to checking each file directly. */
+var REPO_API = 'https://api.github.com/repos/ecam1660/global-bird-list/git/trees/main?recursive=1';
+function loadRepoPhotos() {
+  function probeAll() {
+    var have = {}, list = LIFERS.slice(), i = 0;
+    function worker() {
+      if (i >= list.length) return Promise.resolve();
+      var slug = speciesSlug(list[i++].name);
+      return fetch('photos/species/' + slug + '.jpg', { method: 'HEAD' })
+        .then(function(r){ if (r.ok) have[slug] = true; }, function(){})
+        .then(worker);
+    }
+    var ws = []; for (var k = 0; k < 24; k++) ws.push(worker());
+    return Promise.all(ws).then(function(){ return have; });
+  }
+  return fetch(REPO_API)
+    .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(j) {
+      if (!j.tree || j.truncated) throw new Error('incomplete listing');
+      var have = {};
+      j.tree.forEach(function(e) {
+        var m = /^photos\/species\/(.+)\.jpe?g$/i.exec(e.path || '');
+        if (m) have[m[1].toLowerCase()] = true;
+      });
+      return have;
+    })
+    .catch(probeAll);
+}
+
 function sorted(list) {
   if (SORT === 'latest') return list.slice().reverse();
   if (SORT === 'obsdesc') return list.slice().sort(function(a, b){ return b.world - a.world || a.n - b.n; });
   if (SORT === 'obsasc') return list.slice().sort(function(a, b){ return a.world - b.world || a.n - b.n; });
+  if (SORT === 'taxo' || SORT === 'taxodiv') return list.slice().sort(function(a, b){ return a.id - b.id; });   /* birddata.csv ID = taxonomic order */
   return list;   /* LIFERS is already in first-observed order */
 }
 
@@ -550,7 +625,9 @@ function render() {
 
   var savedScrollY = window.scrollY;
   var grid = document.getElementById('grid');
-  grid.innerHTML = list.length
+  var div = SORT === 'taxodiv' && list.length > 0;
+  grid.className = 'grid' + (div ? ' divided' : '');
+  grid.innerHTML = div ? dividedHTML(list) : list.length
     ? list.map(tileHTML).join('')
     : '<div class="empty-state">No lifers match these filters.</div>';
   window.scrollTo(0, savedScrollY);
@@ -641,7 +718,7 @@ function loadData() {
   function syncChips() {
     chips.forEach(function(b) {
       var f = b.dataset.f;
-      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any' && !REGION)
+      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any' && !REGION && !NEED_PHOTO)
                               : f === 'photo' ? PHOTO === b.dataset.v
                               : f === 'audio' ? AUDIO === b.dataset.v : REGION === b.dataset.v);
     });
@@ -649,13 +726,22 @@ function loadData() {
   chips.forEach(function(btn) {
     btn.addEventListener('click', function() {
       var f = btn.dataset.f, v = btn.dataset.v;
-      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; REGION = ''; }
+      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; REGION = ''; NEED_PHOTO = false; document.getElementById('needphoto').classList.remove('on'); }
       else if (f === 'photo') PHOTO = (PHOTO === v ? 'any' : v);
       else if (f === 'audio') AUDIO = (AUDIO === v ? 'any' : v);
       else REGION = (REGION === v ? '' : v);   /* one region at a time; click again to clear */
       syncChips();
       render();
     });
+  });
+  document.getElementById('needphoto').addEventListener('click', function() {
+    var btn = this;
+    NEED_PHOTO = !NEED_PHOTO;
+    btn.classList.toggle('on', NEED_PHOTO);
+    syncChips();
+    if (!NEED_PHOTO || REPO_PHOTOS) { render(); return; }
+    btn.textContent = 'Checking photos…';
+    loadRepoPhotos().then(function(have) { REPO_PHOTOS = have; btn.textContent = 'Add Photo'; render(); });
   });
   document.getElementById('sort-sel').addEventListener('change', function(){ SORT = this.value; render(); });
   var t;
