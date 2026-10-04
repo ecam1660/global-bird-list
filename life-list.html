@@ -123,7 +123,6 @@
   .chip.ico svg { width: 16px; height: 16px; }
   .chip:hover { transform: translateY(-1px); }
   .chip.on { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
-  .chip-tmp { border-style: dashed; }
   .chip-sep { width: 1px; height: 18px; background: var(--chip-border); margin: 0 2px; }
   .sort-wrap { display: flex; align-items: center; gap: 8px; margin-left: auto; }
   .count { font-size: 12px; color: var(--ink-mid); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -274,20 +273,17 @@
       <span class="fl">Seen in</span>
       <button class="chip" data-f="region" data-v="US" title="Seen in the US">US</button>
       <button class="chip" data-f="region" data-v="CA" title="Seen in California">CA</button>
-      <span class="chip-sep"></span>
-      <!-- TEMPORARY: lifers with no photo file in photos/species/ yet. Remove this button (and the NEED_PHOTO code) once the folder is filled in. -->
-      <button class="chip chip-tmp" id="needphoto" title="Lifers that don't have a photo file in the repo yet">Add Photo</button>
     </div>
     <div class="sort-wrap">
       <span class="count" id="count"></span>
       <span class="fl">Sort</span>
       <select class="sort-select" id="sort-sel">
-        <option value="first" selected>First Observed</option>
+        <option value="taxo" selected>Taxo Order ↓</option>
+        <option value="taxodiv">Taxo (Divided)</option>
+        <option value="first">First Observed</option>
         <option value="latest">Latest Observed</option>
         <option value="obsdesc">Global Obs ↓</option>
         <option value="obsasc">Global Obs ↑</option>
-        <option value="taxo">Taxonomic</option>
-        <option value="taxodiv">Taxo – divided</option>
       </select>
     </div>
   </div>
@@ -306,8 +302,7 @@
 /* ── State ─────────────────────────────────────────────────────────────── */
 var LIFERS = [];            /* one entry per seen species, numbered by first-seen date */
 var ORDERS = [];            /* orders in taxonomic order: [{order, code}] */
-var NEED_PHOTO = false, REPO_PHOTOS = null;   /* temporary "Add Photo" filter */
-var PHOTO = 'any', AUDIO = 'any', REGION = '', SORT = 'first', QUERY = '', OPEN = null;
+var PHOTO = 'any', AUDIO = 'any', REGION = '', SORT = 'taxo', QUERY = '', OPEN = null;
 var ORDER_SEL = {};
 function orderSelCount() { return Object.keys(ORDER_SEL).length; }
 
@@ -525,7 +520,6 @@ function passesFilters(s) {
   if (AUDIO === 'yes' && !s.audio) return false;
   if (AUDIO === 'no' && s.audio) return false;
   if (REGION && !s['seen' + REGION]) return false;   /* US / ABA / CA columns = Yes */
-  if (NEED_PHOTO && REPO_PHOTOS && REPO_PHOTOS[speciesSlug(s.name)]) return false;   /* keep only lifers with no photo file */
   var q = stripDiacritics(QUERY.toLowerCase().trim());
   return !q || s.hay.indexOf(q) >= 0;
 }
@@ -583,38 +577,6 @@ function tileHTML(s) {
   var open = OPEN === s.n;
   return '<div class="stile' + (open ? ' open' : '') + '" data-n="' + s.n + '" tabindex="0" role="button" aria-expanded="' + open + '" style="' + palVars(s.order) + '">'
     + topHTML(s) + (open ? panelHTML(s) : '') + '</div>';
-}
-
-/* ── TEMPORARY "Add Photo" helper ──────────────────────────────────────────
-   Finds which photos/species/<slug>.jpg files exist. First choice: one call
-   to GitHub's file listing for the repo (fast). If that isn't reachable
-   (e.g. a local preview), it falls back to checking each file directly. */
-var REPO_API = 'https://api.github.com/repos/ecam1660/global-bird-list/git/trees/main?recursive=1';
-function loadRepoPhotos() {
-  function probeAll() {
-    var have = {}, list = LIFERS.slice(), i = 0;
-    function worker() {
-      if (i >= list.length) return Promise.resolve();
-      var slug = speciesSlug(list[i++].name);
-      return fetch('photos/species/' + slug + '.jpg', { method: 'HEAD' })
-        .then(function(r){ if (r.ok) have[slug] = true; }, function(){})
-        .then(worker);
-    }
-    var ws = []; for (var k = 0; k < 24; k++) ws.push(worker());
-    return Promise.all(ws).then(function(){ return have; });
-  }
-  return fetch(REPO_API)
-    .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(function(j) {
-      if (!j.tree || j.truncated) throw new Error('incomplete listing');
-      var have = {};
-      j.tree.forEach(function(e) {
-        var m = /^photos\/species\/(.+)\.jpe?g$/i.exec(e.path || '');
-        if (m) have[m[1].toLowerCase()] = true;
-      });
-      return have;
-    })
-    .catch(probeAll);
 }
 
 function sorted(list) {
@@ -730,7 +692,7 @@ function loadData() {
   function syncChips() {
     chips.forEach(function(b) {
       var f = b.dataset.f;
-      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any' && !REGION && !NEED_PHOTO)
+      b.classList.toggle('on', f === 'all' ? (PHOTO === 'any' && AUDIO === 'any' && !REGION)
                               : f === 'photo' ? PHOTO === b.dataset.v
                               : f === 'audio' ? AUDIO === b.dataset.v : REGION === b.dataset.v);
     });
@@ -738,22 +700,13 @@ function loadData() {
   chips.forEach(function(btn) {
     btn.addEventListener('click', function() {
       var f = btn.dataset.f, v = btn.dataset.v;
-      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; REGION = ''; NEED_PHOTO = false; document.getElementById('needphoto').classList.remove('on'); }
+      if (f === 'all') { PHOTO = 'any'; AUDIO = 'any'; REGION = ''; }
       else if (f === 'photo') PHOTO = (PHOTO === v ? 'any' : v);
       else if (f === 'audio') AUDIO = (AUDIO === v ? 'any' : v);
       else REGION = (REGION === v ? '' : v);   /* one region at a time; click again to clear */
       syncChips();
       render();
     });
-  });
-  document.getElementById('needphoto').addEventListener('click', function() {
-    var btn = this;
-    NEED_PHOTO = !NEED_PHOTO;
-    btn.classList.toggle('on', NEED_PHOTO);
-    syncChips();
-    if (!NEED_PHOTO || REPO_PHOTOS) { render(); return; }
-    btn.textContent = 'Checking photos…';
-    loadRepoPhotos().then(function(have) { REPO_PHOTOS = have; btn.textContent = 'Add Photo'; render(); });
   });
   document.getElementById('sort-sel').addEventListener('change', function(){ SORT = this.value; render(); });
   var t;
