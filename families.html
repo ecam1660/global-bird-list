@@ -461,39 +461,71 @@ function col(rec, name) {
   return '';
 }
 
+/* Resolves a logical column to whatever its header is this round (the export
+   has renamed columns before: "Order" -> "ORDER", "Life list date" -> "LL DATE",
+   "World Obs (Oct 2025)" -> "GLOBAL OBS", ...). Candidates are tried
+   case-insensitively in order; returns null if none is present. Same idea as
+   resolveColumn() in index.html. */
+function resolveColumn(records, candidates) {
+  if (!records.length) return null;
+  var keys = Object.keys(records[0]);
+  for (var i = 0; i < candidates.length; i++) {
+    var want = candidates[i].trim().toUpperCase();
+    for (var j = 0; j < keys.length; j++) if (keys[j].trim().toUpperCase() === want) return keys[j];
+  }
+  return null;
+}
+
 /* Build one entry per family, in taxonomic order (rows sorted by ID first).
-   EX/EW species are skipped entirely, same as index.html. */
+   Only RANK = Species rows count (subspecies rows are skipped), and EX/EW
+   species are skipped entirely, same as index.html. */
 function buildFamilies(records) {
   records = records.slice().sort(function(a, b) {
-    var ai = parseInt(a['ID'], 10), bi = parseInt(b['ID'], 10);
+    var ai = parseFloat(a['ID']), bi = parseFloat(b['ID']);
     if (isNaN(ai) && isNaN(bi)) return 0;
     if (isNaN(ai)) return 1;
     if (isNaN(bi)) return -1;
     return ai - bi;
   });
+  var K = {
+    rank:   resolveColumn(records, ['RANK']),
+    order:  resolveColumn(records, ['ORDER']),
+    family: resolveColumn(records, ['FAMILY']),
+    famName: resolveColumn(records, ['FAMILY NAME']),
+    common: resolveColumn(records, ['COMMON NAME']),
+    iucn:   resolveColumn(records, ['IUCN', 'IUCN Status']),
+    aba:    resolveColumn(records, ['ABA STATUS']),
+    date:   resolveColumn(records, ['LL DATE', 'Life list date']),
+    loc:    resolveColumn(records, ['LL LOCATION', 'Life list location']),
+    obs:    resolveColumn(records, ['GLOBAL OBS', 'World Obs (Oct 2025)']),
+    target: resolveColumn(records, ['FAMILY TARGET'])
+  };
+  function get(rec, key) { return key ? (rec[key] || '') : ''; }
   var famMap = {}, fams = [], ordMap = {}, ords = [];
   records.forEach(function(rec, idx) {
-    var ord = (rec['Order'] || '').trim(), sci = (rec['Family'] || '').trim();
+    /* species rows only — RANK may be absent in an older CSV, where every row is a species */
+    if (K.rank && get(rec, K.rank).trim().toLowerCase() !== 'species') return;
+    var ord = get(rec, K.order).trim(), sci = get(rec, K.family).trim();
     if (!ord || !sci) return;
-    var iucn = (rec['IUCN Status'] || '').trim().toUpperCase();
+    var iucn = get(rec, K.iucn).trim().toUpperCase();
     if (iucn === 'EX' || iucn === 'EW') return;
     var f = famMap[sci];
     if (!f) {
-      f = { sci: sci, name: ampersand((rec['Family name'] || '').trim()), order: ord, taxo: fams.length,
+      f = { sci: sci, name: ampersand(get(rec, K.famName).trim()), order: ord, taxo: fams.length,
             total: 0, seen: 0, seenList: [], targets: [] };
       famMap[sci] = f; fams.push(f);
       if (!ordMap[ord]) { ordMap[ord] = { order: ord, fams: [], seenFams: 0 }; ords.push(ordMap[ord]); }
       ordMap[ord].fams.push(f);
     }
-    var common = (rec['Common name'] || '').trim();
-    var dateRaw = rec['Life list date'];
+    var common = get(rec, K.common).trim();
+    var dateRaw = get(rec, K.date);
     var seen = isSeenDate(dateRaw);
     f.total++;
-    if (seen) { f.seen++; var cc = ((rec['Life list location'] || '').trim().match(/^([A-Za-z]{2})\b/) || [])[1];
+    if (seen) { f.seen++; var cc = (get(rec, K.loc).trim().match(/^([A-Za-z]{2})\b/) || [])[1];
       f.seenList.push({ name: common, key: dateKey(dateRaw), year: yearOf(dateRaw), cc: cc ? cc.toUpperCase() : '', id: idx }); }
-    if ((col(rec, 'Family Target') || '').trim().toLowerCase() === 'yes') {
-      var abaM = (rec['ABA Status'] || '').match(/ABA\s*([1-4])\b/i);
-      var obs = parseInt((col(rec, 'World Obs (Oct 2025)') || '').replace(/[^0-9]/g, ''), 10);
+    if (get(rec, K.target).trim().toLowerCase() === 'yes') {
+      var abaM = get(rec, K.aba).match(/ABA\s*([1-4])\b/i);
+      var obs = parseInt(get(rec, K.obs).replace(/[^0-9]/g, ''), 10);
       f.targets.push({ name: common, aba: abaM ? abaM[1] : '', obs: isNaN(obs) ? 0 : obs, seen: seen, id: idx });
     }
   });
