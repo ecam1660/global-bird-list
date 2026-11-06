@@ -911,6 +911,37 @@ function isSeenDate(v) {
   return true;
 }
 
+/* Resolves a logical CSV column (e.g. "the IUCN column") to whatever its
+   real header happens to be this round, instead of one hardcoded name —
+   Eric's export tool has renamed columns twice now with no warning ("IUCN
+   Status" → "IUCN Status (Avi v2025b)" → "IUCN", "Order" → "ORDER", "Life
+   list date" → "LL DATE", ...), and an exact-string lookup just silently
+   returns '' for every row when that happens rather than erroring, which
+   is how the extinct-species exclusion went dark for a stretch (see the
+   Mohoidae note below). `candidates` is every known historical spelling,
+   tried case-insensitively in order; `prefix` (optional) is a last-resort
+   case-insensitive "starts with" match for a column whose exact wording
+   keeps growing a suffix (IUCN's version stamp). Returns null if nothing
+   matches — callers decide what "this column doesn't exist in this CSV"
+   should mean (RANK is allowed to be absent entirely; most others aren't). */
+function resolveColumn(records, candidates, prefix) {
+  if (!records.length) return candidates[0] || null;
+  var keys = Object.keys(records[0]);
+  for (var i = 0; i < candidates.length; i++) {
+    var want = candidates[i].trim().toUpperCase();
+    for (var j = 0; j < keys.length; j++) {
+      if (keys[j].trim().toUpperCase() === want) return keys[j];
+    }
+  }
+  if (prefix) {
+    var pre = prefix.trim().toUpperCase();
+    for (var k = 0; k < keys.length; k++) {
+      if (keys[k].trim().toUpperCase().indexOf(pre) === 0) return keys[k];
+    }
+  }
+  return null;
+}
+
 /* Turns the flat per-species CSV records into the {order,total,seen,pct,
    families:[{name,sci,total,seen}]} array ORDERS needs, plus the
    {ORDER: [{name,loc},...]} object ORDER_TARGETS needs — both grouped by
@@ -938,9 +969,31 @@ function buildDataFromRecords(records) {
     return ai - bi;
   });
 
+  /* Column headers keep shifting round to round (see resolveColumn()'s own
+     comment) — resolved once, up front, rather than hardcoded per lookup. */
+  var orderKey      = resolveColumn(records, ['Order']);
+  var familyKey      = resolveColumn(records, ['Family']);
+  var familyNameKey  = resolveColumn(records, ['Family name']);
+  var commonNameKey  = resolveColumn(records, ['Common name']);
+  var lifeListDateKey = resolveColumn(records, ['Life list date', 'LL Date']);
+  var orderTargetKey = resolveColumn(records, ['Order Target']);
+  var iucnKey = resolveColumn(records, ['IUCN Status', 'IUCN'], 'IUCN');
+  /* RANK is new this round (distinguishes a Species row from a Subspecies
+     row under it — see the species-only filter below) and genuinely absent
+     from any older/simpler CSV, so unlike the others above, a missing
+     column here isn't a sign something broke — it just means this CSV
+     predates the species/subspecies split and every row is a species. */
+  var rankKey = resolveColumn(records, ['Rank']);
+
   var orderMap = {}, orderList = [], targets = {};
   records.forEach(function(rec) {
-    var ord = (rec['Order'] || '').trim();
+    /* Species/subspecies split (new this round): subspecies rows share the
+       same Order/Family as their parent species but carry no Common name
+       of their own and were never part of any order/family count before —
+       skip them entirely before they'd touch a total. Doesn't apply (every
+       row is kept) when the CSV has no RANK column at all. */
+    if (rankKey && (rec[rankKey] || '').trim().toLowerCase() !== 'species') return;
+    var ord = (rec[orderKey] || '').trim();
     if (!ord) return;
     /* Extinct species are excluded from every total on the site — order
        and family counts, % complete, the Targets slot math (which derives
@@ -951,12 +1004,15 @@ function buildDataFromRecords(records) {
        has to happen before the row touches orderMap/famMap at all, not
        just skip incrementing total/seen, so that a family or order made
        up ENTIRELY of extinct species doesn't show up as an empty,
-       impossible-to-complete 0-total entry. */
-    var iucn = (rec['IUCN Status'] || '').trim().toUpperCase();
+       impossible-to-complete 0-total entry. (Only a species row's OWN
+       status counts here — a subspecies-level EX/EW was already filtered
+       out above and never reaches this check, so one extinct subspecies
+       doesn't wrongly exclude an otherwise-extant species.) */
+    var iucn = (iucnKey ? (rec[iucnKey] || '') : '').trim().toUpperCase();
     if (iucn === 'EX' || iucn === 'EW') return;
-    var famSci = (rec['Family'] || '').trim();
-    var famName = (rec['Family name'] || '').trim();
-    var seen = isSeenDate(rec['Life list date']);
+    var famSci = (rec[familyKey] || '').trim();
+    var famName = (rec[familyNameKey] || '').trim();
+    var seen = isSeenDate(lifeListDateKey ? rec[lifeListDateKey] : '');
 
     var o = orderMap[ord];
     if (!o) { o = { order: ord, total: 0, seen: 0, famMap: {}, famList: [] }; orderMap[ord] = o; orderList.push(o); }
@@ -968,9 +1024,20 @@ function buildDataFromRecords(records) {
     f.total++;
     if (seen) f.seen++;
 
-    if ((rec['Order Target'] || '').trim().toLowerCase() === 'yes') {
+    /* Order Target used to be two columns — a plain "Yes"/blank flag, plus
+       a separate Location column holding the place text. As of this round
+       they're condensed into one: any non-blank value in Order Target IS
+       the location text, and its mere presence is what marks the species
+       as a target (no more separate "Yes" marker to check). The `=== 'yes'`
+       guard is just a defensive leftover for an old-format file that still
+       has literal "Yes" sitting in that column with no location of its
+       own — treated as a target with no location line, same as a blank
+       Location used to render, rather than literally showing "Yes" as the
+       place. */
+    var ot = (orderTargetKey ? (rec[orderTargetKey] || '') : '').trim();
+    if (ot) {
       if (!targets[ord]) targets[ord] = [];
-      targets[ord].push({ name: (rec['Common name'] || '').trim(), loc: (rec['Location'] || '').trim() });
+      targets[ord].push({ name: (rec[commonNameKey] || '').trim(), loc: ot.toLowerCase() === 'yes' ? '' : ot });
     }
   });
 
