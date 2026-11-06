@@ -582,7 +582,7 @@ function buildLifers(records) {
       orderCommon: ORDER_COMMON[ord] || cap(ord),
       fam: get(rec, K.family).trim(),
       famName: ampersand(get(rec, K.famName).trim()),
-      loc: get(rec, K.loc).trim().replace(/^#N\/A$/i, ''),
+      loc: get(rec, K.loc).trim().replace(/^#N\/A$/i, '').replace(/-$/, ''),   /* "SG-" (no sub-region) shows as "SG" */
       key: dateKey(get(rec, K.date)),
       iucn: get(rec, K.iucn).trim().toUpperCase(),
       aba: aba,
