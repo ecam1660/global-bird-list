@@ -123,6 +123,7 @@
   .chip.ico svg { width: 16px; height: 16px; }
   .chip:hover { transform: translateY(-1px); }
   .chip.on { background: var(--chip-on-bg); color: var(--chip-on-text); border-color: var(--chip-on-bg); }
+  .chips [hidden] { display: none !important; }
   .chip-sep { width: 1px; height: 18px; background: var(--chip-border); margin: 0 2px; }
   /* Seen-in country picker: "+ Country" opens a searchable list; picks become pills */
   .cpick { position: relative; }
@@ -308,12 +309,12 @@
     <div class="chips">
       <button class="chip on" data-f="all">All</button>
       <span class="chip-sep"></span>
-      <button class="chip ico" data-f="photo" data-v="yes" title="Photographed" aria-label="Photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
-      <button class="chip ico" data-f="photo" data-v="no" title="Not yet photographed" aria-label="Not yet photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/><path d="M3 3l18 18"/></svg></button>
-      <span class="chip-sep"></span>
-      <button class="chip ico" data-f="audio" data-v="yes" title="Audio uploaded" aria-label="Audio uploaded"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
-      <button class="chip ico" data-f="audio" data-v="no" title="No audio yet" aria-label="No audio yet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/><path d="M3 3l18 18"/></svg></button>
-      <span class="chip-sep"></span>
+      <button data-g="photo" class="chip ico" data-f="photo" data-v="yes" title="Photographed" aria-label="Photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+      <button data-g="photo" class="chip ico" data-f="photo" data-v="no" title="Not yet photographed" aria-label="Not yet photographed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/><path d="M3 3l18 18"/></svg></button>
+      <span class="chip-sep" data-g="photo"></span>
+      <button data-g="audio" class="chip ico" data-f="audio" data-v="yes" title="Audio uploaded" aria-label="Audio uploaded"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg></button>
+      <button data-g="audio" class="chip ico" data-f="audio" data-v="no" title="No audio yet" aria-label="No audio yet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/><path d="M3 3l18 18"/></svg></button>
+      <span class="chip-sep" data-g="audio"></span>
       <span class="fl">Seen in</span>
       <div class="cpick" id="cpick">
         <button class="chip cadd" id="cadd" aria-haspopup="listbox" aria-expanded="false">+ Country</button>
@@ -528,31 +529,68 @@ function col(rec, name) {
 
 /* One entry per seen species. Lifer # = order of first sighting; species
    first seen on the same day are numbered in taxonomic (ID) order. */
+/* Resolves a logical column to whatever its header is in this birddata.csv
+   (headers have been renamed between exports: "Life list date" -> "LL DATE",
+   "World Obs (Oct 2025)" -> "GLOBAL OBS", ...). Candidates are tried
+   case-insensitively, in order; null if none is present. Same idea as
+   resolveColumn() in families.html / index.html. */
+function resolveColumn(records, candidates) {
+  if (!records.length) return null;
+  var keys = Object.keys(records[0]);
+  for (var i = 0; i < candidates.length; i++) {
+    var want = candidates[i].trim().toUpperCase();
+    for (var j = 0; j < keys.length; j++) if (keys[j].trim().toUpperCase() === want) return keys[j];
+  }
+  return null;
+}
+var K = {};   /* logical column -> header, filled by buildLifers */
+function get(rec, key) { return key ? (rec[key] || '') : ''; }
+
 function buildLifers(records) {
   var ordSeen = {}, ords = [], out = [];
+  K = {
+    id:      resolveColumn(records, ['ID']),
+    rank:    resolveColumn(records, ['RANK']),
+    order:   resolveColumn(records, ['ORDER']),
+    family:  resolveColumn(records, ['FAMILY']),
+    famName: resolveColumn(records, ['FAMILY NAME']),
+    common:  resolveColumn(records, ['COMMON NAME']),
+    sci:     resolveColumn(records, ['SCIENTIFIC NAME']),
+    iucn:    resolveColumn(records, ['IUCN', 'IUCN Status']),
+    aba:     resolveColumn(records, ['ABA STATUS']),
+    date:    resolveColumn(records, ['LL DATE', 'Life list date']),
+    loc:     resolveColumn(records, ['LL LOCATION', 'Life list location']),
+    world:   resolveColumn(records, ['GLOBAL OBS', 'World Obs (Oct 2025)']),
+    us:      resolveColumn(records, ['US OBS', 'US Obs (Oct 2025)']),
+    photo:   resolveColumn(records, ['PHOTO']),   /* null until Photo/Audio are re-added; the filters and icons hide meanwhile */
+    audio:   resolveColumn(records, ['AUDIO'])
+  };
+  PLACES.forEach(function(p){ p.col = resolveColumn(records, [p.k]); });
   records.forEach(function(rec) {
-    var id = parseInt(rec['ID'], 10), ord = (rec['Order'] || '').trim();
+    /* species rows only; RANK may be absent in an older CSV, where every row is a species */
+    if (K.rank && get(rec, K.rank).trim().toLowerCase() !== 'species') return;
+    var id = parseInt(get(rec, K.id), 10), ord = get(rec, K.order).trim();
     if (ord && !ordSeen[ord]) { ordSeen[ord] = { order: ord, id: isNaN(id) ? 1e9 : id }; ords.push(ordSeen[ord]); }
     else if (ord && !isNaN(id) && id < ordSeen[ord].id) ordSeen[ord].id = id;
-    if (!isSeenDate(rec['Life list date'])) return;
-    var aba = ((rec['ABA Status'] || '').match(/ABA\s*([1-4])\b/i) || [])[1] || '';
+    if (!isSeenDate(get(rec, K.date))) return;
+    var aba = (get(rec, K.aba).match(/ABA\s*([1-4])\b/i) || [])[1] || '';
     out.push({
       id: isNaN(id) ? 1e9 : id,
-      name: (rec['Common name'] || '').trim(),
-      sci: (rec['Scientific name'] || '').trim(),
+      name: get(rec, K.common).trim(),
+      sci: get(rec, K.sci).trim(),
       order: ord,
       orderCommon: ORDER_COMMON[ord] || cap(ord),
-      fam: (rec['Family'] || '').trim(),
-      famName: ampersand((rec['Family name'] || '').trim()),
-      loc: (rec['Life list location'] || '').trim().replace(/^#N\/A$/i, ''),
-      key: dateKey(rec['Life list date']),
-      iucn: (rec['IUCN Status'] || '').trim().toUpperCase(),
+      fam: get(rec, K.family).trim(),
+      famName: ampersand(get(rec, K.famName).trim()),
+      loc: get(rec, K.loc).trim().replace(/^#N\/A$/i, ''),
+      key: dateKey(get(rec, K.date)),
+      iucn: get(rec, K.iucn).trim().toUpperCase(),
       aba: aba,
-      world: num(col(rec, 'World Obs (Oct 2025)')),
-      us: num(col(rec, 'US Obs (Oct 2025)')),
-      seen: PLACES.reduce(function(m, p){ if (isTrue(col(rec, p.k))) m[p.k] = 1; return m; }, {}),
-      photo: isTrue(col(rec, 'Photo')),
-      audio: isTrue(col(rec, 'Audio'))
+      world: num(get(rec, K.world)),
+      us: num(get(rec, K.us)),
+      seen: PLACES.reduce(function(m, p){ if (isTrue(get(rec, p.col))) m[p.k] = 1; return m; }, {}),
+      photo: isTrue(get(rec, K.photo)),
+      audio: isTrue(get(rec, K.audio))
     });
   });
   out.forEach(function(s){ for (var k in s.seen) PLACE[k].n++; });
@@ -742,6 +780,10 @@ function loadData() {
       LIFERS = built.lifers;
       ORDERS = built.orders;
       LIFERS.forEach(function(s){ BY_N[s.n] = s; });
+      /* hide the photo / audio filters while birddata.csv has no Photo / Audio column */
+      ['photo', 'audio'].forEach(function(g){
+        if (!K[g]) document.querySelectorAll('[data-g="' + g + '"]').forEach(function(el){ el.hidden = true; });
+      });
       buildStrip();
       render();
     })
@@ -780,7 +822,7 @@ function loadData() {
   }
   function renderList() {
     var q = stripDiacritics(csearch.value.toLowerCase().trim());
-    SHOWN = PLACES.filter(function(p){ return matches(p, q); });
+    SHOWN = PLACES.filter(function(p){ return p.n > 0 && matches(p, q); });   /* places with no lifers (an empty or missing column) stay out of the list */
     if (HI >= SHOWN.length) HI = Math.max(0, SHOWN.length - 1);
     var html = '', grp = false;
     SHOWN.forEach(function(p, i){
