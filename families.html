@@ -480,8 +480,9 @@ function resolveColumn(records, candidates) {
    Only RANK = Species rows count (subspecies rows are skipped), and EX/EW
    species are skipped entirely, same as index.html. */
 function buildFamilies(records) {
+  var idKey = resolveColumn(records, ['TAXO ID', 'ID']) || 'ID';   /* taxonomic sort key; renamed from "ID" to "TAXO ID" */
   records = records.slice().sort(function(a, b) {
-    var ai = parseFloat(a['ID']), bi = parseFloat(b['ID']);
+    var ai = parseFloat(a[idKey]), bi = parseFloat(b[idKey]);
     if (isNaN(ai) && isNaN(bi)) return 0;
     if (isNaN(ai)) return 1;
     if (isNaN(bi)) return -1;

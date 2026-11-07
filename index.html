@@ -961,8 +961,9 @@ function buildDataFromRecords(records) {
      silently drifting if it ever changes. Falls back to the incoming
      order for any row with a missing/non-numeric ID (kept in place via
      the stable sort rather than dropped). */
+  var idKey = resolveColumn(records, ['TAXO ID', 'ID']) || 'ID';   /* taxonomic sort key; renamed from "ID" to "TAXO ID" */
   records = records.slice().sort(function(a, b) {
-    var ai = parseInt(a['ID'], 10), bi = parseInt(b['ID'], 10);
+    var ai = parseInt(a[idKey], 10), bi = parseInt(b[idKey], 10);
     if (isNaN(ai) && isNaN(bi)) return 0;
     if (isNaN(ai)) return 1;
     if (isNaN(bi)) return -1;
