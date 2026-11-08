@@ -822,7 +822,7 @@ function overviewHTML(s) {
     + '<div class="band">'
     +   (f && f.shape ? '<svg class="fo-sh" viewBox="0 0 100 76" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><path d="' + f.shape + '"/></svg>' : '')
     +   '<div class="txt"><span class="k2">First observed in</span><div class="fon">' + esc(f ? f.name : '—') + '</div>'
-    +   '<span class="fos">' + (s.firstSighting ? esc(s.firstSighting) + ', ' : '') + esc(s.dateFull) + '</span></div>'
+    +   (s.firstSighting ? '<span class="fos">' + esc(s.firstSighting) + '</span>' : '') + '</div>'   /* place only; the date is already in the tile's strip */
     +   (media ? '<div class="mdbot">' + media + '</div>' : '')
     + '</div>';
 }
