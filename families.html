@@ -752,7 +752,7 @@ function showDataMessage(msg) {
 }
 function loadData() {
   showDataMessage('Loading bird data…');
-  fetch('birddata.csv')
+  fetch('birddata.csv', { cache: 'no-cache' })   /* always check for a newer CSV, so a data push shows on the next load */
     .then(function(resp) { if (!resp.ok) throw new Error('HTTP ' + resp.status); return resp.text(); })
     .then(function(text) {
       var built = buildFamilies(csvRowsToRecords(parseCSV(text)));
