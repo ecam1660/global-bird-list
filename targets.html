@@ -282,10 +282,16 @@
     background: linear-gradient(180deg, var(--cream) 0%, color-mix(in srgb, var(--md) 11%, var(--cream)) 18%, color-mix(in srgb, var(--md) 44%, var(--cream)) 100%);
   }
   .crumb { display: flex; align-items: center; gap: 8px; font-size: 11.5px; line-height: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--cline); flex: none; }
-  .crumb .tx { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .crumb b { font-weight: 700; }
-  .crumb .sep { color: var(--clab); }
-  .crumb .obs { flex: none; display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .crumb .tx { flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .crumb .lab { color: var(--clab); }
+  .crumb .fn { font-weight: 600; }
+  /* species-in-family count, same circle as the Lifers subspecies-tab count */
+  .crumb .fcount {
+    flex: none; min-width: 17px; height: 17px; padding: 0 3px; box-sizing: border-box; border-radius: 99px;
+    font: 600 9.5px/17px -apple-system, BlinkMacSystemFont, sans-serif; text-align: center;
+    background: color-mix(in srgb, var(--md) 45%, var(--cream)); color: var(--dk);
+  }
+  .crumb .obs { flex: none; margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-weight: 400; font-variant-numeric: tabular-nums; }
   .crumb .obs .slot { width: 14px; height: 13px; color: var(--dk); }   /* holder = icon height, so flex centering lines the globe up with the digits */
   .crumb .geo-g { width: 13px; height: 13px; }
   .slots { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
@@ -376,6 +382,52 @@ var SORT = 'taxo', QUERY = '', OPEN = null;
 var ORDER_SEL = {};
 function orderSelCount() { return Object.keys(ORDER_SEL).length; }
 var TYPE_ORDER = ['ABA 1', 'ABA 2', 'Family', 'SSP'];
+/* Shorter family names for the expanded tile's "Family:" line, keyed by the full FAMILY NAME.
+   The full name still shows on hover. Fill in as abbreviations are agreed. */
+var FAM_SHORT = {
+  'Ducks, Geese, & Waterfowl': 'Ducks & Geese',
+  'Guans, Chachalacas, & Curassows': 'Guans & Curassows',
+  'Pheasants, Grouse, & Allies': 'Pheasants & Grouse',
+  'Rails, Gallinules, & Coots': 'Rails & Coots',
+  'Gulls, Terns, & Skimmers': 'Gulls & Terns',
+  'Herons, Egrets, & Bitterns': 'Herons & Egrets',
+  'Hawks, Eagles, & Kites': 'Hawks & Eagles',
+  'Woodhoopoes & Scimitarbills': 'Woodhoopoes',
+  'New World & African Parrots': 'New World Parrots',
+  'African & Green Broadbills': 'African Broadbills',
+  'Asian & Grauer\'s Broadbills': 'Asian Broadbills',
+  'Ovenbirds & Woodcreepers': 'Woodcreepers',
+  'Royal Flycatchers & Allies': 'Royal Flycatchers',
+  'Australasian Treecreepers': 'Aus. Treecreepers',
+  'Logrunners & Chowchilla': 'Logrunners',
+  'Quail-thrushes & Jewel-babblers': 'Quail-thrushes',
+  'Whipbirds & Wedgebills': 'Whipbirds',
+  'Australo-Papuan Bellbirds': 'Bellbirds',
+  'Tit Berrypecker & Crested Berrypecker': 'Tit Berrypecker',
+  'Vireos, Shrike-Babblers, & Erpornis': 'Vireos & Allies',
+  'Woodswallows, Bellmagpies, & Allies': 'Woodswallows',
+  'Vangas, Helmetshrikes, & Allies': 'Vangas & Allies',
+  'White-winged Chough & Apostlebird': 'Chough & Apostlebird',
+  'Crows, Jays, & Magpies': 'Crows & Jays',
+  'New Guinea Longbills & Berrypeckers': 'New Guinea Longbills',
+  'Tits, Chickadees, & Titmice': 'Tits & Chickadees',
+  'African Longbills, Crombecs, & Allies': 'Crombecs & Allies',
+  'Sylviid Warblers & Allies': 'Sylviid Warblers',
+  'White-eyes, Yuhinas, & Allies': 'White-eyes & Allies',
+  'Tree-Babblers, Scimitar-Babblers, & Allies': 'Tree-Babblers',
+  'Ground Babblers & Allies': 'Ground Babblers',
+  'Laughingthrushes & Allies': 'Laughingthrushes',
+  'Mockingbirds & Thrashers': 'Mockingbirds',
+  'Sunbirds & Spiderhunters': 'Sunbirds',
+  'Finches, Euphonias, & Allies': 'Finches & Euphonias',
+  'Longspurs & Snow Buntings': 'Longspurs',
+  'Greater Antillean Tanagers': 'Antillean Tanagers'
+};
+/* lookup ignores curly vs straight apostrophes and spacing around the ampersand */
+var FAM_SHORT_N = {};
+Object.keys(FAM_SHORT).forEach(function(k){ FAM_SHORT_N[famKey(k)] = FAM_SHORT[k]; });
+function famKey(n) { return (n || '').replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase(); }
+function famShort(n) { return FAM_SHORT_N[famKey(n)] || n; }
 
 /* Country names for the location picker and slots (same list as life-list.html);
    anything else falls back to the browser's own region names. */
@@ -673,7 +725,7 @@ function buildTargets(records) {
     ttype:   resolveColumn(records, ['TARGET TYPE', 'TARGET TYPES']),
     tloc:    resolveColumn(records, ['TARGET LOCATION', 'TARGET LOCATIONS'])
   };
-  var out = [], ordSeen = {}, ords = [], sp = null, lifers = 0;
+  var out = [], ordSeen = {}, ords = [], sp = null, lifers = 0, famCount = {};
   records.forEach(function(rec) {
     var isSsp = K.rank && get(rec, K.rank).trim().toLowerCase() === 'subspecies';
     var id = parseFloat(get(rec, K.id));
@@ -691,6 +743,7 @@ function buildTargets(records) {
         world: num(get(rec, K.world)),
         extinct: iu === 'EX' || iu === 'EW'
       };
+      if (!sp.extinct && sp.fam) famCount[sp.fam] = (famCount[sp.fam] || 0) + 1;   /* species in the family, EX/EW excluded */
       if (sp.seen && !sp.extinct) lifers++;   /* same count as the Life List button on the other pages */
       if (sp.order && !ordSeen[sp.order]) { ordSeen[sp.order] = { order: sp.order, id: sp.id }; ords.push(ordSeen[sp.order]); }
     }
@@ -727,6 +780,7 @@ function buildTargets(records) {
       .concat(locs, locs.map(placeName)).join(' | ').toLowerCase());
     out.push(t);
   });
+  out.forEach(function(t){ t.famCount = famCount[t.fam] || 0; });
   out.sort(function(a, b){ return a.id - b.id; });
   out.forEach(function(t, i){ t.n = i + 1; });
   ords = ords.sort(function(a, b){ return a.id - b.id; });
@@ -766,8 +820,8 @@ function panelHTML(t) {
   });
   while (slots.length < 3) slots.push('<div class="sl empty" aria-hidden="true"></div>');
   return '<div class="xp">'
-    + '<div class="crumb"><span class="tx"><b title="' + esc(t.orderCommon) + '">' + esc(cap(t.order)) + '</b><span class="sep"> › </span>'
-    +   '<span title="' + esc(t.fam) + '">' + esc(t.famName) + '</span></span>'
+    + '<div class="crumb"><span class="tx" title="' + esc(t.famName) + ' (' + esc(t.fam) + ') · ' + esc(cap(t.order)) + '"><span class="fn">' + esc(famShort(t.famName)) + '</span></span>'
+    +   '<span class="fcount" title="' + t.famCount + ' species in ' + esc(t.famName) + '">' + t.famCount + '</span>'
     +   '<span class="obs" title="Global observations">' + ICON.globe + (t.world ? fmt(t.world) : '—') + '</span></div>'
     + '<div class="slots">' + slots.join('') + '</div></div>';
 }
