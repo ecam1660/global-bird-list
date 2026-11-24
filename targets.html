@@ -239,10 +239,10 @@
   .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .ph .ini { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--serif); font-size: 19px; color: rgba(255,255,255,.7); }
   .ph .ini[hidden] { display: none; }
-  .info { flex: 1; min-width: 0; padding: 7px 10px 8px 11px; display: flex; flex-direction: column; position: relative; }
+  .info { flex: 1; min-width: 0; padding: 12px 10px 8px 11px;   /* first name line centers on the 22px check (top 9px) */ display: flex; flex-direction: column; position: relative; }
   .cn {
     font: 600 13.5px/1.1 'Gelasio', var(--serif); padding-right: 24px; padding-bottom: 1px;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .cn i { font-style: italic; }
   .sn { font-style: italic; font-size: 10.5px; line-height: 1.18; margin-top: 1px; padding-right: 24px; color: var(--ink3); }   /* full name always shows; wraps to a 2nd line if needed */
